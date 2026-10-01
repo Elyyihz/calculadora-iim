@@ -426,3 +426,641 @@
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);
 }
+
+/* ========== RESULTADO DASHBOARD ========== */
+.res-dashboard {
+  max-width: 860px;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+}
+
+.res-hero {
+  background: var(--brand);
+  padding: 3rem 2rem 2.5rem;
+  text-align: center;
+  border-radius: var(--radius) var(--radius) 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.res-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(46, 204, 138, 0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.iim-score-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.iim-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.48);
+  margin-bottom: 0.5rem;
+}
+
+.iim-num {
+  font-family: var(--font-display);
+  font-size: 6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.iim-class {
+  display: inline-block;
+  padding: 7px 22px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+
+.iim-context {
+  margin-top: 1rem;
+  font-size: 0.86rem;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.res-section {
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2rem;
+}
+
+.res-section:last-child {
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+/* Radar + Dim bars */
+.res-two-col {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .res-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.radar-wrap {
+  width: 100%;
+}
+
+/* Dim bars */
+.dim-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dim-bar-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 40px;
+  gap: 10px;
+  align-items: center;
+}
+
+.dim-bar-name {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.bar-track {
+  height: 8px;
+  background: var(--surface-3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  background: var(--accent);
+  transition: width 0.6s ease;
+}
+
+.dim-bar-val {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: right;
+}
+
+/* Dim cost rows */
+.dim-cost-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 100px;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cost-bar-track {
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.cost-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: rgba(46, 204, 138, 0.4);
+  transition: width 0.6s ease;
+}
+
+.dim-cost-val {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--brand-mid);
+  text-align: right;
+}
+
+/* Metric cards */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  gap: 12px;
+}
+
+.metric-card {
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+}
+
+.metric-card.hl {
+  background: var(--accent-light);
+  border-color: var(--accent-mid);
+}
+
+.metric-card.hl2 {
+  background: rgba(204, 51, 51, 0.05);
+  border-color: rgba(204, 51, 51, 0.2);
+}
+
+.mc-label {
+  font-size: 0.73rem;
+  color: var(--text-faint);
+  margin-bottom: 4px;
+}
+
+.mc-val {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.mc-val.warn {
+  color: var(--warn);
+}
+
+.mc-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Projection table */
+.proj-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.proj-table th {
+  background: var(--surface-3);
+  padding: 8px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.78rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.proj-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.proj-table tr:last-child td {
+  border-bottom: none;
+  background: rgba(204, 51, 51, 0.04);
+}
+
+.proj-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.proj-num.red {
+  color: var(--warn);
+}
+
+.proj-note {
+  font-size: 0.77rem;
+  color: var(--text-faint);
+  margin-top: 0.75rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Savings Simulator */
+.sim-section {
+  background: var(--accent-light) !important;
+  border-color: var(--accent-mid) !important;
+}
+
+.sim-subtitle {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  margin-top: -0.4rem;
+}
+
+.sim-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+.sim-info {
+  text-align: center;
+}
+
+.sim-lbl {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 4px;
+}
+
+.sim-score {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--brand);
+}
+
+.sim-score.accent {
+  color: var(--accent);
+}
+
+.sim-arrow {
+  font-size: 1.5rem;
+  color: var(--text-faint);
+}
+
+.sim-economy {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 1.25rem;
+}
+
+.sim-eco-item {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+}
+
+.sim-eco-item.hl {
+  background: var(--brand);
+  border-color: transparent;
+}
+
+.sim-eco-item span {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.sim-eco-item.hl span {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.sim-eco-item strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.sim-eco-item.hl strong {
+  color: var(--accent);
+}
+
+/* Interventions */
+.interv-header {
+  display: grid;
+  grid-template-columns: 1fr 72px 82px 110px;
+  gap: 10px;
+  padding: 4px 14px;
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 600;
+}
+
+.interv-row {
+  display: grid;
+  grid-template-columns: 1fr 72px 82px 110px;
+  gap: 10px;
+  align-items: center;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  transition: border-color 0.18s;
+  margin-bottom: 6px;
+}
+
+.interv-row:hover {
+  border-color: var(--accent);
+}
+
+.interv-row:last-child {
+  margin-bottom: 0;
+}
+
+.interv-main-label {
+  font-size: 0.87rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.interv-desc {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.esforco-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 10px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.esf-low {
+  background: var(--accent-light);
+  color: var(--brand-mid);
+}
+
+.esf-med {
+  background: #fffaeb;
+  color: #7a5c00;
+}
+
+.esf-high {
+  background: #fff3e8;
+  color: #7a3e00;
+}
+
+.interv-iim {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+
+.interv-eco {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--brand);
+  text-align: right;
+}
+
+@media (max-width: 580px) {
+  .interv-header {
+    display: none;
+  }
+  .interv-row {
+    grid-template-columns: 1fr auto;
+  }
+  .interv-iim {
+    display: none;
+  }
+  .esforco-badge {
+    font-size: 0.68rem;
+  }
+}
+
+/* Recommendations */
+.rec-block {
+  background: var(--accent-light);
+  border: 1px solid var(--accent-mid);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 1.5rem;
+}
+
+.rec-block h3 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--brand);
+  margin-bottom: 0.75rem;
+}
+
+.rec-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rec-list li {
+  font-size: 0.88rem;
+  color: var(--brand-mid);
+  display: flex;
+  gap: 8px;
+  line-height: 1.45;
+}
+
+.rec-list li::before {
+  content: '↳';
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Methodology */
+.met-box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.met-title {
+  font-family: var(--font-display);
+  font-size: 0.67rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.met-text {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.info-table th {
+  background: var(--surface-3);
+  padding: 8px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.78rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.info-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.info-table tr:last-child td {
+  border-bottom: none;
+}
+
+.formula-box {
+  background: var(--brand);
+  color: #fff;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   OPTIMIZED PRINT & PDF EXPORT STYLES
+   ========================================================================== */
+@media print {
+  /* Hide non-printable UI chrome */
+  header,
+  footer,
+  .calc-progress-wrap,
+  .calc-nav-row,
+  .no-print,
+  button,
+  .btn,
+  input[type="range"] {
+    display: none !important;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #0D2B1F !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  .calc-main,
+  .res-dashboard {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .res-hero {
+    background: #0D2B1F !important;
+    color: #FFFFFF !important;
+    padding: 2.2rem 1.5rem !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    border-radius: 0 !important;
+  }
+
+  .res-section {
+    box-shadow: none !important;
+    border: 1px solid #D0DDD6 !important;
+    padding: 1.25rem !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    border-radius: 0 !important;
+  }
+
+  .metric-card,
+  .sim-eco-item,
+  .interv-row,
+  .rec-block,
+  .met-box,
+  .proj-table {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .bar-fill,
+  .cost-bar-fill,
+  .iim-class,
+  .esforco-badge {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Show PDF print report banner */
+  .print-only-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #0D2B1F;
+  }
+}
+
+.print-only-header {
+  display: none;
+}

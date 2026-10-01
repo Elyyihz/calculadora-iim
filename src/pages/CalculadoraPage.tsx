@@ -11,6 +11,7 @@ export const CalculadoraPage: React.FC = () => {
     <div style={{ background: 'var(--surface-2)', minHeight: '85vh', paddingBottom: '4rem' }}>
       {/* SUB-HEADER NAVIGATION */}
       <div
+        className="no-print"
         style={{
           background: 'var(--brand)',
           borderBottom: '1px solid rgba(46, 204, 138, 0.2)',
@@ -93,6 +94,7 @@ export const CalculadoraPage: React.FC = () => {
 
       {/* HERO BANNER */}
       <div
+        className="no-print"
         style={{
           background: 'var(--brand)',
           padding: '3rem 1.5rem 4.5rem',
