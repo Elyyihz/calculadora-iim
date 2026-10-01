@@ -124,7 +124,7 @@ export const QuemSomosSection: React.FC = () => {
               color: '#FFFFFF',
               borderRadius: 'var(--radius)',
               padding: '2.5rem',
-              border: '1px solid rgba(46, 204, 138, 0.25)',
+              border: '1px solid rgba(46, 158, 91, 0.25)',
               boxShadow: 'var(--shadow-lg)',
               position: 'relative'
             }}

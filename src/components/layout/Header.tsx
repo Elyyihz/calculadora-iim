@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, Calculator, ShieldCheck } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Calculator } from 'lucide-react';
 import { NAV_ITEMS } from '../../data/institutionalData';
 
 export const Header: React.FC = () => {
@@ -27,56 +27,27 @@ export const Header: React.FC = () => {
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: scrolled ? 'rgba(13, 43, 31, 0.96)' : 'var(--brand)',
+        background: scrolled ? 'rgba(11, 37, 69, 0.96)' : 'var(--brand)',
         backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(46, 204, 138, 0.15)',
+        borderBottom: '1px solid rgba(46, 158, 91, 0.15)',
         transition: 'all 0.3s ease',
         padding: '0.9rem 0'
       }}
     >
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        {/* LOGO */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div
+        {/* LOGO: Tag <img> preparada para receber o SVG oficial da UrbanFlow */}
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img
+            src="/urbanflow-logo.svg"
+            alt="UrbanFlow Consultoria"
+            className="header-logo"
             style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '10px',
-              background: 'linear-gradient(135deg, var(--accent) 0%, #1A4A35 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--brand)',
-              boxShadow: '0 2px 10px rgba(46, 204, 138, 0.3)'
+              height: '38px',
+              width: 'auto',
+              maxWidth: '220px',
+              display: 'block'
             }}
-          >
-            <ShieldCheck size={22} color="var(--brand)" strokeWidth={2.5} />
-          </div>
-          <div>
-            <div
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontWeight: 800,
-                fontSize: '1.25rem',
-                color: 'var(--accent)',
-                letterSpacing: '0.04em',
-                lineHeight: 1
-              }}
-            >
-              Urban<span style={{ color: '#FFFFFF', fontWeight: 400 }}>Flow</span>
-            </div>
-            <div
-              style={{
-                fontSize: '0.65rem',
-                color: 'var(--text-faint)',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                marginTop: '2px'
-              }}
-            >
-              Consultoria Estratégica
-            </div>
-          </div>
+          />
         </Link>
 
         {/* DESKTOP NAVIGATION */}
@@ -113,11 +84,11 @@ export const Header: React.FC = () => {
           })}
         </nav>
 
-        {/* ACTIONS (CTA TO CALCULATOR ROUTE) */}
+        {/* ACTIONS (CTA TO CALCULATOR ROUTE: Verde #2E9E5B) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }} className="header-actions">
           <Link
             to="/calculadora"
-            className="btn btn-primary"
+            className="btn btn-cta"
             style={{
               padding: '9px 18px',
               fontSize: '0.85rem'
@@ -151,7 +122,7 @@ export const Header: React.FC = () => {
         <div
           style={{
             background: 'var(--brand)',
-            borderTop: '1px solid rgba(46, 204, 138, 0.15)',
+            borderTop: '1px solid rgba(46, 158, 91, 0.2)',
             padding: '1.5rem',
             display: 'flex',
             flexDirection: 'column',
@@ -179,7 +150,7 @@ export const Header: React.FC = () => {
           <Link
             to="/calculadora"
             onClick={() => setMobileMenuOpen(false)}
-            className="btn btn-primary"
+            className="btn btn-cta"
             style={{
               marginTop: '0.5rem',
               justifyContent: 'center',

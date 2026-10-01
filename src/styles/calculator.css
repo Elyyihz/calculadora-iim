@@ -130,7 +130,7 @@
 }
 
 .calc-dim-badge {
-  background: rgba(46, 204, 138, 0.2);
+  background: rgba(46, 158, 91, 0.2);
   color: var(--accent);
   border-radius: 8px;
   padding: 6px 10px;
@@ -139,7 +139,7 @@
   font-size: 1rem;
   line-height: 1;
   flex-shrink: 0;
-  border: 1px solid rgba(46, 204, 138, 0.3);
+  border: 1px solid rgba(46, 158, 91, 0.3);
   text-align: center;
 }
 
@@ -232,7 +232,7 @@
   opacity: 0;
   transition: opacity 0.2s;
   font-family: var(--font-body);
-  border: 1px solid rgba(46, 204, 138, 0.2);
+  border: 1px solid rgba(46, 158, 91, 0.2);
   box-shadow: var(--shadow);
 }
 
@@ -259,12 +259,12 @@
 .calc-field input:focus,
 .calc-field select:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(46, 204, 138, 0.15);
+  box-shadow: 0 0 0 3px rgba(46, 158, 91, 0.15);
 }
 
 .calc-field select {
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A7568' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   padding-right: 36px;
@@ -368,7 +368,7 @@
 }
 
 .calc-sub-peso.high {
-  background: rgba(46, 204, 138, 0.15);
+  background: rgba(46, 158, 91, 0.15);
   color: var(--accent);
   font-weight: 700;
 }
@@ -447,7 +447,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, rgba(46, 204, 138, 0.12) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(46, 158, 91, 0.12) 0%, transparent 65%);
   pointer-events: none;
 }
 
@@ -584,7 +584,7 @@
 .cost-bar-fill {
   height: 100%;
   border-radius: 6px;
-  background: rgba(46, 204, 138, 0.4);
+  background: rgba(46, 158, 91, 0.4);
   transition: width 0.6s ease;
 }
 
@@ -1000,7 +1000,7 @@
 
   body {
     background: #FFFFFF !important;
-    color: #0D2B1F !important;
+    color: #1F2937 !important;
     font-size: 13px !important;
     line-height: 1.4 !important;
   }
@@ -1013,7 +1013,7 @@
   }
 
   .res-hero {
-    background: #0D2B1F !important;
+    background: #0B2545 !important;
     color: #FFFFFF !important;
     padding: 2.2rem 1.5rem !important;
     -webkit-print-color-adjust: exact !important;
@@ -1057,7 +1057,7 @@
     align-items: center;
     padding: 1rem 0;
     margin-bottom: 1rem;
-    border-bottom: 2px solid #0D2B1F;
+    border-bottom: 2px solid #0B2545;
   }
 }
 

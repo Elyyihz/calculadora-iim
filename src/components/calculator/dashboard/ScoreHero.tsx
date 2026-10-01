@@ -33,17 +33,17 @@ export const ScoreHero: React.FC<ScoreHeroProps> = ({ result, formData }) => {
       {/* EXCLUSIVE PRINT/PDF HEADER (Hidden on screen, rendered in PDF/print) */}
       <div className="print-only-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <ShieldCheck size={26} color="#0D2B1F" />
+          <ShieldCheck size={26} color="#0B2545" />
           <div>
-            <div style={{ fontWeight: 800, fontSize: '1.2rem', fontFamily: 'var(--font-display)', color: '#0D2B1F' }}>
+            <div style={{ fontWeight: 800, fontSize: '1.2rem', fontFamily: 'var(--font-display)', color: '#0B2545' }}>
               UrbanFlow <span style={{ fontWeight: 400 }}>Consultoria</span>
             </div>
-            <div style={{ fontSize: '0.72rem', color: '#5A7568', textTransform: 'uppercase' }}>
+            <div style={{ fontSize: '0.72rem', color: '#6B7280', textTransform: 'uppercase' }}>
               Relatório Executivo de Diagnóstico — Índice de Impacto de Mobilidade (IIM v3.0)
             </div>
           </div>
         </div>
-        <div style={{ textAlign: 'right', fontSize: '0.75rem', color: '#5A7568' }}>
+        <div style={{ textAlign: 'right', fontSize: '0.75rem', color: '#6B7280' }}>
           <div>Data: {new Date().toLocaleDateString('pt-BR')}</div>
           <div>Uso Interno · Confidencial</div>
         </div>
@@ -90,7 +90,7 @@ export const ScoreHero: React.FC<ScoreHeroProps> = ({ result, formData }) => {
             className="no-print"
             style={{
               marginTop: '1.25rem',
-              background: 'rgba(46, 204, 138, 0.15)',
+              background: 'rgba(46, 158, 91, 0.15)',
               border: '1px solid var(--accent)',
               padding: '10px 16px',
               borderRadius: 'var(--radius-sm)',
@@ -146,7 +146,7 @@ export const ScoreHero: React.FC<ScoreHeroProps> = ({ result, formData }) => {
           {formData && (
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-cta"
               onClick={handleSaveDiagnosis}
               disabled={saveStatus === 'saving' || saveStatus === 'saved'}
               style={{

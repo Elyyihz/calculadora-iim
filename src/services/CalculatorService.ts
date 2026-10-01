@@ -287,13 +287,13 @@ export class CalculatorService {
     const iimRounded = Math.round(iim);
 
     let classificacao = '🟢 Baixo Impacto';
-    let classBg = '#e8fbf3';
-    let classColor = '#0D2B1F';
+    let classBg = '#EBF7F0';
+    let classColor = '#0B2545';
 
     if (iim <= 40) {
       classificacao = '🟢 Baixo Impacto';
-      classBg = '#e8fbf3';
-      classColor = '#0D2B1F';
+      classBg = '#EBF7F0';
+      classColor = '#0B2545';
     } else if (iim <= 60) {
       classificacao = '🟡 Impacto Moderado';
       classBg = '#fffaeb';

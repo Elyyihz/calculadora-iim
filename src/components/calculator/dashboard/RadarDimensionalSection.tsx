@@ -90,7 +90,7 @@ export const RadarDimensionalSection: React.FC<RadarDimensionalSectionProps> = (
                     key={i}
                     points={ringPts}
                     fill="none"
-                    stroke={i === 3 ? 'rgba(13,43,31,0.18)' : 'rgba(13,43,31,0.07)'}
+                    stroke={i === 3 ? 'rgba(11, 37, 69, 0.18)' : 'rgba(11, 37, 69, 0.08)'}
                     strokeWidth="1"
                   />
                 );
@@ -101,7 +101,7 @@ export const RadarDimensionalSection: React.FC<RadarDimensionalSectionProps> = (
                 x={cx + 4}
                 y={(cy - 0.5 * r - 3).toFixed(1)}
                 fontSize="9"
-                fill="#9BB5A8"
+                fill="#9CA3AF"
                 fontFamily="var(--font-body)"
               >
                 50
@@ -115,27 +115,27 @@ export const RadarDimensionalSection: React.FC<RadarDimensionalSectionProps> = (
                   y1={cy}
                   x2={(cx + r * Math.cos(a)).toFixed(1)}
                   y2={(cy + r * Math.sin(a)).toFixed(1)}
-                  stroke="rgba(13,43,31,0.12)"
+                  stroke="rgba(11, 37, 69, 0.12)"
                   strokeWidth="1"
                 />
               ))}
 
-              {/* Data polygon */}
+              {/* Data polygon in Verde #2E9E5B */}
               <polygon
                 points={polygonPoints}
-                fill="rgba(46, 204, 138, 0.16)"
-                stroke="#2ECC8A"
-                strokeWidth="2"
+                fill="rgba(46, 158, 91, 0.20)"
+                stroke="#2E9E5B"
+                strokeWidth="2.5"
               />
 
-              {/* Dots */}
+              {/* Dots in Verde #2E9E5B */}
               {vals.map((v, i) => (
                 <circle
                   key={i}
                   cx={(cx + v * r * Math.cos(angles[i])).toFixed(1)}
                   cy={(cy + v * r * Math.sin(angles[i])).toFixed(1)}
-                  r="4"
-                  fill="#2ECC8A"
+                  r="4.5"
+                  fill="#2E9E5B"
                   stroke="#FFFFFF"
                   strokeWidth="2"
                 />
@@ -155,7 +155,7 @@ export const RadarDimensionalSection: React.FC<RadarDimensionalSectionProps> = (
                       textAnchor="middle"
                       fontSize="11"
                       fontWeight="600"
-                      fill="#5A7568"
+                      fill="#1F2937"
                       fontFamily="var(--font-body)"
                     >
                       {labels[i]}
@@ -165,7 +165,7 @@ export const RadarDimensionalSection: React.FC<RadarDimensionalSectionProps> = (
                       y={parseFloat(ly) + 12}
                       textAnchor="middle"
                       fontSize="10"
-                      fill="#9BB5A8"
+                      fill="#6B7280"
                       fontFamily="var(--font-body)"
                     >
                       {subs[i]}
@@ -176,8 +176,8 @@ export const RadarDimensionalSection: React.FC<RadarDimensionalSectionProps> = (
                       textAnchor="middle"
                       fontSize="12"
                       fontWeight="700"
-                      fill="#2ECC8A"
-                      fontFamily="var(--font-body)"
+                      fill="#2E9E5B"
+                      fontFamily="var(--font-display)"
                     >
                       {scores[i]}
                     </text>

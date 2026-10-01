@@ -24,7 +24,7 @@ export const HeroSection: React.FC = () => {
           transform: 'translateX(-50%)',
           width: '700px',
           height: '400px',
-          background: 'radial-gradient(ellipse at center, rgba(46, 204, 138, 0.15) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse at center, rgba(46, 158, 91, 0.15) 0%, transparent 70%)',
           pointerEvents: 'none'
         }}
       />
@@ -38,8 +38,8 @@ export const HeroSection: React.FC = () => {
             gap: '8px',
             padding: '6px 16px',
             borderRadius: 'var(--radius-pill)',
-            background: 'rgba(46, 204, 138, 0.12)',
-            border: '1px solid rgba(46, 204, 138, 0.3)',
+            background: 'rgba(46, 158, 91, 0.12)',
+            border: '1px solid rgba(46, 158, 91, 0.3)',
             color: 'var(--accent)',
             fontSize: '0.78rem',
             letterSpacing: '0.12em',
@@ -120,8 +120,8 @@ export const HeroSection: React.FC = () => {
             <div
               key={idx}
               style={{
-                background: 'rgba(26, 74, 53, 0.45)',
-                border: '1px solid rgba(46, 204, 138, 0.18)',
+                background: 'rgba(19, 57, 102, 0.45)',
+                border: '1px solid rgba(46, 158, 91, 0.18)',
                 borderRadius: 'var(--radius)',
                 padding: '1.5rem 1.25rem',
                 backdropFilter: 'blur(8px)',

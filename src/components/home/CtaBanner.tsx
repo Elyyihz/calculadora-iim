@@ -8,13 +8,13 @@ export const CtaBanner: React.FC = () => {
       <div className="container">
         <div
           style={{
-            background: 'linear-gradient(135deg, var(--brand) 0%, #133829 100%)',
+            background: 'linear-gradient(135deg, var(--brand) 0%, var(--brand-mid) 100%)',
             borderRadius: 'var(--radius)',
             padding: '3.5rem 2.5rem',
             color: '#FFFFFF',
             position: 'relative',
             overflow: 'hidden',
-            border: '1px solid rgba(46, 204, 138, 0.25)',
+            border: '1px solid rgba(46, 158, 91, 0.25)',
             boxShadow: 'var(--shadow-lg)'
           }}
         >
@@ -26,7 +26,7 @@ export const CtaBanner: React.FC = () => {
               top: '-20%',
               width: '400px',
               height: '400px',
-              background: 'radial-gradient(circle, rgba(46, 204, 138, 0.12) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(46, 158, 91, 0.12) 0%, transparent 70%)',
               pointerEvents: 'none'
             }}
           />
@@ -49,14 +49,14 @@ export const CtaBanner: React.FC = () => {
                   gap: '8px',
                   padding: '4px 12px',
                   borderRadius: '16px',
-                  background: 'rgba(46, 204, 138, 0.15)',
+                  background: 'rgba(46, 158, 91, 0.15)',
                   color: 'var(--accent)',
                   fontSize: '0.74rem',
                   fontWeight: 600,
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   marginBottom: '1rem',
-                  border: '1px solid rgba(46, 204, 138, 0.3)'
+                  border: '1px solid rgba(46, 158, 91, 0.3)'
                 }}
               >
                 <Calculator size={14} />

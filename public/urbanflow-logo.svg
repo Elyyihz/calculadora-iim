@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" fill="none">
+  <!-- UrbanFlow Shield / Mobility Flow Icon -->
+  <rect x="2" y="4" width="40" height="40" rx="12" fill="url(#brandGradient)" />
+  <path d="M12 34C12 24.0589 20.0589 16 30 16V21C22.8203 21 17 26.8203 17 34H12Z" fill="#2E9E5B" />
+  <circle cx="32" cy="18" r="4.5" fill="#2E9E5B" />
+  <path d="M19 34C19 27.9249 23.9249 23 30 23" stroke="#A5DCBA" stroke-width="2.5" stroke-linecap="round" />
+  
+  <!-- UrbanFlow Typography (SVG paths/text ready for official replacement) -->
+  <text x="54" y="27" font-family="'Montserrat', sans-serif" font-size="20" font-weight="800" fill="#2E9E5B" letter-spacing="0.5">
+    Urban<tspan fill="#FFFFFF" font-weight="400">Flow</tspan>
+  </text>
+  <text x="54" y="39" font-family="'Inter', sans-serif" font-size="8.5" font-weight="600" fill="#9CA3AF" letter-spacing="2" text-transform="uppercase">
+    CONSULTORIA
+  </text>
+
+  <defs>
+    <linearGradient id="brandGradient" x1="2" y1="4" x2="42" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#133966" />
+      <stop offset="1" stop-color="#0B2545" />
+    </linearGradient>
+  </defs>
+</svg>

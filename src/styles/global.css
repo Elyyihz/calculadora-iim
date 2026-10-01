@@ -21,16 +21,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Headings in Montserrat with Azul-marinho #0B2545 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--brand);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
 a {
   color: inherit;
   text-decoration: none;
 }
 
 button {
-  font-family: inherit;
+  font-family: var(--font-body);
   cursor: pointer;
   border: none;
   background: none;
+}
+
+input, select, textarea {
+  font-family: var(--font-body);
+  color: var(--text);
 }
 
 img {
@@ -51,7 +64,7 @@ img {
   padding: 0 1.5rem;
 }
 
-/* Buttons */
+/* Base Buttons */
 .btn {
   font-family: var(--font-body);
   font-size: 0.92rem;
@@ -68,16 +81,34 @@ img {
   text-decoration: none;
 }
 
+/* Botões Principais: Azul-marinho #0B2545 */
 .btn-primary {
-  background: var(--accent);
-  color: var(--brand);
+  background: var(--brand);
+  color: #FFFFFF;
   font-weight: 600;
 }
 
 .btn-primary:hover {
-  background: #27b87a;
+  background: var(--brand-mid);
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(46, 204, 138, 0.35);
+  box-shadow: 0 4px 16px rgba(11, 37, 69, 0.28);
+}
+
+/* Botões de Ação / CTA: Verde #2E9E5B */
+.btn-cta,
+.btn-action,
+.btn-accent {
+  background: var(--accent);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.btn-cta:hover,
+.btn-action:hover,
+.btn-accent:hover {
+  background: #25854c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(46, 158, 91, 0.35);
 }
 
 .btn-ghost {
@@ -107,14 +138,14 @@ img {
 
 .btn-accent-glow {
   background: var(--accent);
-  color: var(--brand);
+  color: #FFFFFF;
   font-weight: 700;
-  box-shadow: 0 0 24px rgba(46, 204, 138, 0.4);
+  box-shadow: 0 0 24px rgba(46, 158, 91, 0.4);
 }
 
 .btn-accent-glow:hover {
-  background: #27b87a;
-  box-shadow: 0 0 32px rgba(46, 204, 138, 0.6);
+  background: #25854c;
+  box-shadow: 0 0 32px rgba(46, 158, 91, 0.6);
   transform: translateY(-2px);
 }
 
@@ -123,21 +154,21 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(46, 204, 138, 0.15);
+  background: var(--accent-light);
   color: var(--accent);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 4px 14px;
   border-radius: 20px;
   letter-spacing: 0.06em;
-  border: 1px solid rgba(46, 204, 138, 0.3);
+  border: 1px solid var(--accent-mid);
   text-transform: uppercase;
 }
 
 .badge-dark {
   background: var(--brand);
   color: var(--accent);
-  border: 1px solid rgba(46, 204, 138, 0.2);
+  border: 1px solid rgba(46, 158, 91, 0.3);
 }
 
 /* Section Common Styling */

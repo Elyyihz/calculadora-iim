@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
       style={{
         background: 'var(--brand)',
         color: '#FFFFFF',
-        borderTop: '1px solid rgba(46, 204, 138, 0.2)',
+        borderTop: '1px solid rgba(46, 158, 91, 0.2)',
         padding: '4.5rem 0 2.5rem',
         marginTop: '3rem'
       }}
@@ -72,8 +72,8 @@ export const Footer: React.FC = () => {
                 gap: '8px',
                 padding: '6px 14px',
                 borderRadius: 'var(--radius-pill)',
-                background: 'rgba(46, 204, 138, 0.1)',
-                border: '1px solid rgba(46, 204, 138, 0.25)',
+                background: 'rgba(46, 158, 91, 0.1)',
+                border: '1px solid rgba(46, 158, 91, 0.25)',
                 fontSize: '0.75rem',
                 color: 'var(--accent)',
                 fontWeight: 600

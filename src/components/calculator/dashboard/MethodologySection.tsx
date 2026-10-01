@@ -36,8 +36,8 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
               <td>
                 <span
                   style={{
-                    background: '#e8fbf3',
-                    color: '#0D2B1F',
+                    background: '#EBF7F0',
+                    color: '#0B2545',
                     borderRadius: '4px',
                     padding: '2px 8px',
                     fontSize: '0.8rem',

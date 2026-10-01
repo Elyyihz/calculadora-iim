@@ -1,31 +1,37 @@
 /* ==========================================================================
    URBANFLOW - DESIGN TOKENS & CSS VARIABLES
-   Exact match to calculadora-iim-v3.1-1.html
+   Updated to exact briefing identity:
+   - Azul-marinho #0B2545 (títulos, cabeçalho e botões principais)
+   - Verde #2E9E5B (destaques, botões de ação/CTA e gráfico radar)
+   - Fundo claro #F5F7FA
+   - Texto principal #1F2937
+   - Texto secundário #6B7280
+   - Fontes: Montserrat (títulos/números) e Inter (corpo/inputs)
    ========================================================================== */
 
 :root {
-  /* Brand colors */
-  --brand: #0D2B1F;
-  --brand-mid: #1A4A35;
+  /* Brand colors - Azul-marinho */
+  --brand: #0B2545;
+  --brand-mid: #133966;
 
-  /* Accent & Highlight colors */
-  --accent: #2ECC8A;
-  --accent-light: #E8FBF3;
-  --accent-mid: #A8EDD2;
+  /* Accent & Highlight colors - Verde */
+  --accent: #2E9E5B;
+  --accent-light: #EBF7F0;
+  --accent-mid: #9BD8B3;
 
   /* Typography colors */
-  --text: #0D2B1F;
-  --text-muted: #5A7568;
-  --text-faint: #9BB5A8;
+  --text: #1F2937;
+  --text-muted: #6B7280;
+  --text-faint: #9CA3AF;
 
   /* Surface / Background colors */
   --surface: #FFFFFF;
-  --surface-2: #F4F9F7;
-  --surface-3: #EBF4F0;
+  --surface-2: #F5F7FA;
+  --surface-3: #E9EEF5;
 
   /* Borders */
-  --border: rgba(13, 43, 31, 0.12);
-  --border-strong: rgba(13, 43, 31, 0.25);
+  --border: rgba(11, 37, 69, 0.10);
+  --border-strong: rgba(11, 37, 69, 0.20);
 
   /* Border radiuses */
   --radius: 14px;
@@ -33,17 +39,17 @@
   --radius-pill: 9999px;
 
   /* Shadows */
-  --shadow: 0 2px 20px rgba(13, 43, 31, 0.08);
-  --shadow-md: 0 4px 24px rgba(13, 43, 31, 0.10);
-  --shadow-lg: 0 8px 40px rgba(13, 43, 31, 0.14);
+  --shadow: 0 2px 20px rgba(11, 37, 69, 0.06);
+  --shadow-md: 0 4px 24px rgba(11, 37, 69, 0.08);
+  --shadow-lg: 0 8px 40px rgba(11, 37, 69, 0.12);
 
   /* Status / Feedback */
   --warn: #cc3333;
   --warn-light: rgba(204, 51, 51, 0.06);
 
-  /* Fonts */
-  --font-display: 'Syne', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+  /* Fonts - Google Fonts: Montserrat & Inter */
+  --font-display: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Transitions */
   --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);

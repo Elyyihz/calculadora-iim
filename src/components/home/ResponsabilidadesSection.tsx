@@ -176,7 +176,7 @@ export const ResponsabilidadesSection: React.FC = () => {
             borderRadius: 'var(--radius)',
             padding: '2.5rem',
             color: '#FFFFFF',
-            border: '1px solid rgba(46, 204, 138, 0.2)',
+            border: '1px solid rgba(46, 158, 91, 0.2)',
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',

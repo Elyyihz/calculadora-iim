@@ -14,7 +14,7 @@ export const CalculadoraPage: React.FC = () => {
         className="no-print"
         style={{
           background: 'var(--brand)',
-          borderBottom: '1px solid rgba(46, 204, 138, 0.2)',
+          borderBottom: '1px solid rgba(46, 158, 91, 0.2)',
           padding: '0.8rem 0'
         }}
       >
@@ -59,7 +59,7 @@ export const CalculadoraPage: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '5px',
-                  color: viewMode === 'wizard' ? 'var(--brand)' : 'rgba(255, 255, 255, 0.75)',
+                  color: viewMode === 'wizard' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.75)',
                   background: viewMode === 'wizard' ? 'var(--accent)' : 'transparent',
                   transition: 'all 0.2s'
                 }}
@@ -79,7 +79,7 @@ export const CalculadoraPage: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '5px',
-                  color: viewMode === 'legacy' ? 'var(--brand)' : 'rgba(255, 255, 255, 0.75)',
+                  color: viewMode === 'legacy' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.75)',
                   background: viewMode === 'legacy' ? 'var(--accent)' : 'transparent',
                   transition: 'all 0.2s'
                 }}
@@ -181,7 +181,7 @@ export const CalculadoraPage: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                borderBottom: '1px solid rgba(46, 204, 138, 0.2)'
+                borderBottom: '1px solid rgba(46, 158, 91, 0.2)'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

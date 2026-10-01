@@ -77,10 +77,10 @@ export const EquipaSection: React.FC = () => {
                 >
                   <span
                     style={{
-                      background: 'rgba(46, 204, 138, 0.25)',
+                      background: 'rgba(46, 158, 91, 0.25)',
                       backdropFilter: 'blur(6px)',
                       color: 'var(--accent)',
-                      border: '1px solid rgba(46, 204, 138, 0.4)',
+                      border: '1px solid rgba(46, 158, 91, 0.4)',
                       padding: '3px 10px',
                       borderRadius: '12px',
                       fontSize: '0.72rem',
