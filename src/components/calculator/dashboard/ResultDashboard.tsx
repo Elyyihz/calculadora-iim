@@ -1,5 +1,5 @@
 import React from 'react';
-import { FullIimDiagnosis, SimulatedSavings } from '../../../types/calculatorDTOs';
+import { CalculatorInputDTO, FullIimDiagnosis, SimulatedSavings } from '../../../types/calculatorDTOs';
 import { ScoreHero } from './ScoreHero';
 import { RadarDimensionalSection } from './RadarDimensionalSection';
 import { FinancialImpactSection } from './FinancialImpactSection';
@@ -11,6 +11,7 @@ import { CompanyScaleSection } from './CompanyScaleSection';
 import { MethodologySection } from './MethodologySection';
 
 interface ResultDashboardProps {
+  formData?: CalculatorInputDTO;
   result: FullIimDiagnosis;
   simulatedSavings: SimulatedSavings | null;
   onUpdateSimulation: (targetIim: number) => void;
@@ -19,6 +20,7 @@ interface ResultDashboardProps {
 }
 
 export const ResultDashboard: React.FC<ResultDashboardProps> = ({
+  formData,
   result,
   simulatedSavings,
   onUpdateSimulation,
@@ -28,7 +30,7 @@ export const ResultDashboard: React.FC<ResultDashboardProps> = ({
   return (
     <div id="resultado" className="res-dashboard active">
       {/* 1. HERO SCORE & PRINT ACTION */}
-      <ScoreHero result={result} />
+      <ScoreHero result={result} formData={formData} />
 
       {/* 2. RADAR & DIMENSIONAL SCORES */}
       <RadarDimensionalSection

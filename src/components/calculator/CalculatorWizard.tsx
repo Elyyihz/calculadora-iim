@@ -101,6 +101,7 @@ export const CalculatorWizard: React.FC = () => {
 
         {currentStep === 7 && result && (
           <Step7Resultado
+            formData={formData}
             result={result}
             simulatedSavings={simulatedSavings}
             onUpdateSimulation={updateSimulationTarget}

@@ -1,8 +1,9 @@
 import React from 'react';
-import { FullIimDiagnosis, SimulatedSavings } from '../../../types/calculatorDTOs';
+import { CalculatorInputDTO, FullIimDiagnosis, SimulatedSavings } from '../../../types/calculatorDTOs';
 import { ResultDashboard } from '../dashboard/ResultDashboard';
 
 interface Step7ResultadoProps {
+  formData?: CalculatorInputDTO;
   result: FullIimDiagnosis;
   simulatedSavings: SimulatedSavings | null;
   onUpdateSimulation: (targetIim: number) => void;
