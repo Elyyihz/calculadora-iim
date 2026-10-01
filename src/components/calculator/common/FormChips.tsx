@@ -1,23 +1,23 @@
 import React from 'react';
 
-export interface ChipOption {
-  value: string;
+export interface ChipOption<T extends string = string> {
+  value: T;
   label: string;
 }
 
-interface FormChipsProps {
-  options: ChipOption[];
-  selectedValue: string;
-  onChange: (value: string) => void;
+interface FormChipsProps<T extends string = string> {
+  options: ChipOption<T>[];
+  selectedValue: T;
+  onChange: (value: T) => void;
   hasError?: boolean;
 }
 
-export const FormChips: React.FC<FormChipsProps> = ({
+export function FormChips<T extends string = string>({
   options,
   selectedValue,
   onChange,
   hasError = false
-}) => {
+}: FormChipsProps<T>): React.ReactElement {
   return (
     <div className={`calc-chips ${hasError ? 'chips-error' : ''}`}>
       {options.map((opt) => {
@@ -36,4 +36,4 @@ export const FormChips: React.FC<FormChipsProps> = ({
       })}
     </div>
   );
-};
+}

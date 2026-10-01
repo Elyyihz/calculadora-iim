@@ -1,7 +1,7 @@
 import React from 'react';
 import { CalculatorFormData } from '../../../types/calculator';
 import { FormField } from '../common/FormField';
-import { FormChips } from '../common/FormChips';
+import { FormChips, ChipOption } from '../common/FormChips';
 import { FormScale } from '../common/FormScale';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -13,7 +13,7 @@ interface Step4D2EstresseProps {
   onNext: () => void;
 }
 
-const FREQUENCY_CHIPS = [
+const FREQUENCY_CHIPS: ChipOption<'0' | '1' | '2' | '3' | '4'>[] = [
   { value: '0', label: 'Nunca' },
   { value: '1', label: 'Raramente' },
   { value: '2', label: 'Às vezes' },

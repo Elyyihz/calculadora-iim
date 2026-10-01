@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Play, Layers } from 'lucide-react';
 import { CalculatorWizard } from '../components/calculator/CalculatorWizard';
+import { CalculatorProvider } from '../context/CalculatorContext';
 
 export const CalculadoraPage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'wizard' | 'legacy'>('wizard');
@@ -157,7 +158,9 @@ export const CalculadoraPage: React.FC = () => {
 
       {/* MAIN VIEW */}
       {viewMode === 'wizard' ? (
-        <CalculatorWizard />
+        <CalculatorProvider>
+          <CalculatorWizard />
+        </CalculatorProvider>
       ) : (
         <div className="container" style={{ marginTop: '2rem' }}>
           <div
