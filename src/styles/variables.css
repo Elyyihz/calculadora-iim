@@ -1,0 +1,51 @@
+/* ==========================================================================
+   URBANFLOW - DESIGN TOKENS & CSS VARIABLES
+   Exact match to calculadora-iim-v3.1-1.html
+   ========================================================================== */
+
+:root {
+  /* Brand colors */
+  --brand: #0D2B1F;
+  --brand-mid: #1A4A35;
+
+  /* Accent & Highlight colors */
+  --accent: #2ECC8A;
+  --accent-light: #E8FBF3;
+  --accent-mid: #A8EDD2;
+
+  /* Typography colors */
+  --text: #0D2B1F;
+  --text-muted: #5A7568;
+  --text-faint: #9BB5A8;
+
+  /* Surface / Background colors */
+  --surface: #FFFFFF;
+  --surface-2: #F4F9F7;
+  --surface-3: #EBF4F0;
+
+  /* Borders */
+  --border: rgba(13, 43, 31, 0.12);
+  --border-strong: rgba(13, 43, 31, 0.25);
+
+  /* Border radiuses */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow: 0 2px 20px rgba(13, 43, 31, 0.08);
+  --shadow-md: 0 4px 24px rgba(13, 43, 31, 0.10);
+  --shadow-lg: 0 8px 40px rgba(13, 43, 31, 0.14);
+
+  /* Status / Feedback */
+  --warn: #cc3333;
+  --warn-light: rgba(204, 51, 51, 0.06);
+
+  /* Fonts */
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora IIM v3.0 — UrbanFlow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --brand: #0D2B1F; --brand-mid: #1A4A35;
+    --accent: #2ECC8A; --accent-light: #E8FBF3; --accent-mid: #A8EDD2;
+    --text: #0D2B1F; --text-muted: #5A7568; --text-faint: #9BB5A8;
+    --surface: #FFFFFF; --surface-2: #F4F9F7; --surface-3: #EBF4F0;
+    --border: rgba(13,43,31,0.12); --border-strong: rgba(13,43,31,0.25);
+    --radius: 14px; --radius-sm: 8px;
+    --shadow: 0 2px 20px rgba(13,43,31,0.08); --shadow-lg: 0 8px 40px rgba(13,43,31,0.14);
+    --warn: #cc3333; --warn-light: rgba(204,51,51,0.06);
+  }
+  body { font-family:'DM Sans',sans-serif; background:var(--surface-2); color:var(--text); min-height:100vh; font-size:15px; line-height:1.6; }
+
+  /* HEADER */
+  .site-header { background:var(--brand); padding:1.1rem 2rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+  .logo { font-family:'Syne',sans-serif; font-weight:700; font-size:1.15rem; color:var(--accent); letter-spacing:0.04em; }
+  .logo span { color:rgba(255,255,255,0.5); font-weight:400; }
+  .header-badge { background:rgba(46,204,138,0.15); color:var(--accent); font-size:0.72rem; font-weight:500; padding:4px 12px; border-radius:20px; letter-spacing:0.06em; border:1px solid rgba(46,204,138,0.3); }
+
+  /* HERO */
+  .hero { background:var(--brand); padding:3.5rem 2rem 5rem; text-align:center; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; bottom:-1px; left:0; right:0; height:60px; background:var(--surface-2); clip-path:ellipse(60% 100% at 50% 100%); }
+  .hero-eyebrow { font-size:0.75rem; letter-spacing:0.14em; color:var(--accent); text-transform:uppercase; font-weight:500; margin-bottom:1rem; }
+  .hero h1 { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(2rem,5vw,3.2rem); color:#fff; line-height:1.15; margin-bottom:1rem; }
+  .hero h1 em { font-style:normal; color:var(--accent); }
+  .hero p { color:rgba(255,255,255,0.6); max-width:520px; margin:0 auto; font-size:0.95rem; font-weight:300; }
+
+  /* PROGRESS */
+  .progress-wrap { max-width:820px; margin:-1.5rem auto 0; padding:0 1.5rem; position:relative; z-index:10; }
+  .progress-card { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow-lg); padding:1.25rem 1.5rem; border:1px solid var(--border); }
+  .steps-row { display:flex; align-items:center; gap:4px; overflow-x:auto; scrollbar-width:none; }
+  .steps-row::-webkit-scrollbar { display:none; }
+  .step-item { display:flex; align-items:center; gap:6px; flex-shrink:0; cursor:pointer; padding:4px 8px; border-radius:6px; transition:background 0.2s; }
+  .step-item:hover { background:var(--surface-3); }
+  .step-num { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:600; background:var(--surface-3); color:var(--text-faint); transition:all 0.3s; flex-shrink:0; }
+  .step-item.active .step-num { background:var(--accent); color:var(--brand); }
+  .step-item.done .step-num { background:var(--accent-light); color:var(--accent); }
+  .step-label { font-size:0.78rem; color:var(--text-muted); white-space:nowrap; }
+  .step-item.active .step-label { color:var(--text); font-weight:500; }
+  .step-sep { width:20px; height:1px; background:var(--border); flex-shrink:0; }
+  .progress-bar-wrap { margin-top:1rem; height:3px; background:var(--surface-3); border-radius:3px; overflow:hidden; }
+  .progress-bar-fill { height:100%; background:var(--accent); border-radius:3px; transition:width 0.4s ease; }
+
+  /* MAIN */
+  .main { max-width:820px; margin:2rem auto; padding:0 1.5rem 4rem; }
+  .section-card { background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); box-shadow:var(--shadow); overflow:hidden; display:none; }
+  .section-card.active { display:block; }
+  .section-head { background:var(--brand); padding:1.75rem 2rem; display:flex; align-items:flex-start; gap:1rem; }
+  .dim-badge { background:rgba(46,204,138,0.2); color:var(--accent); border-radius:8px; padding:6px 10px; font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; line-height:1; flex-shrink:0; border:1px solid rgba(46,204,138,0.3); }
+  .dim-badge .pct { font-size:0.65rem; font-weight:400; display:block; opacity:0.7; }
+  .section-head-text h2 { font-family:'Syne',sans-serif; font-size:1.35rem; font-weight:700; color:#fff; margin-bottom:0.3rem; }
+  .section-head-text p { font-size:0.85rem; color:rgba(255,255,255,0.5); font-weight:300; }
+  .section-body { padding:2rem; }
+
+  .subsection-title { font-family:'Syne',sans-serif; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); margin:2rem 0 1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--border); }
+  .subsection-title:first-child { margin-top:0; }
+
+  /* FIELDS */
+  .field { margin-bottom:1.25rem; }
+  .field label { display:block; font-size:0.88rem; font-weight:500; color:var(--text); margin-bottom:0.45rem; }
+  .field label .tip { font-weight:400; color:var(--text-faint); cursor:help; margin-left:4px; background:var(--surface-3); border-radius:50%; width:16px; height:16px; display:inline-flex; align-items:center; justify-content:center; font-size:0.65rem; vertical-align:middle; position:relative; }
+  .field label .tip::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:var(--brand); color:rgba(255,255,255,0.85); font-size:0.75rem; padding:8px 12px; border-radius:8px; white-space:normal; width:220px; line-height:1.4; z-index:50; pointer-events:none; opacity:0; transition:opacity 0.2s; font-family:'DM Sans',sans-serif; }
+  .field label .tip:hover::after { opacity:1; }
+  input[type="text"], input[type="number"], select, textarea { width:100%; padding:10px 14px; border:1px solid var(--border-strong); border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:0.9rem; color:var(--text); background:var(--surface); outline:none; transition:border-color 0.2s, box-shadow 0.2s; -webkit-appearance:none; }
+  input:focus, select:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(46,204,138,0.15); }
+  input.input-warn { border-color:var(--warn) !important; }
+  .warn-msg { font-size:0.77rem; color:var(--warn); margin-top:4px; display:none; }
+  .warn-msg.show { display:block; }
+  select { cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A7568' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; }
+
+  /* CHIPS */
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { padding:8px 14px; border:1px solid var(--border-strong); border-radius:30px; font-size:0.83rem; cursor:pointer; background:var(--surface); color:var(--text-muted); transition:all 0.18s; user-select:none; white-space:nowrap; }
+  .chip:hover { border-color:var(--accent); color:var(--text); }
+  .chip.selected { background:var(--accent-light); border-color:var(--accent); color:var(--brand); font-weight:500; }
+
+  /* SCALE */
+  .scale-wrap { display:flex; flex-direction:column; gap:8px; }
+  .scale-labels { display:flex; justify-content:space-between; }
+  .scale-label { font-size:0.75rem; color:var(--text-faint); }
+  input[type="range"] { -webkit-appearance:none; appearance:none; width:100%; height:4px; background:var(--surface-3); border-radius:4px; outline:none; cursor:pointer; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:var(--accent); border:3px solid var(--surface); box-shadow:0 0 0 1px var(--accent); cursor:pointer; transition:transform 0.15s; }
+  input[type="range"]::-webkit-slider-thumb:hover { transform:scale(1.2); }
+  .scale-val { text-align:center; font-size:0.8rem; color:var(--text-muted); min-height:1.2em; }
+
+  /* GRID */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  @media (max-width:560px) { .grid-2 { grid-template-columns:1fr; } }
+
+  /* SUB-PESO */
+  .sub-peso { display:inline-block; font-size:0.68rem; background:var(--surface-3); color:var(--text-faint); border-radius:4px; padding:2px 6px; margin-left:6px; font-weight:400; vertical-align:middle; }
+  .sub-peso.high { background:rgba(46,204,138,0.12); color:var(--accent); }
+
+  /* NAV */
+  .nav-row { display:flex; justify-content:space-between; align-items:center; margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--border); }
+  .btn { font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:500; padding:11px 24px; border-radius:30px; cursor:pointer; border:none; transition:all 0.2s; display:inline-flex; align-items:center; gap:8px; }
+  .btn-ghost { background:transparent; color:var(--text-muted); border:1px solid var(--border-strong); }
+  .btn-ghost:hover { background:var(--surface-3); color:var(--text); }
+  .btn-primary { background:var(--accent); color:var(--brand); font-weight:600; }
+  .btn-primary:hover { background:#27b87a; transform:translateY(-1px); box-shadow:0 4px 16px rgba(46,204,138,0.35); }
+  .btn-danger { background:var(--warn-light); color:var(--warn); border:1px solid rgba(204,51,51,0.2); }
+  .btn-danger:hover { background:rgba(204,51,51,0.12); }
+
+  /* VALIDAÇÃO DE CAMPO OBRIGATÓRIO */
+  .field.field-required-missing input,
+  .field.field-required-missing .chips { outline:2px solid var(--warn); outline-offset:2px; border-radius:var(--radius-sm); }
+  .field-required-note { font-size:0.77rem; color:var(--warn); margin-top:4px; display:none; }
+  .field-required-note.show { display:block; }
+
+  /* IMPRESSÃO */
+  @media print {
+    .site-header, .hero, .progress-wrap, .nav-row, footer, #resultado .btn { display:none !important; }
+    body { background:#fff; }
+    #resultado { display:block !important; }
+    .res-section, .res-hero { box-shadow:none !important; break-inside:avoid; }
+    .main { max-width:100%; margin:0; padding:0; }
+  }
+
+  /* ========== RESULTADO ========== */
+  /* FIX #1: resultado usa display próprio, sem depender de .section-card.active */
+  #resultado { display:none; }
+  #resultado.active { display:block; }
+
+  .res-hero {
+    background:var(--brand);
+    padding:3rem 2rem 2.5rem;
+    text-align:center;
+    border-radius:var(--radius) var(--radius) 0 0;
+    position:relative; overflow:hidden;
+  }
+  .res-hero::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 0%, rgba(46,204,138,0.1) 0%, transparent 65%); pointer-events:none; }
+
+  .iim-score-wrap { display:inline-flex; flex-direction:column; align-items:center; margin-bottom:0.75rem; }
+  .iim-label { font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:0.5rem; }
+  /* FIX #2: score grande e sem superscript */
+  .iim-num { font-family:'Syne',sans-serif; font-size:6rem; font-weight:800; line-height:1; color:#fff; letter-spacing:-0.02em; }
+  .iim-class { display:inline-block; padding:7px 22px; border-radius:20px; font-size:0.9rem; font-weight:600; margin-top:0.75rem; }
+  .iim-context { margin-top:1rem; font-size:0.84rem; color:rgba(255,255,255,0.45); max-width:500px; margin-left:auto; margin-right:auto; font-weight:300; }
+
+  .res-section { background:var(--surface); border-left:1px solid var(--border); border-right:1px solid var(--border); border-bottom:1px solid var(--border); padding:2rem; }
+  .res-section:last-child { border-radius:0 0 var(--radius) var(--radius); }
+
+  /* Radar + Dim bars */
+  .res-two-col { display:grid; grid-template-columns:260px 1fr; gap:2rem; align-items:start; }
+  @media (max-width:620px) { .res-two-col { grid-template-columns:1fr; } }
+  .radar-wrap { width:100%; }
+
+  /* Dim bars */
+  .dim-bars { display:flex; flex-direction:column; gap:10px; }
+  .dim-bar-row { display:grid; grid-template-columns:105px 1fr 40px; gap:10px; align-items:center; }
+  .dim-bar-name { font-size:0.8rem; color:var(--text-muted); }
+  .bar-track { height:8px; background:var(--surface-3); border-radius:8px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:8px; background:var(--accent); transition:width 1s ease; }
+  .dim-bar-val { font-size:0.85rem; font-weight:600; color:var(--text); text-align:right; }
+
+  /* Dim cost rows */
+  .dim-cost-row { display:grid; grid-template-columns:105px 1fr 100px; gap:10px; align-items:center; margin-bottom:8px; }
+  .cost-bar-track { height:6px; background:var(--surface-3); border-radius:6px; overflow:hidden; }
+  .cost-bar-fill { height:100%; border-radius:6px; background:rgba(46,204,138,0.4); transition:width 1s ease; }
+  .dim-cost-val { font-size:0.8rem; font-weight:600; color:var(--brand-mid); text-align:right; }
+
+  /* Metric cards */
+  .cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:12px; }
+  .metric-card { background:var(--surface-2); border-radius:var(--radius-sm); padding:1rem 1.1rem; border:1px solid var(--border); }
+  .metric-card.hl { background:var(--accent-light); border-color:var(--accent-mid); }
+  .metric-card.hl2 { background:rgba(204,51,51,0.05); border-color:rgba(204,51,51,0.2); }
+  .mc-label { font-size:0.73rem; color:var(--text-faint); margin-bottom:4px; }
+  .mc-val { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:700; color:var(--text); }
+  .mc-val.warn { color:var(--warn); }
+  .mc-sub { font-size:0.72rem; color:var(--text-muted); margin-top:2px; }
+
+  /* Projection table */
+  .proj-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+  .proj-table th { background:var(--surface-3); padding:8px 14px; text-align:left; font-weight:600; font-size:0.78rem; border-bottom:1px solid var(--border); color:var(--text-muted); }
+  .proj-table td { padding:10px 14px; border-bottom:1px solid var(--border); }
+  .proj-table tr:last-child td { border-bottom:none; background:rgba(204,51,51,0.04); }
+  .proj-num { font-family:'Syne',sans-serif; font-weight:700; color:var(--brand); }
+  .proj-num.red { color:var(--warn); }
+  .proj-note { font-size:0.77rem; color:var(--text-faint); margin-top:0.75rem; font-style:italic; }
+
+  /* Savings Simulator */
+  .sim-section { background:var(--accent-light) !important; border-color:var(--accent-mid) !important; }
+  .sim-subtitle { font-size:0.84rem; color:var(--text-muted); margin-bottom:1.5rem; margin-top:-0.4rem; }
+  .sim-header { display:flex; align-items:center; justify-content:center; gap:2rem; margin-bottom:1.25rem; }
+  .sim-info { text-align:center; }
+  .sim-lbl { display:block; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-faint); margin-bottom:4px; }
+  .sim-score { font-family:'Syne',sans-serif; font-size:2.5rem; font-weight:800; line-height:1; color:var(--brand); }
+  .sim-score.accent { color:var(--accent); }
+  .sim-arrow { font-size:1.5rem; color:var(--text-faint); }
+  .sim-economy { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-top:1.25rem; }
+  .sim-eco-item { background:var(--surface); border-radius:var(--radius-sm); padding:0.9rem 1rem; border:1px solid var(--border); }
+  .sim-eco-item.hl { background:var(--brand); border-color:transparent; }
+  .sim-eco-item span { display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; }
+  .sim-eco-item.hl span { color:rgba(255,255,255,0.5); }
+  .sim-eco-item strong { display:block; font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:700; color:var(--brand); }
+  .sim-eco-item.hl strong { color:var(--accent); }
+
+  /* Interventions */
+  .interv-header { display:grid; grid-template-columns:1fr 72px 82px 110px; gap:10px; padding:4px 14px; font-size:0.68rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--text-faint); font-weight:600; }
+  .interv-row { display:grid; grid-template-columns:1fr 72px 82px 110px; gap:10px; align-items:center; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; transition:border-color 0.18s; margin-bottom:6px; }
+  .interv-row:hover { border-color:var(--accent); }
+  .interv-row:last-child { margin-bottom:0; }
+  .interv-main-label { font-size:0.87rem; font-weight:500; color:var(--text); }
+  .interv-desc { font-size:0.76rem; color:var(--text-muted); margin-top:2px; }
+  .esforco-badge { font-size:0.72rem; font-weight:600; padding:3px 9px; border-radius:10px; text-align:center; white-space:nowrap; }
+  .esf-low { background:var(--accent-light); color:var(--brand-mid); }
+  .esf-med { background:#fffaeb; color:#7a5c00; }
+  .esf-high { background:#fff3e8; color:#7a3e00; }
+  .interv-iim { font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:var(--accent); text-align:center; }
+  .interv-eco { font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:var(--brand); text-align:right; }
+  @media (max-width:580px) {
+    .interv-header { display:none; }
+    .interv-row { grid-template-columns:1fr auto; }
+    .interv-iim { display:none; }
+    .esforco-badge { font-size:0.68rem; }
+  }
+
+  /* Recommendations */
+  .rec-block { background:var(--accent-light); border:1px solid var(--accent-mid); border-radius:var(--radius-sm); padding:1.25rem 1.5rem; }
+  .rec-block h3 { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:700; color:var(--brand); margin-bottom:0.75rem; }
+  .rec-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .rec-list li { font-size:0.88rem; color:var(--brand-mid); display:flex; gap:8px; }
+  .rec-list li::before { content:'↳'; color:var(--accent); font-weight:700; flex-shrink:0; }
+
+  /* Methodology (FIX: repositioned to bottom, tone changed) */
+  .met-box { background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:1rem 1.25rem; margin-bottom:1.5rem; }
+  .met-title { font-family:'Syne',sans-serif; font-size:0.67rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-faint); margin-bottom:0.5rem; font-weight:600; }
+  .met-text { font-size:0.78rem; color:var(--text-faint); line-height:1.7; font-style:italic; }
+
+  /* IIM Info table (inside resultado) */
+  .info-table { width:100%; border-collapse:collapse; font-size:0.84rem; }
+  .info-table th { background:var(--surface-3); padding:8px 14px; text-align:left; font-weight:600; font-size:0.78rem; border-bottom:1px solid var(--border); color:var(--text-muted); }
+  .info-table td { padding:10px 14px; border-bottom:1px solid var(--border); color:var(--text); }
+  .info-table tr:last-child td { border-bottom:none; }
+  .formula-box { background:var(--brand); color:#fff; padding:1rem 1.25rem; border-radius:var(--radius-sm); font-family:monospace; font-size:0.9rem; margin-bottom:1.5rem; letter-spacing:0.02em; }
+
+  /* FOOTER */
+  footer { text-align:center; padding:2rem 1.5rem; font-size:0.78rem; color:var(--text-faint); border-top:1px solid var(--border); margin-top:2rem; }
+  footer strong { color:var(--text-muted); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">Urban<span>Flow</span></div>
+  <div class="header-badge">USO INTERNO · CONSULTORES</div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Ferramenta proprietária v3.0</div>
+  <h1>Calculadora <em>IIM</em></h1>
+  <p>Índice de Impacto de Mobilidade — diagnóstico completo em 4 dimensões ponderadas com projeção financeira e simulador de ROI.</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-card">
+    <div class="steps-row" id="stepsRow"></div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:14.28%"></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+
+<!-- ===== ETAPA 1 — EMPRESA ===== -->
+<div class="section-card active" id="step-1">
+  <div class="section-head">
+    <div class="dim-badge">🏢<span class="pct">Etapa 1</span></div>
+    <div class="section-head-text">
+      <h2>Dados da Empresa</h2>
+      <p>Contexto organizacional — alimenta modificadores do IIM e cálculo de ROI</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <p class="subsection-title">Identificação &amp; Operação</p>
+    <div class="field">
+      <label>Nome da empresa</label>
+      <input type="text" id="empresa_nome" placeholder="Ex: Empresa ABC Ltda">
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Setor de atuação <span class="tip" data-tip="Ajusta benchmarks e pesos — logística e saúde têm presencialidade mais crítica que tech.">?</span></label>
+        <select id="empresa_setor">
+          <option value="">Selecione...</option>
+          <option value="tech">💻 Tecnologia</option>
+          <option value="saude">🏥 Saúde</option>
+          <option value="edu">🎓 Educação</option>
+          <option value="varejo">🛒 Varejo</option>
+          <option value="industria">🏭 Indústria</option>
+          <option value="financeiro">🏦 Financeiro</option>
+          <option value="logistica">🚚 Logística</option>
+          <option value="servicos">🤝 Serviços</option>
+          <option value="governo">🏛️ Governo</option>
+          <option value="outro">➕ Outro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Regime de trabalho</label>
+        <div class="chips" data-field="empresa_regime">
+          <div class="chip" data-val="presencial">🏢 100% Presencial</div>
+          <div class="chip" data-val="hibrido">🔀 Híbrido</div>
+          <div class="chip" data-val="remoto">🏠 Remoto</div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Regime de contratação</label>
+        <div class="chips" data-field="empresa_contrato">
+          <div class="chip" data-val="clt">📋 CLT</div>
+          <div class="chip" data-val="pj">💼 PJ</div>
+          <div class="chip" data-val="terceiro">🤝 Terceirizado</div>
+          <div class="chip" data-val="estagio">🎓 Estagiário</div>
+          <div class="chip" data-val="misto">🔀 Misto</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Flexibilidade de horário <span class="tip" data-tip="Horário rígido é modificador negativo — amplifica D1 e D2.">?</span></label>
+        <div class="chips" data-field="empresa_flex">
+          <div class="chip" data-val="nao">❌ Não, horário fixo</div>
+          <div class="chip" data-val="parcial">⚖️ Parcial (±30 min)</div>
+          <div class="chip" data-val="sim">✅ Sim, flexível</div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Turno predominante <span class="tip" data-tip="Turno noturno reduz opções de transporte público — amplifica D4.">?</span></label>
+        <div class="chips" data-field="empresa_turno">
+          <div class="chip" data-val="diurno">☀️ Diurno</div>
+          <div class="chip" data-val="vespertino">🌇 Vespertino</div>
+          <div class="chip" data-val="noturno">🌙 Noturno</div>
+          <div class="chip" data-val="revezamento">🔄 Revezamento</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Localização da empresa <span class="tip" data-tip="Empresa periférica amplifica D4 — acesso mais difícil = maior vulnerabilidade.">?</span></label>
+        <div class="chips" data-field="empresa_local">
+          <div class="chip" data-val="centro">🏙️ Centro / área nobre</div>
+          <div class="chip" data-val="intermediaria">🏘️ Zona intermediária</div>
+          <div class="chip" data-val="periferia">🌳 Periferia / industrial</div>
+          <div class="chip" data-val="fora">🛣️ Fora da cidade</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="subsection-title">Quadro de Funcionários</p>
+    <div class="grid-2">
+      <div class="field">
+        <label>Total de colaboradores</label>
+        <input type="number" id="empresa_total" placeholder="Ex: 250" min="1">
+      </div>
+      <div class="field">
+        <label>Em regime presencial</label>
+        <input type="number" id="empresa_presencial_qtd" placeholder="Ex: 180" min="1">
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Turnover anual (%) <span class="tip" data-tip="Dado real — calibra o custo de reposição no cálculo financeiro. Acima de 15% amplifica D3.">?</span></label>
+        <input type="number" id="empresa_turnover" placeholder="Ex: 12" min="0" max="100">
+      </div>
+      <div class="field">
+        <label>Afastamentos por burnout (12m) <span class="tip" data-tip="Alta taxa de burnout amplifica D2 — correlação direta com trajetos de alto IIM.">?</span></label>
+        <input type="number" id="empresa_burnout" placeholder="Ex: 8" min="0">
+      </div>
+    </div>
+
+    <p class="subsection-title">Financeiro</p>
+    <div class="grid-2">
+      <div class="field">
+        <label>Faturamento anual (R$)</label>
+        <input type="number" id="empresa_faturamento" placeholder="Ex: 5000000" min="0">
+      </div>
+      <div class="field">
+        <label>Salário médio mensal (R$) <span class="tip" data-tip="Base para o custo real. Fórmula: salário + 68% encargos + perdas de produtividade.">?</span></label>
+        <input type="number" id="empresa_salario_medio" placeholder="Ex: 3500" min="0">
+      </div>
+    </div>
+
+    <p class="subsection-title">Benefícios de Mobilidade</p>
+    <div class="field">
+      <label>Benefícios de transporte oferecidos <span class="tip" data-tip="Fator de mitigação — reduz modificadores negativos no IIM.">?</span></label>
+      <div class="chips" data-field="empresa_beneficios">
+        <div class="chip" data-val="nenhum">❌ Nenhum</div>
+        <div class="chip" data-val="vt">🎫 VT mínimo legal</div>
+        <div class="chip" data-val="vt_extra">💳 VT extra / app</div>
+        <div class="chip" data-val="fretado">🚌 Fretado</div>
+        <div class="chip" data-val="estacionamento">🅿️ Estacionamento</div>
+        <div class="chip" data-val="auxilio">💰 Auxílio livre</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Infraestrutura para ciclistas</label>
+      <div class="chips" data-field="empresa_ciclista">
+        <div class="chip" data-val="sim">✅ Sim</div>
+        <div class="chip" data-val="nao">❌ Não</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <div></div>
+      <button class="btn btn-primary" onclick="tryAdvance(1,2)">Perfil do Funcionário →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ETAPA 2 — FUNCIONÁRIO (FIX #4: pergunta duplicada removida) ===== -->
+<div class="section-card" id="step-2">
+  <div class="section-head">
+    <div class="dim-badge">👤<span class="pct">Etapa 2</span></div>
+    <div class="section-head-text">
+      <h2>Perfil do Colaborador</h2>
+      <p>Dados de cargo, função e reposição — personalizam os pesos financeiros</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="field">
+      <label>Cargo / Função <span class="tip" data-tip="Cargos operacionais têm menos flexibilidade — amplifica D1. Analíticos podem ser remotos.">?</span></label>
+      <div class="chips" data-field="func_cargo">
+        <div class="chip" data-val="operacional">🔧 Operacional</div>
+        <div class="chip" data-val="tecnico">⚙️ Técnico</div>
+        <div class="chip" data-val="administrativo">📋 Administrativo</div>
+        <div class="chip" data-val="analitico">📊 Analítico / Especialista</div>
+        <div class="chip" data-val="lideranca">👔 Liderança / Gestão</div>
+        <div class="chip" data-val="diretoria">🏆 Diretoria / C-Level</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>O cargo exige presença física obrigatória?</label>
+      <div class="chips" data-field="func_presenca">
+        <div class="chip" data-val="obrigatorio">✅ Sim, 100% obrigatório</div>
+        <div class="chip" data-val="parcial">⚖️ Parcial</div>
+        <div class="chip" data-val="nao">🏠 Não, pode ser remoto</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Salário mensal do colaborador (R$) <span class="tip" data-tip="Usado no cálculo individual. Se vazio, usa o salário médio da empresa e, na ausência deste, um valor de referência de R$3.500 — verifique antes de apresentar ao cliente.">?</span></label>
+        <input type="number" id="func_salario" placeholder="Ex: 4200" min="0">
+        <div class="warn-msg" id="w_func_salario">Sem este dado, o cálculo financeiro usará um valor de referência (R$3.500) — confirme antes de apresentar ao cliente</div>
+      </div>
+      <div class="field">
+        <label>Fator de reposição do cargo <span class="tip" data-tip="Custo de substituição = salário anual × fator × 1,4 (headhunter + ramp-up). Operacional: 0,5×. C-Level: 2,0×.">?</span></label>
+        <div class="chips" data-field="func_reposicao">
+          <div class="chip" data-val="0.5">0,5× (operacional)</div>
+          <div class="chip" data-val="1.0">1,0× (técnico/admin)</div>
+          <div class="chip" data-val="1.5">1,5× (analítico)</div>
+          <div class="chip" data-val="2.0">2,0× (gestão/C-Level)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goTo(1)">← Voltar</button>
+      <button class="btn btn-primary" onclick="tryAdvance(2,3)">D1 · Trajeto →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ETAPA 3 — D1 TRAJETO (FIX #5: ordem 07/08 corrigida) ===== -->
+<div class="section-card" id="step-3">
+  <div class="section-head">
+    <div class="dim-badge">D1<span class="pct">30%</span></div>
+    <div class="section-head-text">
+      <h2>Tempo e Distância de Deslocamento</h2>
+      <p>Exposição física ao deslocamento — tempo, distância, modal e frequência</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="grid-2">
+      <div class="field">
+        <label>01 · Tempo médio do trajeto (minutos) <span class="tip" data-tip="Considera o trajeto porta a porta, incluindo esperas e conexões.">?</span></label>
+        <input type="number" id="d1_tempo" placeholder="Ex: 55" min="0">
+        <div class="warn-msg" id="w_d1_tempo">Informe o tempo de trajeto para um diagnóstico preciso</div>
+      </div>
+      <div class="field">
+        <label>02 · Distância aproximada (km, ida)</label>
+        <input type="number" id="d1_dist" placeholder="Ex: 22" min="0">
+      </div>
+    </div>
+    <div class="field">
+      <label>03 · Meio de transporte principal</label>
+      <div class="chips" data-field="d1_modal">
+        <div class="chip" data-val="onibus">🚌 Ônibus</div>
+        <div class="chip" data-val="metro">🚇 Metrô/BRT</div>
+        <div class="chip" data-val="carro">🚗 Carro próprio</div>
+        <div class="chip" data-val="moto">🏍️ Moto</div>
+        <div class="chip" data-val="bici">🚲 Bicicleta</div>
+        <div class="chip" data-val="pe">🚶 A pé</div>
+        <div class="chip" data-val="app">📱 App (Uber/99)</div>
+        <div class="chip" data-val="misto">🔀 Misto</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>04 · Dias presenciais por semana <span class="tip" data-tip="Funciona como multiplicador global do IIM — 1 dia/sem reduz impacto em 70%.">?</span></label>
+        <div class="chips" data-field="d1_dias">
+          <div class="chip" data-val="1">1</div>
+          <div class="chip" data-val="2">2</div>
+          <div class="chip" data-val="3">3</div>
+          <div class="chip" data-val="4">4</div>
+          <div class="chip" data-val="5">5</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>05 · Baldeações / conexões <span class="tip" data-tip="Cada conexão adiciona espera, incerteza e desgaste mental ao percurso.">?</span></label>
+        <div class="chips" data-field="d1_bald">
+          <div class="chip" data-val="0">0</div>
+          <div class="chip" data-val="1">1</div>
+          <div class="chip" data-val="2">2</div>
+          <div class="chip" data-val="3">3+</div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>06 · Tempo médio de espera (min) <span class="tip" data-tip="Tempo improdutivo exposto — invisível nas métricas tradicionais.">?</span></label>
+        <input type="number" id="d1_espera" placeholder="Ex: 15" min="0">
+      </div>
+      <div class="field">
+        <!-- FIX #5: campo era 08, agora em ordem correta como 07 -->
+        <label>07 · O trajeto varia muito conforme o trânsito?</label>
+        <div class="scale-wrap">
+          <input type="range" min="0" max="100" value="50" id="d1_variacao" oninput="updateScale(this,'d1_variacao_lbl',['Muito estável','Estável','Variável','Muito variável'])">
+          <div class="scale-labels"><span class="scale-label">Muito estável</span><span class="scale-label">Muito variável</span></div>
+          <div class="scale-val" id="d1_variacao_lbl">Variável</div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <!-- FIX #3 + #5: campo d1_custo agora em ordem correta e ATIVO no cálculo -->
+        <label>08 · Custo mensal com transporte (R$) <span class="tip" data-tip="Percentual do salário comprometido com transporte entra como indicador de vulnerabilidade financeira em D4.">?</span></label>
+        <input type="number" id="d1_custo" placeholder="Ex: 280" min="0">
+      </div>
+      <div class="field">
+        <label>09 · O vale-transporte cobre o custo total?</label>
+        <div class="chips" data-field="d1_vt">
+          <div class="chip" data-val="sim">✅ Sim, totalmente</div>
+          <div class="chip" data-val="parcial">⚖️ Parcialmente</div>
+          <div class="chip" data-val="nao">❌ Não cobre</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goTo(2)">← Voltar</button>
+      <button class="btn btn-primary" onclick="tryAdvance(3,4)">D2 · Estresse →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ETAPA 4 — D2 ESTRESSE ===== -->
+<div class="section-card" id="step-4">
+  <div class="section-head">
+    <div class="dim-badge">D2<span class="pct">27%</span></div>
+    <div class="section-head-text">
+      <h2>Estresse e Fadiga Percebidos</h2>
+      <p>Impacto subjetivo e fisiológico — conectado ao custo de saúde, presenteísmo e burnout</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="field">
+      <label>01 · Nível de cansaço ao chegar ao trabalho <span class="tip" data-tip="Indica quanto o trajeto drena energia antes do expediente começar.">?</span></label>
+      <div class="scale-wrap">
+        <input type="range" min="0" max="100" value="50" id="d2_cansaco" oninput="updateScale(this,'d2_cansaco_lbl',['Nenhum','Leve','Moderado','Alto','Muito alto'])">
+        <div class="scale-labels"><span class="scale-label">Nenhum</span><span class="scale-label">Muito alto</span></div>
+        <div class="scale-val" id="d2_cansaco_lbl">Moderado</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>02 · Frequência de estresse durante o trajeto</label>
+      <div class="chips" data-field="d2_estresse">
+        <div class="chip" data-val="0">Nunca</div>
+        <div class="chip" data-val="1">Raramente</div>
+        <div class="chip" data-val="2">Às vezes</div>
+        <div class="chip" data-val="3">Frequentemente</div>
+        <div class="chip" data-val="4">Sempre</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>03 · O trajeto impacta a concentração no início do expediente? <span class="tip" data-tip="'Custo de transição' — tempo até recuperar foco após deslocamento. Base do custo de presenteísmo.">?</span></label>
+      <div class="scale-wrap">
+        <input type="range" min="0" max="100" value="30" id="d2_conc" oninput="updateScale(this,'d2_conc_lbl',['Nenhum impacto','Pouco','Médio','Alto','Muito alto'])">
+        <div class="scale-labels"><span class="scale-label">Nenhum impacto</span><span class="scale-label">Muito alto</span></div>
+        <div class="scale-val" id="d2_conc_lbl">Pouco</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>04 · Avaliação geral da qualidade do deslocamento</label>
+      <div class="scale-wrap">
+        <input type="range" min="0" max="100" value="50" id="d2_qual" oninput="updateScale(this,'d2_qual_lbl',['Péssima','Ruim','Regular','Boa','Excelente'])">
+        <div class="scale-labels"><span class="scale-label">Péssima</span><span class="scale-label">Excelente</span></div>
+        <div class="scale-val" id="d2_qual_lbl">Regular</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>05 · O trajeto afeta a qualidade do sono? <span class="tip" data-tip="Acordar muito cedo acumula privação de sono — impacta cognição e saúde.">?</span></label>
+      <div class="chips" data-field="d2_sono">
+        <div class="chip" data-val="0">Nunca</div>
+        <div class="chip" data-val="1">Raramente</div>
+        <div class="chip" data-val="2">Às vezes</div>
+        <div class="chip" data-val="3">Frequentemente</div>
+        <div class="chip" data-val="4">Sempre</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>06 · Chega fisicamente desconfortável ao trabalho? <span class="tip" data-tip="Calor, chuva, superlotação — gera desconforto e constrangimento.">?</span></label>
+      <div class="chips" data-field="d2_desconforto">
+        <div class="chip" data-val="0">Nunca</div>
+        <div class="chip" data-val="1">Raramente</div>
+        <div class="chip" data-val="2">Às vezes</div>
+        <div class="chip" data-val="3">Frequentemente</div>
+        <div class="chip" data-val="4">Sempre</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>07 · O deslocamento impede atividades físicas, refeições ou lazer? <span class="tip" data-tip="Trajetos longos roubam tempo de recuperação — alta correlação com burnout.">?</span></label>
+      <div class="chips" data-field="d2_lazer">
+        <div class="chip" data-val="0">🟢 Não, tenho tempo</div>
+        <div class="chip" data-val="2">🟡 Às vezes prejudica</div>
+        <div class="chip" data-val="4">🔴 Sim, sempre prejudica</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>08 · Sente ansiedade ou irritação antecipada em relação ao trajeto? <span class="tip" data-tip="Ansiedade antecipatória é sinal de estresse crônico — precede sintomas graves.">?</span></label>
+      <div class="chips" data-field="d2_ansiedade">
+        <div class="chip" data-val="0">Nunca</div>
+        <div class="chip" data-val="1">Raramente</div>
+        <div class="chip" data-val="2">Às vezes</div>
+        <div class="chip" data-val="3">Frequentemente</div>
+        <div class="chip" data-val="4">Sempre</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>09 · O trajeto deixa sem energia para a vida pessoal? <span class="tip" data-tip="'Roubo de vida' — quando o deslocamento compromete relações e bem-estar.">?</span></label>
+      <div class="chips" data-field="d2_energia">
+        <div class="chip" data-val="0">Nunca</div>
+        <div class="chip" data-val="1">Raramente</div>
+        <div class="chip" data-val="2">Às vezes</div>
+        <div class="chip" data-val="3">Frequentemente</div>
+        <div class="chip" data-val="4">Sempre</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goTo(3)">← Voltar</button>
+      <button class="btn btn-primary" onclick="tryAdvance(4,5)">D3 · Pontualidade →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ETAPA 5 — D3 PONTUALIDADE ===== -->
+<div class="section-card" id="step-5">
+  <div class="section-head">
+    <div class="dim-badge">D3<span class="pct">25%</span></div>
+    <div class="section-head-text">
+      <h2>Pontualidade e Frequência</h2>
+      <p>Maior impacto financeiro direto — intenção de saída tem sub-peso 16%</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div style="background:var(--surface-3);border-radius:var(--radius-sm);padding:0.75rem 1rem;margin-bottom:1.5rem;font-size:0.8rem;color:var(--text-muted);">
+      <strong>Sub-pesos ativos:</strong> Atrasos (11%) · Faltas (11%) · Recusou tarefa (11%) · Licenças (9%) · Contribuição do trajeto (9%) · Home office por evitação (9%) · Limite exato (7%) · Sai mais cedo (7%) · Intenção de saída (16%)
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>01 · Atrasos por mês causados pelo trajeto <span class="sub-peso">11%</span></label>
+        <input type="number" id="d3_atrasos" placeholder="Ex: 3" min="0">
+      </div>
+      <div class="field">
+        <label>02 · Faltas motivadas por transporte / mês <span class="sub-peso">11%</span></label>
+        <input type="number" id="d3_faltas" placeholder="Ex: 1" min="0">
+      </div>
+    </div>
+    <div class="field">
+      <label>03 · Já recusou reunião, hora extra ou tarefa por causa do deslocamento? <span class="sub-peso">11%</span></label>
+      <div class="chips" data-field="d3_recusa">
+        <div class="chip" data-val="0">Nunca</div>
+        <div class="chip" data-val="2">Sim, 1–2 vezes</div>
+        <div class="chip" data-val="4">Sim, com frequência</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>04 · Licenças de saúde mental (dias, 12m) <span class="sub-peso">9%</span></label>
+        <input type="number" id="d3_licencas" placeholder="Ex: 5" min="0">
+      </div>
+      <div class="field">
+        <label>05 · O trajeto contribuiu para essas licenças? <span class="sub-peso">9%</span></label>
+        <div class="chips" data-field="d3_contrib">
+          <div class="chip" data-val="0">Não</div>
+          <div class="chip" data-val="1">Pouco</div>
+          <div class="chip" data-val="3">Bastante</div>
+          <div class="chip" data-val="4">Totalmente</div>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>06 · Já pediu home office motivado pelo trajeto? <span class="sub-peso">9%</span> <span class="tip" data-tip="Home office frequente por evitação é custo oculto de flexibilidade forçada.">?</span></label>
+      <div class="chips" data-field="d3_homeoff">
+        <div class="chip" data-val="0">Nunca</div>
+        <div class="chip" data-val="1">1–2 vezes</div>
+        <div class="chip" data-val="2">Às vezes</div>
+        <div class="chip" data-val="3">Frequentemente</div>
+        <div class="chip" data-val="4">Sempre que possível</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>07 · Com que frequência chega no limite exato do horário? <span class="sub-peso">7%</span></label>
+      <div class="chips" data-field="d3_limite">
+        <div class="chip" data-val="0">Nunca</div>
+        <div class="chip" data-val="1">Raramente</div>
+        <div class="chip" data-val="2">Às vezes</div>
+        <div class="chip" data-val="3">Frequentemente</div>
+        <div class="chip" data-val="4">Todo dia</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>08 · Sai mais cedo do trabalho por causa do transporte? <span class="sub-peso">7%</span></label>
+      <div class="chips" data-field="d3_saicedo">
+        <div class="chip" data-val="0">Nunca</div>
+        <div class="chip" data-val="1">Raramente</div>
+        <div class="chip" data-val="2">Às vezes</div>
+        <div class="chip" data-val="3">Frequentemente</div>
+        <div class="chip" data-val="4">Todo dia</div>
+      </div>
+    </div>
+    <div class="field" style="background:rgba(204,51,51,0.04);border:1px solid rgba(204,51,51,0.15);border-radius:10px;padding:1rem 1.1rem;">
+      <label style="color:#cc3333;">09 · Intenção de demissão por causa do trajeto <span class="sub-peso high">16%</span></label>
+      <div class="chips" style="margin-top:0.75rem;" data-field="d3_intencao">
+        <div class="chip" data-val="0">Nunca pensou</div>
+        <div class="chip" data-val="1">Pensou 1–2 vezes</div>
+        <div class="chip" data-val="3">Pensa com frequência</div>
+        <div class="chip" data-val="4">Está pensando agora</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goTo(4)">← Voltar</button>
+      <button class="btn btn-primary" onclick="tryAdvance(5,6)">D4 · Vulnerabilidade →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ETAPA 6 — D4 VULNERABILIDADE ===== -->
+<div class="section-card" id="step-6">
+  <div class="section-head">
+    <div class="dim-badge">D4<span class="pct">18%</span></div>
+    <div class="section-head-text">
+      <h2>Vulnerabilidade Modal e Socioespacial</h2>
+      <p>Estrutura de risco do deslocamento — amplificador de todas as dimensões</p>
+    </div>
+  </div>
+  <div class="section-body">
+    <div class="grid-2">
+      <div class="field">
+        <label>01 · Bairro de residência <span class="tip" data-tip="Campo apenas de referência interna do consultor — não entra no cálculo do IIM e não deve ser incluído em relatórios agregados/comparativos entre empresas, para evitar reidentificação do colaborador.">?</span></label>
+        <input type="text" id="d4_bairro" placeholder="Ex: Ibura">
+      </div>
+      <div class="field">
+        <label>02 · Distância até o ponto de ônibus/metrô (min a pé)</label>
+        <input type="number" id="d4_ponto" placeholder="Ex: 12" min="0">
+      </div>
+    </div>
+    <div class="field">
+      <label>03 · Dependência do transporte público</label>
+      <div class="chips" data-field="d4_dep">
+        <div class="chip" data-val="0">Nenhuma (carro próprio)</div>
+        <div class="chip" data-val="1">Baixa (tem alternativas)</div>
+        <div class="chip" data-val="3">Alta (quase sempre TP)</div>
+        <div class="chip" data-val="4">Total (só TP)</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>04 · Percepção de segurança pública no trajeto <span class="tip" data-tip="Percepção de risco afeta rotas, horários e o estresse do deslocamento.">?</span></label>
+      <div class="scale-wrap">
+        <input type="range" min="0" max="100" value="60" id="d4_seg" oninput="updateScale(this,'d4_seg_lbl',['Muito inseguro','Inseguro','Neutro','Seguro','Muito seguro'])">
+        <div class="scale-labels"><span class="scale-label">Muito inseguro</span><span class="scale-label">Muito seguro</span></div>
+        <div class="scale-val" id="d4_seg_lbl">Seguro</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>05 · Tem acesso a app de transporte (Uber/99) como alternativa? <span class="tip" data-tip="Alternativa modal reduz vulnerabilidade, mas pode gerar custo adicional.">?</span></label>
+      <div class="chips" data-field="d4_app">
+        <div class="chip" data-val="0">✅ Sim, uso regularmente</div>
+        <div class="chip" data-val="1">⚖️ Às vezes</div>
+        <div class="chip" data-val="3">❌ Não uso (custo)</div>
+        <div class="chip" data-val="4">❌ Não tenho acesso</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>06 · O trajeto passa por áreas com risco percebido?</label>
+      <div class="chips" data-field="d4_risco">
+        <div class="chip" data-val="0">Nenhum risco</div>
+        <div class="chip" data-val="1">Obras / desvios</div>
+        <div class="chip" data-val="3">Enchentes / alagamentos</div>
+        <div class="chip" data-val="4">Violência / insegurança</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>07 · Já foi vítima de violência ou assalto durante o deslocamento? <span class="tip" data-tip="Experiência direta de violência gera trauma — impacto severo em D2 e D4.">?</span></label>
+      <div class="chips" data-field="d4_violencia">
+        <div class="chip" data-val="0">Não</div>
+        <div class="chip" data-val="2">Sim, 1 vez</div>
+        <div class="chip" data-val="4">Sim, mais de 1 vez</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>08 · Índice de vulnerabilidade do bairro de residência <span class="tip" data-tip="1 = bairro nobre, ótima infraestrutura. 5 = periferia com transporte escasso.">?</span></label>
+      <div class="scale-wrap">
+        <input type="range" min="0" max="100" value="40" id="d4_vuln" oninput="updateScale(this,'d4_vuln_lbl',['Baixa vulnerab.','Média-baixa','Média','Média-alta','Alta vulnerab.'])">
+        <div class="scale-labels"><span class="scale-label">Baixa vulnerabilidade</span><span class="scale-label">Alta vulnerabilidade</span></div>
+        <div class="scale-val" id="d4_vuln_lbl">Média-baixa</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>09 · Qualidade do transporte público na rota</label>
+      <div class="chips" data-field="d4_tp_qual">
+        <div class="chip" data-val="0">Ótimo (pontual, seguro)</div>
+        <div class="chip" data-val="1">Regular (atrasos ocasionais)</div>
+        <div class="chip" data-val="3">Ruim (atrasos frequentes)</div>
+        <div class="chip" data-val="4">Péssimo (superlotado)</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goTo(5)">← Voltar</button>
+      <button class="btn btn-primary" onclick="tryCalcular()">📊 Gerar Diagnóstico Completo →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RESULTADO (FIX #1: sem .section-card, display controlado por #resultado.active) ===== -->
+<div id="resultado">
+
+  <!-- 1. Hero Score -->
+  <div class="res-hero">
+    <div id="res_empresa_nome" style="color:rgba(255,255,255,0.55);font-size:0.8rem;letter-spacing:0.06em;margin-bottom:0.5rem;"></div>
+    <div class="iim-score-wrap">
+      <div class="iim-label">Índice de Impacto de Mobilidade</div>
+      <!-- FIX #2: .iim-num sem span, número correto -->
+      <div class="iim-num" id="res_iim">—</div>
+    </div>
+    <div id="res_class_badge" class="iim-class">—</div>
+    <div class="iim-context" id="res_context"></div>
+    <button class="btn btn-ghost" style="margin-top:1.25rem;color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.3);" onclick="window.print()">🖨️ Gerar relatório para impressão/PDF</button>
+  </div>
+
+  <!-- 2. Radar + Barras de Score -->
+  <div class="res-section">
+    <div class="res-two-col">
+      <div>
+        <p class="subsection-title" style="margin-top:0;">Perfil dimensional</p>
+        <div id="radarChart" class="radar-wrap"></div>
+      </div>
+      <div>
+        <p class="subsection-title" style="margin-top:0;">Score por dimensão</p>
+        <div class="dim-bars" id="dimBars"></div>
+        <p class="subsection-title">Custo estimado por dimensão</p>
+        <div id="dimCostBars"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Impacto Financeiro Individual -->
+  <div class="res-section">
+    <p class="subsection-title" style="margin-top:0;">Impacto financeiro — este colaborador</p>
+    <div class="cards-grid" id="cardsFinanceiro"></div>
+  </div>
+
+  <!-- 4. Projeção 12 Meses -->
+  <div class="res-section">
+    <p class="subsection-title" style="margin-top:0;">Projeção de custo — se nada for feito</p>
+    <div id="projecaoBox"></div>
+  </div>
+
+  <!-- 5. Simulador de Economia -->
+  <div class="res-section sim-section">
+    <p class="subsection-title" style="margin-top:0;">Simulador de Economia</p>
+    <p class="sim-subtitle">Arraste para simular quanto a empresa economiza ao reduzir o IIM</p>
+    <div id="simuladorBox"></div>
+  </div>
+
+  <!-- 6. Intervenções com ROI -->
+  <div class="res-section">
+    <p class="subsection-title" style="margin-top:0;">Intervenções prioritárias — impacto × ROI</p>
+    <div class="interv-header">
+      <div>Intervenção</div>
+      <div>Esforço</div>
+      <div style="text-align:center;">Redução IIM</div>
+      <div style="text-align:right;">Economia/mês</div>
+    </div>
+    <div id="intervTable"></div>
+  </div>
+
+  <!-- 7. Recomendações UrbanFlow -->
+  <div class="res-section">
+    <p class="subsection-title" style="margin-top:0;">Diagnóstico UrbanFlow</p>
+    <div class="rec-block">
+      <h3 id="recTitulo">—</h3>
+      <ul class="rec-list" id="recList"></ul>
+    </div>
+  </div>
+
+  <!-- 8. Projeção Empresa -->
+  <div class="res-section">
+    <p class="subsection-title" style="margin-top:0;">Projeção para a empresa</p>
+    <div class="cards-grid" id="cardsEmpresa"></div>
+    <p style="font-size:0.78rem;color:var(--text-faint);margin-top:0.75rem;line-height:1.5;">
+      ⚠️ Estimativa ilustrativa: projeta o custo mensal deste único colaborador respondente para todo o quadro presencial, assumindo perfil de IIM homogêneo. Não é uma estimativa estatisticamente validada da empresa — o Diagnóstico UrbanFlow completo aplica o instrumento a uma amostra representativa dos colaboradores para gerar uma projeção com validade estatística.
+    </p>
+  </div>
+
+  <!-- 9. Entenda o IIM (FIX #24: só aparece no resultado) -->
+  <div class="res-section">
+    <p class="subsection-title" style="margin-top:0;">Metodologia IIM v3.0</p>
+    <div class="formula-box">IIM = [(D1×0,30) + (D2×0,27) + (D3×0,25) + (D4×0,18)] × Mult. de Dias × Fator Setorial + Modificador Organizacional</div>
+    <div style="overflow-x:auto;">
+      <table class="info-table">
+        <thead>
+          <tr>
+            <th>Pontuação</th><th>Classificação</th><th>Ação recomendada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0–40</td><td><span style="background:#e8fbf3;color:#0D2B1F;border-radius:4px;padding:2px 8px;font-size:0.8rem;">🟢 Baixo impacto</span></td><td style="color:var(--text-muted);">Monitoramento anual.</td></tr>
+          <tr><td>41–60</td><td><span style="background:#fffaeb;color:#7a5c00;border-radius:4px;padding:2px 8px;font-size:0.8rem;">🟡 Impacto moderado</span></td><td style="color:var(--text-muted);">Revisar VT e flexibilidade de horário.</td></tr>
+          <tr><td>61–80</td><td><span style="background:#fff3e8;color:#7a3e00;border-radius:4px;padding:2px 8px;font-size:0.8rem;">🟠 Alto impacto</span></td><td style="color:var(--text-muted);">Intervenção necessária. Mapeamento de alternativas de modal.</td></tr>
+          <tr><td>81–100</td><td><span style="background:#fff0f0;color:#cc3333;border-radius:4px;padding:2px 8px;font-size:0.8rem;">🔴 Impacto crítico</span></td><td style="color:var(--text-muted);">Ação imediata. Cada mês adiciona custo acumulado.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FIX #21: nota metodológica reposicionada e reescrita como credencial, não aviso -->
+    <div class="met-box" style="margin-top:1.5rem;">
+      <div class="met-title">Base metodológica</div>
+      <p class="met-text">
+        As dimensões D1 e D3 são calibradas por dados objetivos (tempo, atrasos, faltas). D2 é amplificada em até 20% pelo índice real de burnout da empresa informado na Etapa 1; D3 é amplificada em até 50% do excedente de turnover acima de 20%. D4 incorpora o percentual do salário comprometido com transporte como indicador de vulnerabilidade financeira. O Multiplicador de Dias (presença semanal) e o Fator Setorial são <strong>premissas do modelo dos autores</strong>, não coeficientes extraídos de fonte externa — refletem o pressuposto de que a exposição ao deslocamento é proporcional à frequência presencial e de que setores como logística e saúde têm presencialidade mais crítica que tecnologia. O Modificador Organizacional soma até 9,3 pontos ao IIM quando presentes, cumulativamente: turno noturno, ausência de flexibilidade de horário, localização periférica/fora da cidade e ausência de benefícios de mobilidade — fatores de contexto que a literatura de mobilidade urbana associa a maior exposição a risco, mas cuja magnitude exata também é premissa do modelo, pendente de validação com dados longitudinais. O coeficiente de produtividade de 0,25 baseia-se em meta-análise de estudos de bem-estar corporativo — média de 20–35% de redução de performance documentada em trabalhadores com alto estresse de deslocamento (Stutzer &amp; Frey, 2008 [VALIDAR NA FONTE ORIGINAL: confirmar aplicabilidade direta do coeficiente]; demais fontes de apoio em processo de validação). Custo de presenteísmo estimado em até 12% do custo bruto mensal, alinhado a benchmarks da Organização Mundial da Saúde (WHO, 2022). Diagnóstico completo presencial recomendado para validação com dados longitudinais da empresa.
+      </p>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-danger" onclick="resetForm()">↺ Novo diagnóstico</button>
+    </div>
+  </div>
+
+</div><!-- /resultado -->
+
+</main>
+
+<footer>
+  Calculadora IIM v3.0 — Metodologia proprietária <strong>UrbanFlow Consultoria</strong> · Recife-PE<br>
+  Ferramenta de uso exclusivo para consultores certificados UrbanFlow.
+</footer>
+
+<script>
+// ============================
+// CONFIGURAÇÃO
+// ============================
+const STEPS = [
+  {id:1, label:'Empresa'},
+  {id:2, label:'Funcionário'},
+  {id:3, label:'D1·Trajeto'},
+  {id:4, label:'D2·Estresse'},
+  {id:5, label:'D3·Pontual.'},
+  {id:6, label:'D4·Vuln.'},
+  {id:7, label:'Resultado'},
+];
+
+// FIX #6: máximos teóricos para normalização
+const D1_MAX = 120;  // max teórico bruto de D1
+const D2_MAX = 150;  // max teórico bruto de D2
+const D3_MAX = 90;   // max teórico bruto de D3
+const D4_MAX = 260;  // max teórico bruto de D4
+
+let currentStep = 1;
+const chipVals = {};
+
+// ============================
+// HELPERS
+// ============================
+const fmtBRL = v => 'R$\u00a0' + Math.round(v).toLocaleString('pt-BR');
+
+function getVal(id) {
+  // Correção de segurança: os atributos min="" dos inputs numéricos são apenas
+  // visuais (não há <form> nem checkValidity() acionado), então o valor negativo
+  // digitado direto passava sem checagem alguma. Nenhum campo desta calculadora
+  // representa grandeza negativa, então o piso 0 é aplicado sempre aqui.
+  const el = document.getElementById(id);
+  if (!el) return 0;
+  const v = parseFloat(el.value);
+  return isNaN(v) ? 0 : Math.max(v, 0);
+}
+// Teto de segurança para campos onde um valor absurdo (digitado por engano ou
+// colado sem querer) geraria números financeiros grotescos numa demonstração
+// ao vivo. O teto é generoso — não limita casos reais, só evita ruído grosseiro.
+function getValCapped(id, max) { return Math.min(getVal(id), max); }
+function getChip(field) { return parseFloat(chipVals[field] || 0); }
+function getRange(id) { const el = document.getElementById(id); return el ? parseInt(el.value) : 50; }
+
+// ============================
+// CÁLCULOS BRUTOS
+// ============================
+function calcD1raw() {
+  const tempo = getValCapped('d1_tempo', 300);   // teto 5h de trajeto porta a porta
+  const dist  = getValCapped('d1_dist', 200);    // teto 200km (ida)
+  const bald  = getChip('d1_bald');
+  const espera = getValCapped('d1_espera', 120); // teto 2h de espera
+  const varAmt = getRange('d1_variacao') / 100;
+  const vt    = chipVals['d1_vt'];
+  let score = 0;
+  score += Math.min(tempo / 1.2, 100) * 0.35;
+  score += Math.min(dist / 0.5, 100) * 0.15;
+  score += bald * 6;
+  score += Math.min(espera * 1.5, 20);
+  score += varAmt * 15;
+  if (vt === 'parcial') score += 8;
+  if (vt === 'nao')     score += 16;
+  // dias presenciais agora são multiplicador global (removido daqui)
+  return score;
+}
+
+function calcD2raw() {
+  let score = 0;
+  score += getRange('d2_cansaco') * 0.20;
+  score += getChip('d2_estresse') * 5;
+  score += getRange('d2_conc') * 0.12;
+  score += (100 - getRange('d2_qual')) * 0.10;
+  score += getChip('d2_sono') * 4;
+  score += getChip('d2_desconforto') * 4;
+  score += getChip('d2_lazer') * 4;
+  score += getChip('d2_ansiedade') * 5;
+  score += getChip('d2_energia') * 5;
+  return score;
+}
+
+function calcD3raw() {
+  let score = 0;
+  const atrasos = getVal('d3_atrasos');
+  const faltas  = getVal('d3_faltas');
+  score += Math.min(atrasos * 8, 44) * (11/44);
+  score += Math.min(faltas * 15, 44) * (11/44);
+  score += getChip('d3_recusa') * (11/4);
+  score += Math.min(getVal('d3_licencas') * 3, 36) * (9/36);
+  score += getChip('d3_contrib') * (9/4);
+  score += getChip('d3_homeoff') * (9/4);
+  score += getChip('d3_limite') * (7/4);
+  score += getChip('d3_saicedo') * (7/4);
+  score += getChip('d3_intencao') * (16/4);
+  return score;
+}
+
+function calcD4raw() {
+  let score = 0;
+  score += getChip('d4_dep') * 12;
+  score += (100 - getRange('d4_seg')) * 0.20;
+  score += getChip('d4_app') * 8;
+  score += getChip('d4_risco') * 10;
+  score += getChip('d4_violencia') * 12;
+  score += getRange('d4_vuln') * 0.20;
+  score += getChip('d4_tp_qual') * 10;
+  score += Math.min(getVal('d4_ponto') * 2, 15);
+  // FIX #3 + #20: custo de transporte como % do salário entra em D4
+  const salario = getVal('func_salario') || getVal('empresa_salario_medio') || 3500;
+  const custTransp = getVal('d1_custo');
+  if (custTransp > 0 && salario > 0) {
+    const pctSal = custTransp / (salario * 0.75); // salário líquido aprox
+    if      (pctSal > 0.20) score += 18;
+    else if (pctSal > 0.12) score += 10;
+    else if (pctSal > 0.06) score += 4;
+  }
+  return score;
+}
+
+// ============================
+// FIX #6: DIMENSÕES NORMALIZADAS
+// ============================
+function calcD1() {
+  // FIX #11: burnout não impacta D1, apenas D2
+  return Math.min(calcD1raw() / D1_MAX * 100, 100);
+}
+
+function calcD2() {
+  let raw = calcD2raw();
+  // FIX #11: taxa de burnout real da empresa amplifica D2
+  const burnoutQtd = getVal('empresa_burnout');
+  const totalColabs = Math.max(getVal('empresa_total') || 100, 1);
+  const burnoutRate = Math.min(burnoutQtd / totalColabs, 0.40);
+  raw *= (1 + burnoutRate * 0.50); // até +20% com 40% de burnout
+  return Math.min(raw / D2_MAX * 100, 100);
+}
+
+function calcD3() {
+  let raw = calcD3raw();
+  // FIX #10: turnover real acima de 20% amplifica D3
+  const turnoverReal = getValCapped('empresa_turnover', 100); // teto lógico: turnover não passa de 100%
+  if (turnoverReal > 20) raw *= (1 + (turnoverReal - 20) / 100 * 0.5);
+  return Math.min(raw / D3_MAX * 100, 100);
+}
+
+function calcD4() { return Math.min(calcD4raw() / D4_MAX * 100, 100); }
+
+// ============================
+// FIX #7: MULTIPLICADOR DE DIAS (global)
+// ============================
+function getDaysMult() {
+  const dias = getChip('d1_dias') || 5;
+  const map = {1: 0.32, 2: 0.52, 3: 0.72, 4: 0.88, 5: 1.00};
+  return map[dias] || 1.00;
+}
+
+// ============================
+// FIX #12: FATOR SETORIAL
+// ============================
+function getSectorMult() {
+  const setor = (document.getElementById('empresa_setor') || {}).value || '';
+  const map = {
+    logistica: 1.06, saude: 1.05, industria: 1.04, varejo: 1.03,
+    governo: 0.96, tech: 1.00, financeiro: 1.00, edu: 1.00, servicos: 1.01
+  };
+  return map[setor] || 1.00;
+}
+
+// ============================
+// CÁLCULO PRINCIPAL
+// ============================
+function calcular() {
+  // Validação leve — alterna a classe 'show' nos dois sentidos (antes só ligava,
+  // nunca desligava se o consultor voltasse e corrigisse o campo)
+  const wTempo = document.getElementById('w_d1_tempo');
+  if (wTempo) wTempo.classList.toggle('show', !getVal('d1_tempo'));
+
+  const semSalarioProprio = !getVal('func_salario') && !getVal('empresa_salario_medio');
+  const wSalario = document.getElementById('w_func_salario');
+  if (wSalario) wSalario.classList.toggle('show', semSalarioProprio);
+
+  const d1 = calcD1();
+  const d2 = calcD2();
+  const d3 = calcD3();
+  const d4 = calcD4();
+
+  const daysMult   = getDaysMult();
+  const sectorMult = getSectorMult();
+
+  // Modificadores empresa
+  let mod = 0;
+  if (chipVals['empresa_turno']    === 'noturno')                         mod += 10;
+  if (chipVals['empresa_flex']     === 'nao')                             mod += 8;
+  if (['periferia','fora'].includes(chipVals['empresa_local']))            mod += 8;
+  if (chipVals['empresa_beneficios'] === 'nenhum')                        mod += 5;
+
+  let iim = (d1*0.30 + d2*0.27 + d3*0.25 + d4*0.18) * daysMult * sectorMult;
+  iim = Math.min(iim + mod * 0.3, 100);
+  const iimR = Math.round(iim);
+
+  // Classificação
+  let cls, clsBg, clsColor;
+  if      (iim <= 40) { cls = '🟢 Baixo Impacto';     clsBg = '#e8fbf3'; clsColor = '#0D2B1F'; }
+  else if (iim <= 60) { cls = '🟡 Impacto Moderado';  clsBg = '#fffaeb'; clsColor = '#7a5c00'; }
+  else if (iim <= 80) { cls = '🟠 Alto Impacto';      clsBg = '#fff3e8'; clsColor = '#7a3e00'; }
+  else                { cls = '🔴 Impacto Crítico';   clsBg = '#fff0f0'; clsColor = '#cc3333'; }
+
+  const contextMap = {
+    40: 'Situação estável — colaborador tem condições favoráveis de deslocamento.',
+    60: 'Sinais de desgaste detectados — intervenção preventiva pode evitar escalada de custos.',
+    80: 'Alto impacto operacional — perda de produtividade e risco de turnover significativos.',
+    100: 'Impacto crítico — cada mês sem intervenção adiciona custo acumulado e risco de perda do colaborador.'
+  };
+  const ctxKey = iim <= 40 ? 40 : iim <= 60 ? 60 : iim <= 80 ? 80 : 100;
+
+  // textContent (não innerHTML) por segurança: nome da empresa é texto livre do usuário
+  const nomeEmpresa = document.getElementById('empresa_nome')?.value?.trim();
+  document.getElementById('res_empresa_nome').textContent = nomeEmpresa ? ('Diagnóstico — ' + nomeEmpresa) : '';
+
+  document.getElementById('res_iim').textContent = iimR;
+  const badge = document.getElementById('res_class_badge');
+  badge.textContent = cls;
+  badge.style.background = clsBg;
+  badge.style.color = clsColor;
+  document.getElementById('res_context').textContent = contextMap[ctxKey];
+
+  // ============================
+  // CÁLCULO FINANCEIRO MELHORADO
+  // ============================
+  // Teto de R$200.000/mês — não limita nenhum caso real, só evita que um valor
+  // digitado errado (ex.: salário anual no campo mensal) gere números absurdos.
+  const salario     = getValCapped('func_salario', 200000) || getValCapped('empresa_salario_medio', 200000) || 3500;
+  const fator       = getChip('func_reposicao') || 1.0;
+  const custoBruto  = salario * 1.68;
+
+  // Absenteísmo / perda de produtividade
+  const perdaProd = custoBruto * (iim / 100) * 0.25;
+
+  // FIX #19: Presenteísmo (presente mas rendendo menos — baseado em D2)
+  const presenteismo = custoBruto * (d2 / 100) * 0.12;
+
+  // FIX #13: Custo de turnover melhorado (inclui headhunter + ramp-up + absorção)
+  const turnoverReal  = getValCapped('empresa_turnover', 100);
+  const turnoverCalib = turnoverReal > 0 ? Math.max(turnoverReal / 15, 0.6) : 1.0;
+  const custoTurnover = salario * 12 * fator * 1.4 * turnoverCalib; // +40% real cost
+
+  // Correção: antes o custo de turnover só entrava na conta se iim > 55, criando
+  // um salto artificial entre IIM 54 e 56 sem nenhuma diferença real de risco.
+  // Agora probTurnover (já contínua e linear em iim) carrega o efeito sozinha,
+  // sem portão binário — o risco de turnover cresce suavemente com o IIM inteiro.
+  const probTurnover  = Math.min(iim / 100 * 0.55, 0.55);
+  const custoMensal   = perdaProd + presenteismo + (custoTurnover * probTurnover) / 12;
+
+  // FIX #15: custo por dimensão
+  const dimCosts = {
+    d1: perdaProd * 0.30 * (d1 / Math.max(iim, 1)),
+    d2: (perdaProd + presenteismo) * 0.27 * (d2 / Math.max(iim, 1)),
+    d3: perdaProd * 0.25 * (d3 / Math.max(iim, 1)),
+    d4: perdaProd * 0.18 * (d4 / Math.max(iim, 1)),
+  };
+
+  // Guarda dados para o simulador
+  window._iimData = { d1, d2, d3, d4, iim, salario, fator, custoBruto, custoMensal, perdaProd, presenteismo, custoTurnover };
+
+  // ============================
+  // RENDERIZAÇÃO
+  // ============================
+  renderRadar(d1, d2, d3, d4);
+  renderDimBars(d1, d2, d3, d4);
+  renderDimCosts(dimCosts);
+  renderFinanceiro(perdaProd, presenteismo, custoTurnover, custoMensal, custoBruto, salario);
+  renderProjecao(custoMensal, iim);
+  renderSimulador(iimR, custoMensal);
+  renderIntervencoes(d1, d2, d3, d4, iim, custoMensal);
+  renderRecomendacoes(iim, d1, d2, d3, d4);
+  renderEmpresa(custoMensal);
+
+  goTo(7);
+}
+
+// ============================
+// FIX #18: RADAR CHART SVG
+// ============================
+function renderRadar(d1, d2, d3, d4) {
+  const cx = 150, cy = 150, r = 95;
+  const vals = [d1/100, d2/100, d3/100, d4/100];
+  const angles = [-Math.PI/2, 0, Math.PI/2, Math.PI]; // top, right, bottom, left
+  const labels = ['D1', 'D2', 'D3', 'D4'];
+  const subs   = ['Trajeto','Estresse','Pontual.','Vulnerab.'];
+  const scores  = [Math.round(d1), Math.round(d2), Math.round(d3), Math.round(d4)];
+
+  // Anéis de fundo
+  let rings = '';
+  [0.25, 0.5, 0.75, 1.0].forEach((pct, i) => {
+    const pts = angles.map(a => (cx + pct*r*Math.cos(a)).toFixed(1) + ',' + (cy + pct*r*Math.sin(a)).toFixed(1)).join(' ');
+    rings += '<polygon points="' + pts + '" fill="none" stroke="rgba(13,43,31,' + (i===3?'0.18':'0.07') + ')" stroke-width="1"/>';
+  });
+  // Label 50 no eixo
+  rings += '<text x="' + (cx+3) + '" y="' + (cy - 0.5*r - 3).toFixed(1) + '" font-size="9" fill="#9BB5A8" font-family="DM Sans,sans-serif">50</text>';
+
+  // Eixos
+  let axes = '';
+  angles.forEach(a => {
+    axes += '<line x1="' + cx + '" y1="' + cy + '" x2="' + (cx + r*Math.cos(a)).toFixed(1) + '" y2="' + (cy + r*Math.sin(a)).toFixed(1) + '" stroke="rgba(13,43,31,0.12)" stroke-width="1"/>';
+  });
+
+  // Polígono de dados
+  const pts = vals.map((v, i) => (cx + v*r*Math.cos(angles[i])).toFixed(1) + ',' + (cy + v*r*Math.sin(angles[i])).toFixed(1)).join(' ');
+
+  // Pontos
+  const dots = vals.map((v, i) => {
+    const px = (cx + v*r*Math.cos(angles[i])).toFixed(1);
+    const py = (cy + v*r*Math.sin(angles[i])).toFixed(1);
+    return '<circle cx="' + px + '" cy="' + py + '" r="4" fill="#2ECC8A" stroke="white" stroke-width="2"/>';
+  }).join('');
+
+  // Labels externos
+  const lOff = r + 18;
+  const lConf = [
+    {dx:0, dy:-20, anchor:'middle'},
+    {dx:20, dy:5,  anchor:'start'},
+    {dx:0, dy:22,  anchor:'middle'},
+    {dx:-20, dy:5, anchor:'end'},
+  ];
+  let lbls = '';
+  angles.forEach((a, i) => {
+    const lx = (cx + lOff*Math.cos(a) + lConf[i].dx).toFixed(1);
+    const ly = (cy + lOff*Math.sin(a) + lConf[i].dy).toFixed(1);
+    lbls += '<text x="' + lx + '" y="' + ly + '" text-anchor="' + lConf[i].anchor + '" font-size="11" font-weight="600" fill="#5A7568" font-family="DM Sans,sans-serif">' + labels[i] + '</text>';
+    lbls += '<text x="' + lx + '" y="' + (parseFloat(ly)+12) + '" text-anchor="' + lConf[i].anchor + '" font-size="10" fill="#9BB5A8" font-family="DM Sans,sans-serif">' + subs[i] + '</text>';
+    lbls += '<text x="' + lx + '" y="' + (parseFloat(ly)+25) + '" text-anchor="' + lConf[i].anchor + '" font-size="12" font-weight="700" fill="#2ECC8A" font-family="DM Sans,sans-serif">' + scores[i] + '</text>';
+  });
+
+  document.getElementById('radarChart').innerHTML =
+    '<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;overflow:visible;">' +
+    rings + axes +
+    '<polygon points="' + pts + '" fill="rgba(46,204,138,0.15)" stroke="#2ECC8A" stroke-width="2"/>' +
+    dots + lbls + '</svg>';
+}
+
+// ============================
+// BARRAS DE SCORE
+// ============================
+function renderDimBars(d1, d2, d3, d4) {
+  const dims = [
+    {label:'D1 · Trajeto',   val:d1, w:'30%'},
+    {label:'D2 · Estresse',  val:d2, w:'27%'},
+    {label:'D3 · Pontual.',  val:d3, w:'25%'},
+    {label:'D4 · Vulnerab.', val:d4, w:'18%'},
+  ];
+  document.getElementById('dimBars').innerHTML = dims.map(d =>
+    '<div class="dim-bar-row">' +
+    '<div class="dim-bar-name">' + d.label + '</div>' +
+    '<div class="bar-track"><div class="bar-fill" style="width:' + Math.round(d.val) + '%"></div></div>' +
+    '<div class="dim-bar-val">' + Math.round(d.val) + '</div>' +
+    '</div>'
+  ).join('');
+}
+
+// ============================
+// FIX #15: CUSTO POR DIMENSÃO
+// ============================
+function renderDimCosts(dimCosts) {
+  const items = [
+    {label:'D1 · Trajeto',   key:'d1'},
+    {label:'D2 · Estresse',  key:'d2'},
+    {label:'D3 · Pontual.',  key:'d3'},
+    {label:'D4 · Vulnerab.', key:'d4'},
+  ];
+  const maxVal = Math.max(...Object.values(dimCosts), 1);
+  document.getElementById('dimCostBars').innerHTML = items.map(it => {
+    const v = dimCosts[it.key] || 0;
+    const pct = (v / maxVal * 100).toFixed(0);
+    return '<div class="dim-cost-row">' +
+      '<div class="dim-bar-name" style="font-size:0.78rem;">' + it.label + '</div>' +
+      '<div class="cost-bar-track"><div class="cost-bar-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="dim-cost-val">' + fmtBRL(v) + '/mês</div>' +
+      '</div>';
+  }).join('');
+}
+
+// ============================
+// FIX #19: FINANCEIRO COM PRESENTEÍSMO
+// ============================
+function renderFinanceiro(perdaProd, presenteismo, custoTurnover, custoMensal, custoBruto, salario) {
+  document.getElementById('cardsFinanceiro').innerHTML = [
+    {label:'Custo bruto mensal',       val:custoBruto,             sub:'salário + 68% encargos',     cls:''},
+    {label:'Perda de produtividade',   val:perdaProd,              sub:'absenteísmo + desempenho',   cls:''},
+    {label:'Presenteísmo estimado',    val:presenteismo,           sub:'presente, rendendo menos',   cls:'hl'},
+    {label:'Custo de reposição',       val:custoTurnover,          sub:'salário × fator × 1,4',      cls:''},
+    {label:'Impacto estimado / mês',   val:custoMensal,            sub:'soma ponderada pelo IIM',    cls:'hl'},
+  ].map(c =>
+    '<div class="metric-card ' + c.cls + '">' +
+    '<div class="mc-label">' + c.label + '</div>' +
+    '<div class="mc-val">' + fmtBRL(c.val) + '</div>' +
+    '<div class="mc-sub">' + c.sub + '</div>' +
+    '</div>'
+  ).join('');
+}
+
+// ============================
+// FIX #17: PROJEÇÃO 12 MESES
+// ============================
+function renderProjecao(custoMensal, iim) {
+  const milestones = [1, 3, 6, 12];
+  const rows = milestones.map(m => {
+    const acum = custoMensal * m;
+    const isLast = m === 12;
+    return '<tr' + (isLast ? '' : '') + '>' +
+      '<td>' + (m === 1 ? 'Agora (1 mês)' : m + ' meses') + '</td>' +
+      '<td class="proj-num' + (isLast ? ' red' : '') + '">' + fmtBRL(acum) + '</td>' +
+      '<td style="color:var(--text-muted);font-size:0.82rem;">' + (isLast ? '⚠ custo acumulado anual' : 'custo acumulado') + '</td>' +
+      '</tr>';
+  }).join('');
+
+  const nota = iim > 60
+    ? '<p class="proj-note">⚠ Com IIM acima de 60, o risco de turnover é ponderado mensalmente. A perda de um colaborador de alto custo de reposição pode triplicar o impacto de um único mês. Cada mês de inação é custo composto.</p>'
+    : '<p class="proj-note">IIM moderado — o custo acumulado é real mas gerenciável com intervenções preventivas de baixo esforço.</p>';
+
+  document.getElementById('projecaoBox').innerHTML =
+    '<div style="overflow-x:auto;">' +
+    '<table class="proj-table">' +
+    '<thead><tr><th>Horizonte</th><th>Custo acumulado</th><th>Observação</th></tr></thead>' +
+    '<tbody>' + rows + '</tbody>' +
+    '</table></div>' + nota;
+}
+
+// ============================
+// FIX #14: SIMULADOR DE ECONOMIA
+// ============================
+function renderSimulador(iimAtual, custoMensalAtual) {
+  if (iimAtual <= 15) {
+    document.getElementById('simuladorBox').innerHTML = '<p style="color:var(--text-muted);font-size:0.88rem;">IIM já está em nível baixo — foco em manutenção preventiva.</p>';
+    return;
+  }
+  const minTarget = Math.max(15, Math.round(iimAtual * 0.30));
+  const defaultTarget = Math.round(iimAtual * 0.62);
+
+  document.getElementById('simuladorBox').innerHTML =
+    '<div class="sim-header">' +
+      '<div class="sim-info"><span class="sim-lbl">IIM Atual</span><span class="sim-score">' + iimAtual + '</span></div>' +
+      '<div class="sim-arrow">→</div>' +
+      '<div class="sim-info"><span class="sim-lbl">IIM Alvo</span><span class="sim-score accent" id="simVal">' + defaultTarget + '</span></div>' +
+    '</div>' +
+    '<input type="range" min="' + minTarget + '" max="' + (iimAtual - 5) + '" value="' + defaultTarget + '" ' +
+      'oninput="window.updateSimulator(this.value)">' +
+    '<div id="simResults"></div>';
+
+  window.updateSimulator(defaultTarget);
+}
+
+window.updateSimulator = function(target) {
+  const data = window._iimData;
+  if (!data) return;
+  const t = parseInt(target);
+  document.getElementById('simVal').textContent = t;
+  const reducao = 1 - (t / data.iim);
+  const economiaM = data.custoMensal * reducao;
+  const economiaA = economiaM * 12;
+  const redPts    = Math.round(data.iim - t);
+
+  document.getElementById('simResults').innerHTML =
+    '<div class="sim-economy">' +
+      '<div class="sim-eco-item"><span>Redução no IIM</span><strong>−' + redPts + ' pontos (' + Math.round(reducao*100) + '%)</strong></div>' +
+      '<div class="sim-eco-item hl"><span>Economia mensal estimada</span><strong>' + fmtBRL(economiaM) + '/mês</strong></div>' +
+      '<div class="sim-eco-item hl"><span>Economia anual estimada</span><strong>' + fmtBRL(economiaA) + '/ano</strong></div>' +
+    '</div>';
+};
+
+// ============================
+// FIX #16: INTERVENÇÕES COM ROI
+// ============================
+function renderIntervencoes(d1, d2, d3, d4, iim, custoMensalAtual) {
+  const INTERV = [
+    {label:'Flexibilidade de horário (±30 min)',     esforco:'Baixo',  cls:'esf-low',  dI:{d1:10,d2:9,d3:5,d4:0},  desc:'Reduz pressão de D1 e ansiedade antecipatória de D2'},
+    {label:'Vale-transporte cobertura integral',     esforco:'Baixo',  cls:'esf-low',  dI:{d1:8,d2:0,d3:3,d4:12}, desc:'Elimina custo descoberto — reduz vulnerabilidade financeira'},
+    {label:'Auxílio-mobilidade (crédito livre)',     esforco:'Baixo',  cls:'esf-low',  dI:{d1:5,d2:4,d3:0,d4:15}, desc:'Flexibilidade modal — colaborador escolhe o melhor trajeto'},
+    {label:'Híbrido 1 dia/semana',                  esforco:'Médio',  cls:'esf-med',  dI:{d1:18,d2:14,d3:12,d4:0},desc:'Reduz exposição ao deslocamento em ~20%'},
+    {label:'Híbrido 2 dias/semana',                 esforco:'Médio',  cls:'esf-med',  dI:{d1:28,d2:22,d3:20,d4:0},desc:'Reduz exposição em ~40% — maior impacto global no IIM'},
+    {label:'Programa de saúde mental e bem-estar',  esforco:'Médio',  cls:'esf-med',  dI:{d1:0,d2:22,d3:10,d4:0}, desc:'Suporte psicológico reduz burnout e presenteísmo (D2)'},
+    {label:'Fretado corporativo rotas críticas',     esforco:'Alto',   cls:'esf-high', dI:{d1:25,d2:12,d3:10,d4:20},desc:'Elimina variabilidade e reduz D4 — transfere risco para a empresa'},
+  ];
+
+  const dimVals = {d1, d2, d3, d4};
+  const esforcoW = {Baixo:1, Médio:2, Alto:3};
+
+  const scored = INTERV.map(inv => {
+    const nD1 = Math.max(d1 - inv.dI.d1, 0);
+    const nD2 = Math.max(d2 - inv.dI.d2, 0);
+    const nD3 = Math.max(d3 - inv.dI.d3, 0);
+    const nD4 = Math.max(d4 - inv.dI.d4, 0);
+    const newIIM = nD1*0.30 + nD2*0.27 + nD3*0.25 + nD4*0.18;
+    const iimRed  = Math.max(iim - newIIM, 0);
+    const economiaM = custoMensalAtual * (iimRed / Math.max(iim, 1));
+    return {...inv, iimRed, economiaM, roi: economiaM / esforcoW[inv.esforco]};
+  });
+
+  // Ordena por ROI (economia / esforço)
+  scored.sort((a, b) => b.roi - a.roi);
+  const top5 = scored.slice(0, 5);
+
+  document.getElementById('intervTable').innerHTML = top5.map(inv =>
+    '<div class="interv-row">' +
+      '<div class="interv-main"><div class="interv-main-label">' + inv.label + '</div><div class="interv-desc">' + inv.desc + '</div></div>' +
+      '<div><span class="esforco-badge ' + inv.cls + '">' + inv.esforco + '</span></div>' +
+      '<div class="interv-iim">−' + Math.round(inv.iimRed) + ' pts</div>' +
+      '<div class="interv-eco">' + fmtBRL(inv.economiaM) + '/mês</div>' +
+    '</div>'
+  ).join('');
+}
+
+// ============================
+// FIX #23: RECOMENDAÇÕES URBANFLOW
+// ============================
+function renderRecomendacoes(iim, d1, d2, d3, d4) {
+  let titulo, items;
+  const hiD = [
+    d1 > 70 ? 'D1 (trajeto)' : null,
+    d2 > 70 ? 'D2 (estresse)' : null,
+    d3 > 70 ? 'D3 (pontualidade)' : null,
+    d4 > 70 ? 'D4 (vulnerabilidade)' : null,
+  ].filter(Boolean).join(', ') || 'todas as dimensões';
+
+  if (iim <= 40) {
+    titulo = '✅ Situação estável — plano de manutenção preventiva';
+    items = [
+      'Monitoramento anual do IIM — manter linha de base para comparação setorial',
+      'Avaliar benefícios complementares de mobilidade (auxílio-mobilidade flexível)',
+      'Consolidar como empresa referência em mobilidade no setor',
+      'Diagnóstico UrbanFlow anual para detectar mudanças no perfil residencial da equipe',
+    ];
+  } else if (iim <= 60) {
+    titulo = '⚠ Sinais de desgaste em ' + hiD + ' — intervenção preventiva recomendada';
+    items = [
+      'Revisar cobertura do vale-transporte — custo descoberto é vulnerabilidade financeira direta',
+      'Avaliar flexibilidade de horário de entrada (±30 min) — intervenção de custo baixo e alto impacto em D1 e D2',
+      'Mapeamento de alternativas de modal para rotas críticas identificadas na etapa D1',
+      'Implementar pesquisa de mobilidade semestral — dado longitudinal fortalece o diagnóstico',
+      'Diagnóstico UrbanFlow de origem-destino para mapear concentração de colaboradores por bairro',
+    ];
+  } else if (iim <= 80) {
+    titulo = '🚨 Alto impacto em ' + hiD + ' — intervenção necessária';
+    items = [
+      'Auditoria completa de benefícios de mobilidade — comparar cobertura real vs. custo de transporte declarado',
+      'Implementar regime híbrido para cargos compatíveis — maior alavanca individual de redução do IIM',
+      'Avaliar fretado corporativo para rotas de alta densidade — UrbanFlow realiza mapeamento de viabilidade',
+      'Programa de auxílio-mobilidade para colaboradores com D4 alto (vulnerabilidade modal)',
+      'Análise de intenção de saída — D3 com score alto indica risco imediato de perda de equipe',
+      'Diagnóstico UrbanFlow completo recomendado — estimativa de ROI da intervenção antes de decidir investimento',
+    ];
+  } else {
+    titulo = '🔴 Impacto crítico — ação imediata necessária';
+    items = [
+      'Reunião emergencial RH + liderança para plano de mobilidade com prazo definido',
+      'Implementação imediata de flexibilidade de horário — alívio rápido sem custo operacional',
+      'Avaliar home office parcial como medida de curto prazo enquanto plano estrutural é desenvolvido',
+      'Revisão urgente do pacote de benefícios de mobilidade — o custo de inação supera o custo da intervenção',
+      'Mapeamento individual para colaboradores com IIM > 85 — risco crítico de perda iminente',
+      'Diagnóstico UrbanFlow prioritário — cada mês sem dado estruturado é custo acumulado não mensurado',
+    ];
+  }
+
+  document.getElementById('recTitulo').textContent = titulo;
+  document.getElementById('recList').innerHTML = items.map(i => '<li>' + i + '</li>').join('');
+}
+
+// ============================
+// PROJEÇÃO EMPRESA
+// ============================
+function renderEmpresa(custoMensal) {
+  const totalPresencial = getVal('empresa_presencial_qtd') || getVal('empresa_total') || 100;
+  const faturamento     = getVal('empresa_faturamento') || 0;
+  const impactoEmpresaM = custoMensal * totalPresencial;
+  const impactoEmpresaA = impactoEmpresaM * 12;
+  const pctFat = faturamento > 0 ? ((impactoEmpresaA / faturamento) * 100).toFixed(1) : '—';
+
+  document.getElementById('cardsEmpresa').innerHTML = [
+    {label:'Colaboradores presenciais', val:Math.round(totalPresencial), sub:'base do cálculo',             isMoney:false, cls:''},
+    {label:'Impacto mensal estimado',   val:impactoEmpresaM,             sub:'projeção para toda a equipe', isMoney:true,  cls:''},
+    {label:'Impacto anual estimado',    val:impactoEmpresaA,             sub:'acumulado 12 meses',          isMoney:true,  cls:'hl2'},
+    {label:'% do faturamento',          val:pctFat,                      sub:'comprometido com mobilidade', isMoney:false, cls:''},
+  ].map(c =>
+    '<div class="metric-card ' + c.cls + '">' +
+    '<div class="mc-label">' + c.label + '</div>' +
+    '<div class="mc-val' + (c.cls === 'hl2' ? ' warn' : '') + '">' + (c.isMoney ? fmtBRL(c.val) : c.val + (c.label.includes('%') ? '%' : '')) + '</div>' +
+    '<div class="mc-sub">' + c.sub + '</div>' +
+    '</div>'
+  ).join('');
+}
+
+// ============================
+// NAVEGAÇÃO
+// ============================
+function buildSteps() {
+  const row = document.getElementById('stepsRow');
+  STEPS.forEach((s, i) => {
+    if (i > 0) {
+      const sep = document.createElement('div');
+      sep.className = 'step-sep';
+      row.appendChild(sep);
+    }
+    const item = document.createElement('div');
+    item.className = 'step-item' + (s.id === 1 ? ' active' : '');
+    item.id = 'step-nav-' + s.id;
+    item.onclick = () => { if (s.id <= currentStep) goTo(s.id); };
+    item.innerHTML = '<div class="step-num">' + s.id + '</div><div class="step-label">' + s.label + '</div>';
+    row.appendChild(item);
+  });
+}
+
+function goTo(n) {
+  // FIX #1: esconde todos os section-cards
+  document.querySelectorAll('.section-card').forEach(c => c.classList.remove('active'));
+  // FIX #1: resultado controlado pelo próprio ID, não por section-card
+  document.getElementById('resultado').classList.remove('active');
+
+  if (n <= 6) {
+    const card = document.getElementById('step-' + n);
+    if (card) card.classList.add('active');
+  } else {
+    document.getElementById('resultado').classList.add('active');
+  }
+
+  currentStep = n;
+  updateNav();
+  const pw = document.querySelector('.progress-wrap');
+  if (pw) window.scrollTo({top: pw.offsetTop - 80, behavior: 'smooth'});
+}
+
+function updateNav() {
+  STEPS.forEach(s => {
+    const item = document.getElementById('step-nav-' + s.id);
+    if (!item) return;
+    item.className = 'step-item';
+    if (s.id < currentStep)  item.classList.add('done');
+    if (s.id === currentStep) item.classList.add('active');
+  });
+  const pct = (currentStep / STEPS.length) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function updateScale(el, lblId, labels) {
+  const v   = parseInt(el.value);
+  const idx = Math.round(v / 100 * (labels.length - 1));
+  document.getElementById(lblId).textContent = labels[idx];
+}
+
+// ============================
+// VALIDAÇÃO OBRIGATÓRIA — bloqueia avanço sem todas as perguntas respondidas
+// ============================
+// Percorre cada .field da etapa: se contém input de texto/número/select, exige
+// valor preenchido; se contém um grupo de chips, exige um chip selecionado.
+// Sliders (input[type=range]) sempre carregam um valor padrão e por isso não
+// têm um estado "não respondido" distinguível — não são bloqueados por aqui.
+function clearRequiredMark(fieldEl) {
+  if (!fieldEl) return;
+  fieldEl.classList.remove('field-required-missing');
+  const note = fieldEl.querySelector('.field-required-note');
+  if (note) note.classList.remove('show');
+}
+
+function validateStep(stepNum) {
+  const stepEl = document.getElementById('step-' + stepNum);
+  if (!stepEl) return true;
+
+  let allValid = true;
+  let firstInvalid = null;
+
+  stepEl.querySelectorAll('.field').forEach(fieldEl => {
+    const input = fieldEl.querySelector('input[type="text"], input[type="number"], select');
+    const chipGroup = fieldEl.querySelector('.chips[data-field]');
+    let missing = false;
+
+    if (input) {
+      const val = (input.value || '').toString().trim();
+      missing = (val === '') || (input.type === 'number' && isNaN(parseFloat(val)));
+    } else if (chipGroup) {
+      const field = chipGroup.dataset.field;
+      missing = (chipVals[field] === null || chipVals[field] === undefined);
+    } else {
+      return; // campo só com slider — não bloqueia
+    }
+
+    if (missing) {
+      allValid = false;
+      fieldEl.classList.add('field-required-missing');
+      let note = fieldEl.querySelector('.field-required-note');
+      if (!note) {
+        note = document.createElement('div');
+        note.className = 'field-required-note';
+        note.textContent = 'Campo obrigatório — responda para continuar';
+        fieldEl.appendChild(note);
+      }
+      note.classList.add('show');
+      if (!firstInvalid) firstInvalid = fieldEl;
+    } else {
+      clearRequiredMark(fieldEl);
+    }
+  });
+
+  if (firstInvalid) firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
+  return allValid;
+}
+
+function tryAdvance(fromStep, toStep) {
+  if (!validateStep(fromStep)) return;
+  goTo(toStep);
+}
+
+function tryCalcular() {
+  if (!validateStep(6)) return;
+  calcular();
+}
+
+// Limpa o destaque assim que o consultor preenche texto/número/select
+document.querySelectorAll('input[type="text"], input[type="number"], select').forEach(el => {
+  el.addEventListener('input',  () => clearRequiredMark(el.closest('.field')));
+  el.addEventListener('change', () => clearRequiredMark(el.closest('.field')));
+});
+
+// ============================
+// CHIPS
+// ============================
+document.querySelectorAll('.chips').forEach(group => {
+  const field = group.dataset.field;
+  chipVals[field] = null;
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      chipVals[field] = chip.dataset.val;
+      clearRequiredMark(group.closest('.field'));
+    });
+  });
+});
+
+// ============================
+// RESET
+// ============================
+function resetForm() {
+  document.querySelectorAll('input[type="text"], input[type="number"]').forEach(el => el.value = '');
+  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+  document.querySelectorAll('.chip.selected').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('input[type="range"]').forEach(el => el.value = 50);
+  document.querySelectorAll('.scale-val').forEach(el => el.textContent = '');
+  document.querySelectorAll('.warn-msg').forEach(el => el.classList.remove('show'));
+  document.querySelectorAll('.field-required-missing').forEach(el => el.classList.remove('field-required-missing'));
+  document.querySelectorAll('.field-required-note').forEach(el => el.classList.remove('show'));
+  Object.keys(chipVals).forEach(k => chipVals[k] = null);
+  window._iimData = null;
+  goTo(1);
+}
+
+// INIT
+buildSteps();
+</script>
+</body>
+</html>
