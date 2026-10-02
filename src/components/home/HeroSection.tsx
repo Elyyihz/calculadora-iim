@@ -72,11 +72,11 @@ export const HeroSection: React.FC = () => {
         {/* Hero Subtitle */}
         <p
           style={{
-            color: 'rgba(255, 255, 255, 0.72)',
+            color: 'rgba(255, 255, 255, 0.92)',
             maxWidth: '680px',
             margin: '0 auto 2.5rem',
             fontSize: '1.1rem',
-            fontWeight: 300,
+            fontWeight: 400,
             lineHeight: 1.7
           }}
         >
@@ -119,13 +119,15 @@ export const HeroSection: React.FC = () => {
           {HERO_STATS.map((stat, idx) => (
             <div
               key={idx}
+              className="card-blue"
               style={{
-                background: 'rgba(19, 57, 102, 0.45)',
-                border: '1px solid rgba(46, 158, 91, 0.18)',
+                background: 'rgba(19, 57, 102, 0.75)',
+                border: '1px solid rgba(46, 158, 91, 0.35)',
                 borderRadius: 'var(--radius)',
                 padding: '1.5rem 1.25rem',
                 backdropFilter: 'blur(8px)',
                 textAlign: 'left',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
                 transition: 'transform var(--transition-fast)'
               }}
             >
@@ -153,9 +155,9 @@ export const HeroSection: React.FC = () => {
               </div>
               <div
                 style={{
-                  fontSize: '0.78rem',
-                  color: 'var(--text-faint)',
-                  lineHeight: 1.4
+                  fontSize: '0.80rem',
+                  color: 'rgba(255, 255, 255, 0.85)',
+                  lineHeight: 1.45
                 }}
               >
                 {stat.subtext}

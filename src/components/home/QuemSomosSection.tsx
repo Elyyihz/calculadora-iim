@@ -119,6 +119,7 @@ export const QuemSomosSection: React.FC = () => {
 
           {/* RIGHT: METHODOLOGY HIGHLIGHTS */}
           <div
+            className="card-blue"
             style={{
               background: 'linear-gradient(145deg, var(--brand) 0%, var(--brand-mid) 100%)',
               color: '#FFFFFF',
@@ -184,7 +185,7 @@ export const QuemSomosSection: React.FC = () => {
                     <div style={{ fontWeight: 600, fontSize: '0.92rem', color: '#FFFFFF', marginBottom: '2px' }}>
                       {item.title}
                     </div>
-                    <div style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.45 }}>
+                    <div style={{ fontSize: '0.84rem', color: 'rgba(255, 255, 255, 0.90)', lineHeight: 1.5 }}>
                       {item.desc}
                     </div>
                   </div>
@@ -200,11 +201,11 @@ export const QuemSomosSection: React.FC = () => {
             <span
               style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: '0.72rem',
+                fontSize: '0.75rem',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-                color: 'var(--text-faint)',
-                fontWeight: 600
+                color: 'var(--accent)',
+                fontWeight: 700
               }}
             >
               Pilares de Atuação

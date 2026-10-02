@@ -7,6 +7,7 @@ export const CtaBanner: React.FC = () => {
     <section style={{ padding: '0 0 5rem' }}>
       <div className="container">
         <div
+          className="card-blue"
           style={{
             background: 'linear-gradient(135deg, var(--brand) 0%, var(--brand-mid) 100%)',
             borderRadius: 'var(--radius)',
@@ -14,7 +15,7 @@ export const CtaBanner: React.FC = () => {
             color: '#FFFFFF',
             position: 'relative',
             overflow: 'hidden',
-            border: '1px solid rgba(46, 158, 91, 0.25)',
+            border: '1px solid rgba(46, 158, 91, 0.3)',
             boxShadow: 'var(--shadow-lg)'
           }}
         >
@@ -26,7 +27,7 @@ export const CtaBanner: React.FC = () => {
               top: '-20%',
               width: '400px',
               height: '400px',
-              background: 'radial-gradient(circle, rgba(46, 158, 91, 0.12) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(46, 158, 91, 0.15) 0%, transparent 70%)',
               pointerEvents: 'none'
             }}
           />
@@ -47,16 +48,16 @@ export const CtaBanner: React.FC = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  padding: '4px 12px',
+                  padding: '4px 14px',
                   borderRadius: '16px',
-                  background: 'rgba(46, 158, 91, 0.15)',
+                  background: 'rgba(46, 158, 91, 0.18)',
                   color: 'var(--accent)',
-                  fontSize: '0.74rem',
-                  fontWeight: 600,
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   marginBottom: '1rem',
-                  border: '1px solid rgba(46, 158, 91, 0.3)'
+                  border: '1px solid rgba(46, 158, 91, 0.4)'
                 }}
               >
                 <Calculator size={14} />
@@ -68,6 +69,7 @@ export const CtaBanner: React.FC = () => {
                   fontFamily: 'var(--font-display)',
                   fontSize: 'clamp(1.8rem, 3vw, 2.4rem)',
                   fontWeight: 800,
+                  color: '#FFFFFF',
                   lineHeight: 1.2,
                   marginBottom: '1rem'
                 }}
@@ -77,9 +79,9 @@ export const CtaBanner: React.FC = () => {
 
               <p
                 style={{
-                  color: 'rgba(255, 255, 255, 0.75)',
-                  fontSize: '0.98rem',
-                  lineHeight: 1.6,
+                  color: 'rgba(255, 255, 255, 0.92)',
+                  fontSize: '1rem',
+                  lineHeight: 1.65,
                   marginBottom: '1.8rem'
                 }}
               >
@@ -101,19 +103,19 @@ export const CtaBanner: React.FC = () => {
             {/* 4 DIMENSIONS PREVIEW PILLS */}
             <div
               style={{
-                background: 'rgba(255, 255, 255, 0.04)',
+                background: 'rgba(255, 255, 255, 0.08)',
                 borderRadius: 'var(--radius)',
                 padding: '1.75rem',
-                border: '1px solid rgba(255, 255, 255, 0.12)'
+                border: '1px solid rgba(255, 255, 255, 0.18)'
               }}
             >
               <div
                 style={{
-                  fontSize: '0.76rem',
+                  fontSize: '0.78rem',
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   color: 'var(--accent)',
-                  fontWeight: 600,
+                  fontWeight: 700,
                   marginBottom: '1rem'
                 }}
               >
@@ -149,18 +151,18 @@ export const CtaBanner: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '12px',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      padding: '10px 14px',
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      padding: '12px 14px',
                       borderRadius: 'var(--radius-sm)',
-                      border: '1px solid rgba(255, 255, 255, 0.08)'
+                      border: '1px solid rgba(255, 255, 255, 0.12)'
                     }}
                   >
                     <div style={{ flexShrink: 0 }}>{dim.icon}</div>
                     <div>
-                      <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#fff' }}>
+                      <div style={{ fontSize: '0.88rem', fontWeight: 600, color: '#FFFFFF' }}>
                         {dim.title}
                       </div>
-                      <div style={{ fontSize: '0.74rem', color: 'rgba(255, 255, 255, 0.6)' }}>
+                      <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.88)', lineHeight: 1.45 }}>
                         {dim.desc}
                       </div>
                     </div>

@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
             <p
               style={{
                 fontSize: '0.88rem',
-                color: 'rgba(255, 255, 255, 0.65)',
+                color: 'rgba(255, 255, 255, 0.88)',
                 lineHeight: 1.6,
                 marginBottom: '1.5rem'
               }}
@@ -105,11 +105,11 @@ export const Footer: React.FC = () => {
                     href={item.href}
                     style={{
                       fontSize: '0.88rem',
-                      color: 'rgba(255, 255, 255, 0.7)',
+                      color: 'rgba(255, 255, 255, 0.88)',
                       transition: 'color var(--transition-fast)'
                     }}
                     onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.88)')}
                   >
                     {item.label}
                   </a>
@@ -148,19 +148,19 @@ export const Footer: React.FC = () => {
               Consultoria & Diagnóstico
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <li style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+              <li style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.88)' }}>
                 Auditoria de Comutação Corporativa
               </li>
-              <li style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+              <li style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.88)' }}>
                 Dimensionamento de Frotas e Escopo 3
               </li>
-              <li style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+              <li style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.88)' }}>
                 Modelagem de Políticas Híbridas
               </li>
-              <li style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+              <li style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.88)' }}>
                 Planos de Mobilidade Sustentável (PMS)
               </li>
-              <li style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+              <li style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.88)' }}>
                 Simulação Financeira & Economia de Custos
               </li>
             </ul>
@@ -183,7 +183,7 @@ export const Footer: React.FC = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                 <MapPin size={18} color="var(--accent)" style={{ flexShrink: 0, marginTop: '3px' }} />
-                <span style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+                <span style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.88)' }}>
                   {COMPANY_INFO.address}
                 </span>
               </div>
@@ -191,14 +191,14 @@ export const Footer: React.FC = () => {
                 <Mail size={18} color="var(--accent)" style={{ flexShrink: 0 }} />
                 <a
                   href={`mailto:${COMPANY_INFO.email}`}
-                  style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)' }}
+                  style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.88)' }}
                 >
                   {COMPANY_INFO.email}
                 </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Phone size={18} color="var(--accent)" style={{ flexShrink: 0 }} />
-                <span style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+                <span style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.88)' }}>
                   {COMPANY_INFO.phone}
                 </span>
               </div>
@@ -217,12 +217,12 @@ export const Footer: React.FC = () => {
             justifyContent: 'space-between',
             gap: '1.5rem',
             fontSize: '0.8rem',
-            color: 'var(--text-faint)'
+            color: 'rgba(255, 255, 255, 0.82)'
           }}
         >
           <div>
             © {new Date().getFullYear()} UrbanFlow Consultoria. Todos os direitos reservados.
-            <span style={{ marginLeft: '12px', opacity: 0.6 }}>
+            <span style={{ marginLeft: '12px', opacity: 0.85 }}>
               Calculadora IIM v3.0 integrada.
             </span>
           </div>

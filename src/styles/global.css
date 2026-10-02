@@ -29,6 +29,18 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.25;
 }
 
+/* Headings inside any dark, navy or blue containers MUST be white */
+.card-blue h1, .card-blue h2, .card-blue h3, .card-blue h4, .card-blue h5, .card-blue h6,
+.card-dark h1, .card-dark h2, .card-dark h3, .card-dark h4, .card-dark h5, .card-dark h6,
+.bg-brand h1, .bg-brand h2, .bg-brand h3, .bg-brand h4, .bg-brand h5, .bg-brand h6,
+header h1, header h2, header h3, header h4,
+footer h1, footer h2, footer h3, footer h4,
+.res-hero h1, .res-hero h2, .res-hero h3, .res-hero h4,
+.conversion-cta-card h1, .conversion-cta-card h2, .conversion-cta-card h3, .conversion-cta-card h4,
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, [data-theme="dark"] h4 {
+  color: #FFFFFF !important;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -201,6 +213,27 @@ img {
 
 .text-faint {
   color: var(--text-faint);
+}
+
+/* Blue Cards & Dark Container Text Visibility Helpers */
+.card-blue,
+.card-dark {
+  color: #FFFFFF;
+}
+
+.card-blue p,
+.card-dark p {
+  color: rgba(255, 255, 255, 0.90);
+}
+
+.card-blue .text-muted,
+.card-dark .text-muted {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.card-blue .text-faint,
+.card-dark .text-faint {
+  color: rgba(255, 255, 255, 0.78);
 }
 
 /* Accessibility */
