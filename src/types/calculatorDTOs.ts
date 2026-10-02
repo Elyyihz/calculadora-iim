@@ -3,6 +3,8 @@
  * Strictly typed inputs for every step of the wizard
  */
 
+export type BeneficioTipo = 'nenhum' | 'vt' | 'vt_extra' | 'fretado' | 'estacionamento' | 'auxilio';
+
 export interface EmpresaDTO {
   empresa_nome: string;
   empresa_setor: string;
@@ -17,7 +19,7 @@ export interface EmpresaDTO {
   empresa_burnout: number | '';
   empresa_faturamento: number | '';
   empresa_salario_medio: number | '';
-  empresa_beneficios: 'nenhum' | 'vt' | 'vt_extra' | 'fretado' | 'estacionamento' | 'auxilio' | '';
+  empresa_beneficios: BeneficioTipo[];
   empresa_ciclista: 'sim' | 'nao' | '';
 }
 

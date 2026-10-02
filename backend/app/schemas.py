@@ -17,8 +17,14 @@ class EmpresaInputDTO(BaseModel):
     empresa_burnout: Optional[Union[float, str]] = None
     empresa_faturamento: Optional[Union[float, str]] = None
     empresa_salario_medio: Optional[Union[float, str]] = None
-    empresa_beneficios: Optional[str] = "vt"
+    empresa_beneficios: Optional[Union[str, List[str]]] = "vt"
     empresa_ciclista: Optional[str] = "nao"
+
+    @field_validator("empresa_beneficios", mode="before")
+    def clean_beneficios(cls, v):
+        if isinstance(v, list):
+            return ",".join([str(item) for item in v if item])
+        return v
 
     @field_validator(
         "empresa_total", "empresa_presencial_qtd", "empresa_turnover",

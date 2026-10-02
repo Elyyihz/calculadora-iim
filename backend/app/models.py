@@ -40,7 +40,7 @@ class DiagnosticoIIM(Base):
     empresa_burnout = Column(Float, nullable=True)
     empresa_faturamento = Column(Float, nullable=True)
     empresa_salario_medio = Column(Float, nullable=True)
-    empresa_beneficios = Column(String(100), nullable=True)
+    empresa_beneficios = Column(String(255), nullable=True)
     empresa_ciclista = Column(String(50), nullable=True)
 
     # 2. Perfil do Colaborador

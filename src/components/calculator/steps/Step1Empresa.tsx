@@ -1,7 +1,8 @@
 import React from 'react';
 import { CalculatorFormData } from '../../../types/calculator';
+import { BeneficioTipo } from '../../../types/calculatorDTOs';
 import { FormField } from '../common/FormField';
-import { FormChips } from '../common/FormChips';
+import { FormChips, FormChipsMulti } from '../common/FormChips';
 import {
   ArrowRight,
   Info,
@@ -323,14 +324,18 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
 
         <p className="calc-subsection-title">Benefícios de Mobilidade</p>
         <FormField
-          label="Benefícios de transporte oferecidos"
-          tip="Fator de mitigação — reduz modificadores negativos no IIM."
+          label="Benefícios de transporte oferecidos (seleção múltipla)"
+          tip="Fator de mitigação — reduz modificadores negativos no IIM. Pode selecionar mais de uma opção."
           hasError={!!errors.empresa_beneficios}
           errorMessage={errors.empresa_beneficios}
         >
-          <FormChips
-            selectedValue={data.empresa_beneficios}
+          <div style={{ marginBottom: '8px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            Selecione todos os benefícios concedidos pela empresa (ou selecione <strong>Nenhum</strong>):
+          </div>
+          <FormChipsMulti<BeneficioTipo>
+            selectedValues={data.empresa_beneficios || []}
             onChange={(val) => onChange('empresa_beneficios', val)}
+            exclusiveValue="nenhum"
             options={[
               { value: 'nenhum', label: 'Nenhum', icon: <X size={14} /> },
               { value: 'vt', label: 'VT mínimo legal', icon: <Ticket size={14} /> },

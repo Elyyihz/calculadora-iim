@@ -46,7 +46,7 @@ export const INITIAL_CALCULATOR_DATA: CalculatorInputDTO = {
   empresa_burnout: '',
   empresa_faturamento: '',
   empresa_salario_medio: '',
-  empresa_beneficios: '',
+  empresa_beneficios: [],
   empresa_ciclista: '',
 
   // Etapa 2
@@ -264,7 +264,14 @@ export class CalculatorService {
     if (data.empresa_turno === 'noturno') mod += 10;
     if (data.empresa_flex === 'nao') mod += 8;
     if (['periferia', 'fora'].includes(data.empresa_local)) mod += 8;
-    if (data.empresa_beneficios === 'nenhum') mod += 5;
+
+    const beneficios = Array.isArray(data.empresa_beneficios)
+      ? data.empresa_beneficios
+      : (data.empresa_beneficios ? [data.empresa_beneficios as any] : []);
+
+    if (beneficios.includes('nenhum') || beneficios.length === 0) {
+      mod += 5;
+    }
     return mod;
   }
 
@@ -734,8 +741,10 @@ export class CalculatorService {
       if (data.empresa_turnover === '') errors.empresa_turnover = 'Informe o turnover anual';
       if (data.empresa_burnout === '') errors.empresa_burnout = 'Informe os afastamentos por burnout';
       if (data.empresa_faturamento === '') errors.empresa_faturamento = 'Informe o faturamento anual';
-      if (data.empresa_salario_medio === '') errors.empresa_salario_medio = 'Informe o salário médio mensal';
-      if (!data.empresa_beneficios) errors.empresa_beneficios = 'Selecione os benefícios oferecidos';
+      const beneficios = Array.isArray(data.empresa_beneficios)
+        ? data.empresa_beneficios
+        : (data.empresa_beneficios ? [data.empresa_beneficios as any] : []);
+      if (beneficios.length === 0) errors.empresa_beneficios = 'Selecione os benefícios oferecidos (ou marque "Nenhum")';
       if (!data.empresa_ciclista) errors.empresa_ciclista = 'Indique a infraestrutura para ciclistas';
     } else if (step === 2) {
       if (!data.func_cargo) errors.func_cargo = 'Selecione o cargo / função';

@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from sqlalchemy.pool import StaticPool
 from app.database import Base, get_db
+from app.models import DiagnosticoIIM
 from app.main import app
 
 # Configura banco de dados em memória exclusivo para testes compartilhando a mesma conexão
@@ -214,6 +215,39 @@ class TestCalculadoraIIMAPI(unittest.TestCase):
         check_resp = self.client.get(f"/api/diagnosticos/{temp_id}")
         self.assertEqual(check_resp.status_code, 404)
 
+    def test_07_criar_diagnostico_multiplos_beneficios(self):
+        # Testa envio com lista de múltiplos benefícios
+        payload = {
+            "respostas": {
+                "empresa_nome": "MultiTech Inovações",
+                "empresa_setor": "tecnologia",
+                "empresa_regime": "hibrido",
+                "empresa_beneficios": ["vt", "vt_extra", "fretado", "estacionamento"]
+            },
+            "resultado": {
+                "iim": 42.0,
+                "classificacao": "Moderado"
+            }
+        }
+        resp = self.client.post("/api/diagnosticos", json=payload)
+        self.assertEqual(resp.status_code, 201)
+        data = resp.json()
+        self.assertIn("id", data)
+        self.assertEqual(data["empresa_nome"], "MultiTech Inovações")
+
+        # Verifica no banco de dados se os benefícios foram persistidos concatenados por vírgula
+        db = TestingSessionLocal()
+        try:
+            diag_db = db.query(DiagnosticoIIM).filter(DiagnosticoIIM.id == data["id"]).first()
+            self.assertIsNotNone(diag_db)
+            self.assertEqual(
+                diag_db.empresa_beneficios,
+                "vt,vt_extra,fretado,estacionamento"
+            )
+        finally:
+            db.close()
+
 
 if __name__ == "__main__":
     unittest.main()
+
