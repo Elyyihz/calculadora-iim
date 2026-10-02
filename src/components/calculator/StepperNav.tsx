@@ -3,8 +3,8 @@ import { StepConfig, StepId } from '../../types/calculator';
 import { Check } from 'lucide-react';
 
 export const STEPS: StepConfig[] = [
-  { id: 1, badge: '🏢', title: 'Dados da Empresa', subtitle: 'Contexto organizacional', shortLabel: 'Empresa' },
-  { id: 2, badge: '👤', title: 'Perfil do Colaborador', subtitle: 'Cargo, função e reposição', shortLabel: 'Colaborador' },
+  { id: 1, badge: '1', title: 'Dados da Empresa', subtitle: 'Contexto organizacional', shortLabel: 'Empresa' },
+  { id: 2, badge: '2', title: 'Perfil do Colaborador', subtitle: 'Cargo, função e reposição', shortLabel: 'Colaborador' },
   { id: 3, badge: 'D1', title: 'Tempo e Distância de Deslocamento', subtitle: 'Exposição física e modal', shortLabel: 'D1 · Trajeto' },
   { id: 4, badge: 'D2', title: 'Estresse e Fadiga Percebidos', subtitle: 'Impacto subjetivo e fisiológico', shortLabel: 'D2 · Estresse' },
   { id: 5, badge: 'D3', title: 'Pontualidade e Frequência', subtitle: 'Impacto financeiro e assiduidade', shortLabel: 'D3 · Pontual.' },

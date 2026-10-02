@@ -308,24 +308,24 @@ export class CalculatorService {
     iim = Math.min(iim + dimScores.organizationalModifier * 0.3, 100);
     const iimRounded = Math.round(iim);
 
-    let classificacao = '🟢 Baixo Impacto (Mobilidade Eficiente)';
+    let classificacao = 'Baixo Impacto (Mobilidade Eficiente)';
     let classBg = '#EBF7F0';
     let classColor = '#0B2545';
 
     if (iim <= 40) {
-      classificacao = '🟢 Baixo Impacto (Mobilidade Eficiente)';
+      classificacao = 'Baixo Impacto (Mobilidade Eficiente)';
       classBg = '#EBF7F0';
       classColor = '#0B2545';
     } else if (iim <= 60) {
-      classificacao = '🟡 Impacto Moderado (Atenção a Desgaste)';
+      classificacao = 'Impacto Moderado (Atenção a Desgaste)';
       classBg = '#fffaeb';
       classColor = '#7a5c00';
     } else if (iim <= 80) {
-      classificacao = '🟠 Alto Impacto (Mobilidade Prejudicial)';
+      classificacao = 'Alto Impacto (Mobilidade Prejudicial)';
       classBg = '#fff3e8';
       classColor = '#7a3e00';
     } else {
-      classificacao = '🔴 Impacto Crítico (Alto Risco e Prejuízo)';
+      classificacao = 'Impacto Crítico (Alto Risco e Prejuízo)';
       classBg = '#fff0f0';
       classColor = '#cc3333';
     }
@@ -416,7 +416,7 @@ export class CalculatorService {
       { meses: 1, label: 'Agora (1 mês)', isAnual: false, obs: 'custo acumulado' },
       { meses: 3, label: '3 meses', isAnual: false, obs: 'custo acumulado' },
       { meses: 6, label: '6 meses', isAnual: false, obs: 'custo acumulado' },
-      { meses: 12, label: '12 meses', isAnual: true, obs: '⚠ custo acumulado anual' }
+      { meses: 12, label: '12 meses', isAnual: true, obs: 'Custo acumulado anual' }
     ];
 
     const marcos: ProjectionMilestone[] = horizons.map((h) => ({
@@ -429,7 +429,7 @@ export class CalculatorService {
 
     const notaInercial =
       iim > 60
-        ? '⚠ Com IIM acima de 60, o risco de turnover é ponderado mensalmente. A perda de um colaborador de alto custo de reposição pode triplicar o impacto de um único mês. Cada mês de inação é custo composto.'
+        ? 'Com IIM acima de 60, o risco de turnover é ponderado mensalmente. A perda de um colaborador de alto custo de reposição pode triplicar o impacto de um único mês. Cada mês de inação é custo composto.'
         : 'IIM moderado — o custo acumulado é real mas gerenciável com intervenções preventivas de baixo esforço.';
 
     return { marcos, notaInercial };
@@ -584,7 +584,7 @@ export class CalculatorService {
     let itens: string[] = [];
 
     if (iim <= 40) {
-      titulo = '✅ Situação estável — plano de manutenção preventiva';
+      titulo = 'Situação estável — plano de manutenção preventiva';
       itens = [
         'Monitoramento anual do IIM — manter linha de base para comparação setorial',
         'Avaliar benefícios complementares de mobilidade (auxílio-mobilidade flexível)',
@@ -592,7 +592,7 @@ export class CalculatorService {
         'Diagnóstico UrbanFlow anual para detectar mudanças no perfil residencial da equipe'
       ];
     } else if (iim <= 60) {
-      titulo = `⚠ Sinais de desgaste em ${dimensoesCriticas} — intervenção preventiva recomendada`;
+      titulo = `Sinais de desgaste em ${dimensoesCriticas} — intervenção preventiva recomendada`;
       itens = [
         'Revisar cobertura do vale-transporte — custo descoberto é vulnerabilidade financeira direta',
         'Avaliar flexibilidade de horário de entrada (±30 min) — intervenção de custo baixo e alto impacto em D1 e D2',
@@ -601,7 +601,7 @@ export class CalculatorService {
         'Diagnóstico UrbanFlow de origem-destino para mapear concentração de colaboradores por bairro'
       ];
     } else if (iim <= 80) {
-      titulo = `🚨 Alto impacto em ${dimensoesCriticas} — intervenção necessária`;
+      titulo = `Alto impacto em ${dimensoesCriticas} — intervenção necessária`;
       itens = [
         'Auditoria completa de benefícios de mobilidade — comparar cobertura real vs. custo de transporte declarado',
         'Implementar regime híbrido para cargos compatíveis — maior alavanca individual de redução do IIM',
@@ -611,7 +611,7 @@ export class CalculatorService {
         'Diagnóstico UrbanFlow completo recomendado — estimativa de ROI da intervenção antes de decidir investimento'
       ];
     } else {
-      titulo = '🔴 Impacto crítico — ação imediata necessária';
+      titulo = 'Impacto crítico — ação imediata necessária';
       itens = [
         'Reunião emergencial RH + liderança para plano de mobilidade com prazo definido',
         'Implementação imediata de flexibilidade de horário — alívio rápido sem custo operacional',

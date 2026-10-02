@@ -2,7 +2,35 @@ import React from 'react';
 import { CalculatorFormData } from '../../../types/calculator';
 import { FormField } from '../common/FormField';
 import { FormChips } from '../common/FormChips';
-import { ArrowRight, Info } from 'lucide-react';
+import {
+  ArrowRight,
+  Info,
+  Building2,
+  Laptop,
+  Home,
+  FileText,
+  Briefcase,
+  Users,
+  GraduationCap,
+  Layers,
+  Clock,
+  Sliders,
+  Check,
+  Sun,
+  Sunset,
+  Moon,
+  RefreshCw,
+  Building,
+  MapPin,
+  Factory,
+  Navigation,
+  X,
+  Ticket,
+  CreditCard,
+  Bus,
+  Car,
+  Coins
+} from 'lucide-react';
 
 interface Step1EmpresaProps {
   data: CalculatorFormData;
@@ -20,8 +48,9 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
   return (
     <div className="calc-section-card">
       <div className="calc-section-head">
-        <div className="calc-dim-badge">
-          🏢<span className="pct">Etapa 1</span>
+        <div className="calc-dim-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+          <Building2 size={15} />
+          <span className="pct">Etapa 1</span>
         </div>
         <div className="calc-section-head-text">
           <h2>Dados da Empresa</h2>
@@ -79,16 +108,16 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
               onChange={(e) => onChange('empresa_setor', e.target.value)}
             >
               <option value="">Selecione...</option>
-              <option value="tech">💻 Tecnologia</option>
-              <option value="saude">🏥 Saúde</option>
-              <option value="edu">🎓 Educação</option>
-              <option value="varejo">🛒 Varejo</option>
-              <option value="industria">🏭 Indústria</option>
-              <option value="financeiro">🏦 Financeiro</option>
-              <option value="logistica">🚚 Logística</option>
-              <option value="servicos">🤝 Serviços</option>
-              <option value="governo">🏛️ Governo</option>
-              <option value="outro">➕ Outro</option>
+              <option value="tech">Tecnologia</option>
+              <option value="saude">Saúde</option>
+              <option value="edu">Educação</option>
+              <option value="varejo">Varejo</option>
+              <option value="industria">Indústria</option>
+              <option value="financeiro">Financeiro</option>
+              <option value="logistica">Logística</option>
+              <option value="servicos">Serviços</option>
+              <option value="governo">Governo</option>
+              <option value="outro">Outro</option>
             </select>
           </FormField>
 
@@ -101,9 +130,9 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
               selectedValue={data.empresa_regime}
               onChange={(val) => onChange('empresa_regime', val)}
               options={[
-                { value: 'presencial', label: '🏢 100% Presencial' },
-                { value: 'hibrido', label: '🔀 Híbrido' },
-                { value: 'remoto', label: '🏠 Remoto' }
+                { value: 'presencial', label: '100% Presencial', icon: <Building2 size={14} /> },
+                { value: 'hibrido', label: 'Híbrido', icon: <Laptop size={14} /> },
+                { value: 'remoto', label: 'Remoto', icon: <Home size={14} /> }
               ]}
             />
           </FormField>
@@ -119,11 +148,11 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
               selectedValue={data.empresa_contrato}
               onChange={(val) => onChange('empresa_contrato', val)}
               options={[
-                { value: 'clt', label: '📋 CLT' },
-                { value: 'pj', label: '💼 PJ' },
-                { value: 'terceiro', label: '🤝 Terceirizado' },
-                { value: 'estagio', label: '🎓 Estagiário' },
-                { value: 'misto', label: '🔀 Misto' }
+                { value: 'clt', label: 'CLT', icon: <FileText size={14} /> },
+                { value: 'pj', label: 'PJ', icon: <Briefcase size={14} /> },
+                { value: 'terceiro', label: 'Terceirizado', icon: <Users size={14} /> },
+                { value: 'estagio', label: 'Estagiário', icon: <GraduationCap size={14} /> },
+                { value: 'misto', label: 'Misto', icon: <Layers size={14} /> }
               ]}
             />
           </FormField>
@@ -138,9 +167,9 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
               selectedValue={data.empresa_flex}
               onChange={(val) => onChange('empresa_flex', val)}
               options={[
-                { value: 'nao', label: '❌ Não, horário fixo' },
-                { value: 'parcial', label: '⚖️ Parcial (±30 min)' },
-                { value: 'sim', label: '✅ Sim, flexível' }
+                { value: 'nao', label: 'Não, horário fixo', icon: <Clock size={14} /> },
+                { value: 'parcial', label: 'Parcial (±30 min)', icon: <Sliders size={14} /> },
+                { value: 'sim', label: 'Sim, flexível', icon: <Check size={14} /> }
               ]}
             />
           </FormField>
@@ -157,10 +186,10 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
               selectedValue={data.empresa_turno}
               onChange={(val) => onChange('empresa_turno', val)}
               options={[
-                { value: 'diurno', label: '☀️ Diurno' },
-                { value: 'vespertino', label: '🌇 Vespertino' },
-                { value: 'noturno', label: '🌙 Noturno' },
-                { value: 'revezamento', label: '🔄 Revezamento' }
+                { value: 'diurno', label: 'Diurno', icon: <Sun size={14} /> },
+                { value: 'vespertino', label: 'Vespertino', icon: <Sunset size={14} /> },
+                { value: 'noturno', label: 'Noturno', icon: <Moon size={14} /> },
+                { value: 'revezamento', label: 'Revezamento', icon: <RefreshCw size={14} /> }
               ]}
             />
           </FormField>
@@ -175,10 +204,10 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
               selectedValue={data.empresa_local}
               onChange={(val) => onChange('empresa_local', val)}
               options={[
-                { value: 'centro', label: '🏙️ Centro / área nobre' },
-                { value: 'intermediaria', label: '🏘️ Zona intermediária' },
-                { value: 'periferia', label: '🌳 Periferia / industrial' },
-                { value: 'fora', label: '🛣️ Fora da cidade' }
+                { value: 'centro', label: 'Centro / área nobre', icon: <Building size={14} /> },
+                { value: 'intermediaria', label: 'Zona intermediária', icon: <MapPin size={14} /> },
+                { value: 'periferia', label: 'Periferia / industrial', icon: <Factory size={14} /> },
+                { value: 'fora', label: 'Fora da cidade', icon: <Navigation size={14} /> }
               ]}
             />
           </FormField>
@@ -303,12 +332,12 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
             selectedValue={data.empresa_beneficios}
             onChange={(val) => onChange('empresa_beneficios', val)}
             options={[
-              { value: 'nenhum', label: '❌ Nenhum' },
-              { value: 'vt', label: '🎫 VT mínimo legal' },
-              { value: 'vt_extra', label: '💳 VT extra / app' },
-              { value: 'fretado', label: '🚌 Fretado' },
-              { value: 'estacionamento', label: '🅿️ Estacionamento' },
-              { value: 'auxilio', label: '💰 Auxílio livre' }
+              { value: 'nenhum', label: 'Nenhum', icon: <X size={14} /> },
+              { value: 'vt', label: 'VT mínimo legal', icon: <Ticket size={14} /> },
+              { value: 'vt_extra', label: 'VT extra / app', icon: <CreditCard size={14} /> },
+              { value: 'fretado', label: 'Fretado', icon: <Bus size={14} /> },
+              { value: 'estacionamento', label: 'Estacionamento', icon: <Car size={14} /> },
+              { value: 'auxilio', label: 'Auxílio livre', icon: <Coins size={14} /> }
             ]}
           />
         </FormField>
@@ -322,8 +351,8 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
             selectedValue={data.empresa_ciclista}
             onChange={(val) => onChange('empresa_ciclista', val)}
             options={[
-              { value: 'sim', label: '✅ Sim' },
-              { value: 'nao', label: '❌ Não' }
+              { value: 'sim', label: 'Sim', icon: <Check size={14} /> },
+              { value: 'nao', label: 'Não', icon: <X size={14} /> }
             ]}
           />
         </FormField>

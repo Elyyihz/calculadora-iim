@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CalculatorInputDTO, FullIimDiagnosis } from '../../../types/calculatorDTOs';
-import { Printer, ShieldCheck, Database, CheckCircle2, AlertCircle, Loader2, Info } from 'lucide-react';
+import { Printer, ShieldCheck, Database, CheckCircle2, AlertCircle, AlertTriangle, AlertOctagon, Loader2, Info } from 'lucide-react';
 import { apiService } from '../../../services/apiService';
 
 interface ScoreHeroProps {
@@ -75,10 +75,22 @@ export const ScoreHero: React.FC<ScoreHeroProps> = ({ result, formData }) => {
             className="iim-class"
             style={{
               background: result.classBg,
-              color: result.classColor
+              color: result.classColor,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px'
             }}
           >
-            {result.classificacao}
+            {result.iimRounded <= 40 ? (
+              <ShieldCheck size={15} />
+            ) : result.iimRounded <= 60 ? (
+              <AlertCircle size={15} />
+            ) : result.iimRounded <= 80 ? (
+              <AlertTriangle size={15} />
+            ) : (
+              <AlertOctagon size={15} />
+            )}
+            <span>{result.classificacao}</span>
           </span>
         </div>
 

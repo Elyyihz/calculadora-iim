@@ -3,7 +3,7 @@ import { CalculatorFormData } from '../../../types/calculator';
 import { FormField } from '../common/FormField';
 import { FormChips } from '../common/FormChips';
 import { FormScale } from '../common/FormScale';
-import { ArrowLeft, BarChart2 } from 'lucide-react';
+import { ArrowLeft, BarChart2, Check, Sliders, X, XCircle } from 'lucide-react';
 
 interface Step6D4VulnerabilidadeProps {
   data: CalculatorFormData;
@@ -105,10 +105,10 @@ export const Step6D4Vulnerabilidade: React.FC<Step6D4VulnerabilidadeProps> = ({
             selectedValue={data.d4_app}
             onChange={(val) => onChange('d4_app', val)}
             options={[
-              { value: '0', label: '✅ Sim, uso regularmente' },
-              { value: '1', label: '⚖️ Às vezes' },
-              { value: '3', label: '❌ Não uso (custo)' },
-              { value: '4', label: '❌ Não tenho acesso' }
+              { value: '0', label: 'Sim, uso regularmente', icon: <Check size={14} /> },
+              { value: '1', label: 'Às vezes', icon: <Sliders size={14} /> },
+              { value: '3', label: 'Não uso (custo)', icon: <X size={14} /> },
+              { value: '4', label: 'Não tenho acesso', icon: <XCircle size={14} /> }
             ]}
           />
         </FormField>

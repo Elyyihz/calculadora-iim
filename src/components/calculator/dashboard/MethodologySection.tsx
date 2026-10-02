@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, RotateCcw, Info } from 'lucide-react';
+import { ArrowLeft, RotateCcw, Info, ShieldCheck, AlertCircle, AlertTriangle, AlertOctagon } from 'lucide-react';
 import { IIM_WEIGHTS } from '../../../services/CalculatorService';
 
 interface MethodologySectionProps {
@@ -70,10 +70,14 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
                     padding: '3px 8px',
                     fontSize: '0.78rem',
                     fontWeight: 600,
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px'
                   }}
                 >
-                  🟢 Baixo impacto (Eficiente)
+                  <ShieldCheck size={13} color="var(--accent)" />
+                  <span>Baixo impacto (Eficiente)</span>
                 </span>
               </td>
               <td style={{ color: 'var(--text-muted)' }}>
@@ -92,10 +96,14 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
                     padding: '3px 8px',
                     fontSize: '0.78rem',
                     fontWeight: 600,
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px'
                   }}
                 >
-                  🟡 Impacto moderado (Atenção)
+                  <AlertCircle size={13} color="#D97706" />
+                  <span>Impacto moderado (Atenção)</span>
                 </span>
               </td>
               <td style={{ color: 'var(--text-muted)' }}>
@@ -116,10 +124,14 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
                     padding: '3px 8px',
                     fontSize: '0.78rem',
                     fontWeight: 600,
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px'
                   }}
                 >
-                  🟠 Alto impacto (Prejudicial)
+                  <AlertTriangle size={13} color="#EA580C" />
+                  <span>Alto impacto (Prejudicial)</span>
                 </span>
               </td>
               <td style={{ color: 'var(--text-muted)' }}>
@@ -140,10 +152,14 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
                     padding: '3px 8px',
                     fontSize: '0.78rem',
                     fontWeight: 600,
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px'
                   }}
                 >
-                  🔴 Impacto crítico (Alto Risco)
+                  <AlertOctagon size={13} color="#DC2626" />
+                  <span>Impacto crítico (Alto Risco)</span>
                 </span>
               </td>
               <td style={{ color: 'var(--text-muted)' }}>
@@ -184,7 +200,7 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
 
         <button type="button" className="btn btn-danger" onClick={onReset}>
           <RotateCcw size={16} />
-          <span>↺ Novo diagnóstico</span>
+          <span>Novo diagnóstico</span>
         </button>
       </div>
     </div>

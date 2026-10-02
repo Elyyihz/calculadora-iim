@@ -3,7 +3,20 @@ import { CalculatorFormData } from '../../../types/calculator';
 import { FormField } from '../common/FormField';
 import { FormChips } from '../common/FormChips';
 import { FormScale } from '../common/FormScale';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Bus,
+  Train,
+  Car,
+  Bike,
+  Footprints,
+  Smartphone,
+  Layers,
+  Check,
+  Sliders,
+  X
+} from 'lucide-react';
 
 interface Step3D1TrajetoProps {
   data: CalculatorFormData;
@@ -77,14 +90,14 @@ export const Step3D1Trajeto: React.FC<Step3D1TrajetoProps> = ({
             selectedValue={data.d1_modal}
             onChange={(val) => onChange('d1_modal', val)}
             options={[
-              { value: 'onibus', label: '🚌 Ônibus' },
-              { value: 'metro', label: '🚇 Metrô/BRT' },
-              { value: 'carro', label: '🚗 Carro próprio' },
-              { value: 'moto', label: '🏍️ Moto' },
-              { value: 'bici', label: '🚲 Bicicleta' },
-              { value: 'pe', label: '🚶 A pé' },
-              { value: 'app', label: '📱 App (Uber/99)' },
-              { value: 'misto', label: '🔀 Misto' }
+              { value: 'onibus', label: 'Ônibus', icon: <Bus size={14} /> },
+              { value: 'metro', label: 'Metrô/BRT', icon: <Train size={14} /> },
+              { value: 'carro', label: 'Carro próprio', icon: <Car size={14} /> },
+              { value: 'moto', label: 'Moto', icon: <Bike size={14} /> },
+              { value: 'bici', label: 'Bicicleta', icon: <Bike size={14} /> },
+              { value: 'pe', label: 'A pé', icon: <Footprints size={14} /> },
+              { value: 'app', label: 'App (Uber/99)', icon: <Smartphone size={14} /> },
+              { value: 'misto', label: 'Misto', icon: <Layers size={14} /> }
             ]}
           />
         </FormField>
@@ -186,9 +199,9 @@ export const Step3D1Trajeto: React.FC<Step3D1TrajetoProps> = ({
               selectedValue={data.d1_vt}
               onChange={(val) => onChange('d1_vt', val)}
               options={[
-                { value: 'sim', label: '✅ Sim, totalmente' },
-                { value: 'parcial', label: '⚖️ Parcialmente' },
-                { value: 'nao', label: '❌ Não cobre' }
+                { value: 'sim', label: 'Sim, totalmente', icon: <Check size={14} /> },
+                { value: 'parcial', label: 'Parcialmente', icon: <Sliders size={14} /> },
+                { value: 'nao', label: 'Não cobre', icon: <X size={14} /> }
               ]}
             />
           </FormField>
