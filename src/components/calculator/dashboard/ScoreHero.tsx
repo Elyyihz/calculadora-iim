@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CalculatorInputDTO, FullIimDiagnosis } from '../../../types/calculatorDTOs';
-import { Printer, ShieldCheck, Database, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { Printer, ShieldCheck, Database, CheckCircle2, AlertCircle, Loader2, Info } from 'lucide-react';
 import { apiService } from '../../../services/apiService';
 
 interface ScoreHeroProps {
@@ -83,6 +83,29 @@ export const ScoreHero: React.FC<ScoreHeroProps> = ({ result, formData }) => {
         </div>
 
         <p className="iim-context">{result.contexto}</p>
+
+        {/* REGRA DE ESCALA EXPLICATIVA DO SCORE IIM */}
+        <div
+          style={{
+            margin: '1.25rem auto 0',
+            background: 'rgba(255, 255, 255, 0.08)',
+            border: '1px solid rgba(255, 255, 255, 0.16)',
+            borderRadius: 'var(--radius-pill)',
+            padding: '7px 18px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontSize: '0.82rem',
+            color: 'rgba(255, 255, 255, 0.9)',
+            maxWidth: '680px',
+            lineHeight: 1.45
+          }}
+        >
+          <Info size={15} color="var(--accent)" style={{ flexShrink: 0 }} />
+          <span>
+            <strong>Entenda a escala:</strong> Quanto maior a pontuação (aproximando-se de 100), pior é a mobilidade e maior é o impacto negativo financeiro e de bem-estar para a empresa e para o colaborador.
+          </span>
+        </div>
 
         {/* FEEDBACK BANNER FOR API SAVE */}
         {saveStatus === 'saved' && (

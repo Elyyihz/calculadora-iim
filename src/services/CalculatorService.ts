@@ -286,33 +286,33 @@ export class CalculatorService {
     iim = Math.min(iim + dimScores.organizationalModifier * 0.3, 100);
     const iimRounded = Math.round(iim);
 
-    let classificacao = '🟢 Baixo Impacto';
+    let classificacao = '🟢 Baixo Impacto (Mobilidade Eficiente)';
     let classBg = '#EBF7F0';
     let classColor = '#0B2545';
 
     if (iim <= 40) {
-      classificacao = '🟢 Baixo Impacto';
+      classificacao = '🟢 Baixo Impacto (Mobilidade Eficiente)';
       classBg = '#EBF7F0';
       classColor = '#0B2545';
     } else if (iim <= 60) {
-      classificacao = '🟡 Impacto Moderado';
+      classificacao = '🟡 Impacto Moderado (Atenção a Desgaste)';
       classBg = '#fffaeb';
       classColor = '#7a5c00';
     } else if (iim <= 80) {
-      classificacao = '🟠 Alto Impacto';
+      classificacao = '🟠 Alto Impacto (Mobilidade Prejudicial)';
       classBg = '#fff3e8';
       classColor = '#7a3e00';
     } else {
-      classificacao = '🔴 Impacto Crítico';
+      classificacao = '🔴 Impacto Crítico (Alto Risco e Prejuízo)';
       classBg = '#fff0f0';
       classColor = '#cc3333';
     }
 
     const contextMap: Record<number, string> = {
-      40: 'Situação estável — colaborador tem condições favoráveis de deslocamento.',
-      60: 'Sinais de desgaste detectados — intervenção preventiva pode evitar escalada de custos.',
-      80: 'Alto impacto operacional — perda de produtividade e risco de turnover significativos.',
-      100: 'Impacto crítico — cada mês sem intervenção adiciona custo acumulado e risco de perda do colaborador.'
+      40: 'Situação favorável (0–40): mobilidade fluida com impacto negativo mínimo nos custos e no bem-estar.',
+      60: 'Atenção necessária (41–60): atrito intermediário no trajeto, com início de perda produtiva e estresse perceptível.',
+      80: 'Impacto negativo elevado (61–80): deslocamento desgastante gerando perda severa de produtividade e risco de rotatividade.',
+      100: 'Impacto negativo crítico (81–100): condições severas de mobilidade acarretando alto prejuízo financeiro e risco de burnout.'
     };
     const ctxKey = iim <= 40 ? 40 : iim <= 60 ? 60 : iim <= 80 ? 80 : 100;
 

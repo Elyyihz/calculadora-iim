@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Play, Layers } from 'lucide-react';
+import { ArrowLeft, Play, Layers, Info } from 'lucide-react';
 import { CalculatorWizard } from '../components/calculator/CalculatorWizard';
 import { CalculatorProvider } from '../context/CalculatorContext';
 
@@ -142,6 +142,29 @@ export const CalculadoraPage: React.FC = () => {
           Índice de Impacto de Mobilidade — diagnóstico completo em 4 dimensões
           ponderadas com projeção financeira e simulador de ROI.
         </p>
+
+        {/* REGRA DE ESCALA EXPLICATIVA DA CALCULADORA */}
+        <div
+          style={{
+            marginTop: '1.4rem',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'rgba(255, 255, 255, 0.08)',
+            border: '1px solid rgba(255, 255, 255, 0.16)',
+            padding: '8px 18px',
+            borderRadius: 'var(--radius-pill)',
+            fontSize: '0.84rem',
+            color: 'rgba(255, 255, 255, 0.9)',
+            maxWidth: '720px',
+            lineHeight: 1.45
+          }}
+        >
+          <Info size={16} color="var(--accent)" style={{ flexShrink: 0 }} />
+          <span>
+            <strong>Entenda a escala:</strong> Quanto maior a pontuação (aproximando-se de 100), pior é a mobilidade e maior é o impacto negativo financeiro e de bem-estar para a empresa e para o colaborador.
+          </span>
+        </div>
 
         {/* CURVED BOTTOM DECORATION */}
         <div

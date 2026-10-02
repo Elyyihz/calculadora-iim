@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, RotateCcw } from 'lucide-react';
+import { ArrowLeft, RotateCcw, Info } from 'lucide-react';
 
 interface MethodologySectionProps {
   onEdit: () => void;
@@ -21,92 +21,131 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
         Modificador Organizacional
       </div>
 
+      {/* REGRA DA ESCALA DO IIM */}
+      <div
+        style={{
+          background: 'var(--accent-light)',
+          border: '1px solid var(--accent-mid)',
+          borderRadius: 'var(--radius-sm)',
+          padding: '11px 16px',
+          marginBottom: '1.25rem',
+          fontSize: '0.84rem',
+          color: 'var(--brand)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          lineHeight: 1.45
+        }}
+      >
+        <Info size={18} color="var(--accent)" style={{ flexShrink: 0 }} />
+        <span>
+          <strong>Regra da Escala:</strong> Quanto maior a pontuação (aproximando-se de 100), pior é a mobilidade e maior é o impacto negativo financeiro e de bem-estar para a empresa e para o colaborador.
+        </span>
+      </div>
+
       <div style={{ overflowX: 'auto' }}>
         <table className="info-table">
           <thead>
             <tr>
-              <th>Pontuação</th>
+              <th>Faixa IIM</th>
               <th>Classificação</th>
-              <th>Ação recomendada</th>
+              <th>Impacto na Empresa &amp; Colaborador</th>
+              <th>Ação Recomendada</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>0–40</td>
+              <td style={{ fontWeight: 700 }}>0–40</td>
               <td>
                 <span
                   style={{
                     background: '#EBF7F0',
                     color: '#0B2545',
                     borderRadius: '4px',
-                    padding: '2px 8px',
-                    fontSize: '0.8rem',
-                    fontWeight: 600
+                    padding: '3px 8px',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap'
                   }}
                 >
-                  🟢 Baixo impacto
+                  🟢 Baixo impacto (Eficiente)
                 </span>
               </td>
-              <td style={{ color: 'var(--text-muted)' }}>Monitoramento anual.</td>
+              <td style={{ color: 'var(--text-muted)' }}>
+                Mobilidade fluida; impacto negativo mínimo nos custos operacionais e no bem-estar.
+              </td>
+              <td style={{ color: 'var(--text-muted)' }}>Monitoramento periódico anual.</td>
             </tr>
             <tr>
-              <td>41–60</td>
+              <td style={{ fontWeight: 700 }}>41–60</td>
               <td>
                 <span
                   style={{
                     background: '#fffaeb',
                     color: '#7a5c00',
                     borderRadius: '4px',
-                    padding: '2px 8px',
-                    fontSize: '0.8rem',
-                    fontWeight: 600
+                    padding: '3px 8px',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap'
                   }}
                 >
-                  🟡 Impacto moderado
+                  🟡 Impacto moderado (Atenção)
                 </span>
               </td>
               <td style={{ color: 'var(--text-muted)' }}>
-                Revisar VT e flexibilidade de horário.
+                Atrito intermediário; início de perda produtiva e desgaste perceptível no trajeto.
+              </td>
+              <td style={{ color: 'var(--text-muted)' }}>
+                Revisar horários flexíveis e benefícios de transporte corporativo.
               </td>
             </tr>
             <tr>
-              <td>61–80</td>
+              <td style={{ fontWeight: 700 }}>61–80</td>
               <td>
                 <span
                   style={{
                     background: '#fff3e8',
                     color: '#7a3e00',
                     borderRadius: '4px',
-                    padding: '2px 8px',
-                    fontSize: '0.8rem',
-                    fontWeight: 600
+                    padding: '3px 8px',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap'
                   }}
                 >
-                  🟠 Alto impacto
+                  🟠 Alto impacto (Prejudicial)
                 </span>
               </td>
               <td style={{ color: 'var(--text-muted)' }}>
-                Intervenção necessária. Mapeamento de alternativas de modal.
+                Mobilidade deficiente; forte perda de produtividade, estresse e risco de turnover.
+              </td>
+              <td style={{ color: 'var(--text-muted)' }}>
+                Intervenção tática em 30–60 dias (trabalho híbrido, vans/fretados, rotas).
               </td>
             </tr>
             <tr>
-              <td>81–100</td>
+              <td style={{ fontWeight: 700 }}>81–100</td>
               <td>
                 <span
                   style={{
                     background: '#fff0f0',
                     color: '#cc3333',
                     borderRadius: '4px',
-                    padding: '2px 8px',
-                    fontSize: '0.8rem',
-                    fontWeight: 600
+                    padding: '3px 8px',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap'
                   }}
                 >
-                  🔴 Impacto crítico
+                  🔴 Impacto crítico (Alto Risco)
                 </span>
               </td>
               <td style={{ color: 'var(--text-muted)' }}>
-                Ação imediata. Cada mês adiciona custo acumulado.
+                Condições severas de deslocamento; custo agudo, exaustão e risco iminente de burnout/desligamento.
+              </td>
+              <td style={{ color: 'var(--text-muted)' }}>
+                Ação emergencial imediata com consultoria especializada UrbanFlow.
               </td>
             </tr>
           </tbody>

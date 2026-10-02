@@ -2,7 +2,7 @@ import React from 'react';
 import { CalculatorFormData } from '../../../types/calculator';
 import { FormField } from '../common/FormField';
 import { FormChips } from '../common/FormChips';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Info } from 'lucide-react';
 
 interface Step1EmpresaProps {
   data: CalculatorFormData;
@@ -30,6 +30,28 @@ export const Step1Empresa: React.FC<Step1EmpresaProps> = ({
       </div>
 
       <div className="calc-section-body">
+        {/* EXPLICATIVO DA ESCALA DO IIM */}
+        <div
+          style={{
+            background: 'var(--accent-light)',
+            border: '1px solid var(--accent-mid)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '11px 16px',
+            marginBottom: '1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            fontSize: '0.84rem',
+            color: 'var(--brand)',
+            lineHeight: 1.45
+          }}
+        >
+          <Info size={18} color="var(--accent)" style={{ flexShrink: 0 }} />
+          <span>
+            <strong>Escala do IIM:</strong> Quanto maior a pontuação (aproximando-se de 100), pior é a mobilidade e maior é o impacto negativo financeiro e de bem-estar para a empresa e para o colaborador.
+          </span>
+        </div>
+
         <p className="calc-subsection-title">Identificação &amp; Operação</p>
 
         <FormField
