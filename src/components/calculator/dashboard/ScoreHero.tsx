@@ -190,6 +190,11 @@ export const ScoreHero: React.FC<ScoreHeroProps> = ({ result, formData }) => {
           </button>
         </div>
       </div>
+
+      {/* AVISO LEGAL EXATAMENTE ABAIXO DO CARTÃO PRINCIPAL DO SCORE IIM */}
+      <div className="res-legal-disclaimer">
+        Todos os números apresentados devem ser tratados como dados estimados e projetados
+      </div>
     </>
   );
 };

@@ -66,6 +66,11 @@ export const ResultDashboard: React.FC<ResultDashboardProps> = ({
 
       {/* 9. METODOLOGIA IIM & REINICIALIZAÇÃO */}
       <MethodologySection onEdit={onEdit} onReset={onReset} />
+
+      {/* 10. AVISO LEGAL NO RODAPÉ DE IMPRESSÃO / PDF (@media print) */}
+      <div className="print-only-footer">
+        Todos os números apresentados devem ser tratados como dados estimados e projetados
+      </div>
     </div>
   );
 };
