@@ -10,6 +10,27 @@ import {
   FullIimDiagnosis
 } from '../types/calculatorDTOs';
 
+/**
+ * PESOS OFICIAIS DAS DIMENSÕES DO IIM v3.0
+ *
+ * Configuração central e isolada dos coeficientes ponderadores de cada dimensão.
+ * Pode ser ajustada diretamente aqui sem necessidade de alterar as funções matemáticas:
+ * - D1: Trajeto (Tempo, distância e comutação) — 30% (0.30)
+ * - D2: Estresse (Desgaste físico, mental e qualidade de sono) — 27% (0.27)
+ * - D3: Pontualidade (Atrasos, faltas e risco de turnover) — 25% (0.25)
+ * - D4: Vulnerabilidade (Custo relativo de transporte e segurança) — 18% (0.18)
+ *
+ * Nota: A soma dos pesos deve totalizar 1.00 (100%).
+ */
+export const IIM_WEIGHTS = {
+  D1: 0.30,
+  D2: 0.27,
+  D3: 0.25,
+  D4: 0.18
+} as const;
+
+export type IimWeights = typeof IIM_WEIGHTS;
+
 export const INITIAL_CALCULATOR_DATA: CalculatorInputDTO = {
   // Etapa 1
   empresa_nome: '',
@@ -85,6 +106,7 @@ export class CalculatorService {
   public static readonly D2_MAX = 150;
   public static readonly D3_MAX = 90;
   public static readonly D4_MAX = 260;
+  public static readonly WEIGHTS = IIM_WEIGHTS;
 
   // =========================================================================
   // D1 — TEMPO E DISTÂNCIA (TRAJETO)
@@ -277,10 +299,10 @@ export class CalculatorService {
     contexto: string;
   } {
     const basePonderada =
-      dimScores.d1Norm * 0.30 +
-      dimScores.d2Norm * 0.27 +
-      dimScores.d3Norm * 0.25 +
-      dimScores.d4Norm * 0.18;
+      dimScores.d1Norm * IIM_WEIGHTS.D1 +
+      dimScores.d2Norm * IIM_WEIGHTS.D2 +
+      dimScores.d3Norm * IIM_WEIGHTS.D3 +
+      dimScores.d4Norm * IIM_WEIGHTS.D4;
 
     let iim = basePonderada * dimScores.daysMultiplier * dimScores.sectorMultiplier;
     iim = Math.min(iim + dimScores.organizationalModifier * 0.3, 100);
@@ -365,10 +387,10 @@ export class CalculatorService {
     // Decomposição de custo por dimensão
     const safeIim = Math.max(iim, 1);
     const custoPorDimensao = {
-      d1: perdaProdutividadeMensal * 0.30 * (d1 / safeIim),
-      d2: (perdaProdutividadeMensal + presenteismoMensal) * 0.27 * (d2 / safeIim),
-      d3: perdaProdutividadeMensal * 0.25 * (d3 / safeIim),
-      d4: perdaProdutividadeMensal * 0.18 * (d4 / safeIim)
+      d1: perdaProdutividadeMensal * IIM_WEIGHTS.D1 * (d1 / safeIim),
+      d2: (perdaProdutividadeMensal + presenteismoMensal) * IIM_WEIGHTS.D2 * (d2 / safeIim),
+      d3: perdaProdutividadeMensal * IIM_WEIGHTS.D3 * (d3 / safeIim),
+      d4: perdaProdutividadeMensal * IIM_WEIGHTS.D4 * (d4 / safeIim)
     };
 
     return {
@@ -512,7 +534,11 @@ export class CalculatorService {
       const nD3 = Math.max(dimScores.d3Norm - inv.dI.d3, 0);
       const nD4 = Math.max(dimScores.d4Norm - inv.dI.d4, 0);
 
-      const newIIM = nD1 * 0.30 + nD2 * 0.27 + nD3 * 0.25 + nD4 * 0.18;
+      const newIIM =
+        nD1 * IIM_WEIGHTS.D1 +
+        nD2 * IIM_WEIGHTS.D2 +
+        nD3 * IIM_WEIGHTS.D3 +
+        nD4 * IIM_WEIGHTS.D4;
       const reducaoIIM = Math.max(iim - newIIM, 0);
       const economiaMensal = custoMensal * (reducaoIIM / Math.max(iim, 1));
       const roiScore = economiaMensal / esforcoPeso[inv.esforco];

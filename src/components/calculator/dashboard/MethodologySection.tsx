@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowLeft, RotateCcw, Info } from 'lucide-react';
+import { IIM_WEIGHTS } from '../../../services/CalculatorService';
 
 interface MethodologySectionProps {
   onEdit: () => void;
@@ -10,6 +11,11 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
   onEdit,
   onReset
 }) => {
+  const d1W = IIM_WEIGHTS.D1.toFixed(2).replace('.', ',');
+  const d2W = IIM_WEIGHTS.D2.toFixed(2).replace('.', ',');
+  const d3W = IIM_WEIGHTS.D3.toFixed(2).replace('.', ',');
+  const d4W = IIM_WEIGHTS.D4.toFixed(2).replace('.', ',');
+
   return (
     <div className="res-section">
       <p className="calc-subsection-title" style={{ marginTop: 0 }}>
@@ -17,8 +23,7 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
       </p>
 
       <div className="formula-box">
-        IIM = [(D1×0,30) + (D2×0,27) + (D3×0,25) + (D4×0,18)] × Mult. de Dias × Fator Setorial +
-        Modificador Organizacional
+        {`IIM = [(D1×${d1W}) + (D2×${d2W}) + (D3×${d3W}) + (D4×${d4W})] × Mult. de Dias × Fator Setorial + Modificador Organizacional`}
       </div>
 
       {/* REGRA DA ESCALA DO IIM */}
