@@ -6,6 +6,7 @@ import { FinancialImpactSection } from './FinancialImpactSection';
 import { ProjectionsSection } from './ProjectionsSection';
 import { SavingsSimulatorSection } from './SavingsSimulatorSection';
 import { InterventionsSection } from './InterventionsSection';
+import { ConversionCtaSection } from './ConversionCtaSection';
 import { RecommendationsSection } from './RecommendationsSection';
 import { CompanyScaleSection } from './CompanyScaleSection';
 import { MethodologySection } from './MethodologySection';
@@ -57,6 +58,13 @@ export const ResultDashboard: React.FC<ResultDashboardProps> = ({
 
       {/* 6. INTERVENÇÕES COM ROI */}
       <InterventionsSection intervencoes={result.intervencoesPrioritarias} />
+
+      {/* BLOCO DE CONVERSÃO (CALL TO ACTION) APÓS A TABELA DE INTERVENÇÕES */}
+      <ConversionCtaSection
+        empresaNome={result.empresaNome}
+        iimScore={result.iimRounded}
+        classificacao={result.classificacao}
+      />
 
       {/* 7. RECOMENDAÇÕES URBANFLOW */}
       <RecommendationsSection recomendacoes={result.recomendacoes} />
