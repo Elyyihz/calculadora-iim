@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Play, Layers, Info } from 'lucide-react';
+import { ArrowLeft, Info, Sparkles } from 'lucide-react';
 import { CalculatorWizard } from '../components/calculator/CalculatorWizard';
 import { CalculatorProvider } from '../context/CalculatorContext';
 
 export const CalculadoraPage: React.FC = () => {
-  const [viewMode, setViewMode] = useState<'wizard' | 'legacy'>('wizard');
-
   return (
     <div style={{ background: 'var(--surface-2)', minHeight: '85vh', paddingBottom: '4rem' }}>
       {/* SUB-HEADER NAVIGATION */}
@@ -38,56 +36,21 @@ export const CalculadoraPage: React.FC = () => {
             <span>Voltar ao Site Institucional</span>
           </Link>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                background: 'rgba(255, 255, 255, 0.08)',
-                padding: '3px',
-                borderRadius: '20px',
-                border: '1px solid rgba(255, 255, 255, 0.12)'
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => setViewMode('wizard')}
-                style={{
-                  padding: '5px 14px',
-                  borderRadius: '16px',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  color: viewMode === 'wizard' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.75)',
-                  background: viewMode === 'wizard' ? 'var(--accent)' : 'transparent',
-                  transition: 'all 0.2s'
-                }}
-              >
-                <Layers size={13} />
-                <span>Formulário Multi-Etapas (Stepper)</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setViewMode('legacy')}
-                style={{
-                  padding: '5px 14px',
-                  borderRadius: '16px',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  color: viewMode === 'legacy' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.75)',
-                  background: viewMode === 'legacy' ? 'var(--accent)' : 'transparent',
-                  transition: 'all 0.2s'
-                }}
-              >
-                <Play size={13} />
-                <span>HTML Legado</span>
-              </button>
-            </div>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '0.78rem',
+              color: 'rgba(255, 255, 255, 0.85)',
+              background: 'rgba(255, 255, 255, 0.08)',
+              padding: '5px 14px',
+              borderRadius: '16px',
+              border: '1px solid rgba(255, 255, 255, 0.14)'
+            }}
+          >
+            <Sparkles size={13} color="var(--accent)" />
+            <span>Diagnóstico Interativo Oficial</span>
           </div>
         </div>
       </div>
@@ -181,55 +144,10 @@ export const CalculadoraPage: React.FC = () => {
         />
       </div>
 
-      {/* MAIN VIEW */}
-      {viewMode === 'wizard' ? (
-        <CalculatorProvider>
-          <CalculatorWizard />
-        </CalculatorProvider>
-      ) : (
-        <div className="container" style={{ marginTop: '2rem' }}>
-          <div
-            style={{
-              background: 'var(--surface)',
-              borderRadius: 'var(--radius)',
-              border: '1px solid var(--border)',
-              boxShadow: 'var(--shadow-lg)',
-              overflow: 'hidden'
-            }}
-          >
-            <div
-              style={{
-                background: 'var(--brand)',
-                padding: '10px 18px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                borderBottom: '1px solid rgba(46, 158, 91, 0.2)'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff5f56' }} />
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ffbd2e' }} />
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#27c93f' }} />
-                <span style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.7)', marginLeft: '10px' }}>
-                  calculadora-iim-v3.1-1.html
-                </span>
-              </div>
-            </div>
-
-            <iframe
-              src="/calculadora-prototype.html"
-              title="Calculadora IIM Legada"
-              style={{
-                width: '100%',
-                height: '840px',
-                border: 'none',
-                display: 'block'
-              }}
-            />
-          </div>
-        </div>
-      )}
+      {/* MAIN CALCULATOR WIZARD */}
+      <CalculatorProvider>
+        <CalculatorWizard />
+      </CalculatorProvider>
     </div>
   );
 };
