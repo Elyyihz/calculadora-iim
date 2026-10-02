@@ -125,12 +125,20 @@ class D4VulnerabilidadeInputDTO(BaseModel):
     d4_dep: Optional[Union[int, str]] = 0
     d4_seg: Optional[Union[float, int, str]] = 2
     d4_app: Optional[Union[int, str]] = 0
-    d4_risco: Optional[Union[int, str]] = 0
+    d4_risco: Optional[Union[str, int, List[Union[str, int]]]] = "0"
     d4_violencia: Optional[Union[int, str]] = 0
     d4_vuln: Optional[Union[float, int, str]] = 2
     d4_tp_qual: Optional[Union[int, str]] = 0
 
-    @field_validator("d4_ponto", "d4_dep", "d4_seg", "d4_app", "d4_risco", "d4_violencia", "d4_vuln", "d4_tp_qual", mode="before")
+    @field_validator("d4_risco", mode="before")
+    def clean_d4_risco(cls, v):
+        if isinstance(v, list):
+            return ",".join([str(item) for item in v if item is not None])
+        if v == "" or v is None:
+            return "0"
+        return str(v)
+
+    @field_validator("d4_ponto", "d4_dep", "d4_seg", "d4_app", "d4_violencia", "d4_vuln", "d4_tp_qual", mode="before")
     def clean_numeric(cls, v):
         if v == "" or v is None:
             return 0

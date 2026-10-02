@@ -247,7 +247,36 @@ class TestCalculadoraIIMAPI(unittest.TestCase):
         finally:
             db.close()
 
+    def test_08_criar_diagnostico_multiplos_riscos_d4(self):
+        # Testa envio com lista de múltiplos riscos percebidos no trajeto em D4
+        payload = {
+            "respostas": {
+                "empresa_nome": "Logística Segura Ltda",
+                "empresa_setor": "logistica",
+                "empresa_regime": "presencial",
+                "d4_risco": ["1", "3", "4"]
+            },
+            "resultado": {
+                "iim": 71.5,
+                "classificacao": "Alto"
+            }
+        }
+        resp = self.client.post("/api/diagnosticos", json=payload)
+        self.assertEqual(resp.status_code, 201)
+        data = resp.json()
+        self.assertIn("id", data)
+
+        # Verifica no banco de dados se d4_risco foi persistido como "1,3,4"
+        db = TestingSessionLocal()
+        try:
+            diag_db = db.query(DiagnosticoIIM).filter(DiagnosticoIIM.id == data["id"]).first()
+            self.assertIsNotNone(diag_db)
+            self.assertEqual(diag_db.d4_risco, "1,3,4")
+        finally:
+            db.close()
+
 
 if __name__ == "__main__":
     unittest.main()
+
 

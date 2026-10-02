@@ -88,7 +88,7 @@ class DiagnosticoIIM(Base):
     d4_dep = Column(Integer, nullable=True)
     d4_seg = Column(Float, nullable=True)
     d4_app = Column(Integer, nullable=True)
-    d4_risco = Column(Integer, nullable=True)
+    d4_risco = Column(String(50), nullable=True)
     d4_violencia = Column(Integer, nullable=True)
     d4_vuln = Column(Float, nullable=True)
     d4_tp_qual = Column(Integer, nullable=True)

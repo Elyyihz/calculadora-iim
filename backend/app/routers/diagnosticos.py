@@ -113,7 +113,7 @@ def criar_diagnostico(
         d4_dep=int(resp.d4_dep) if resp.d4_dep is not None else None,
         d4_seg=resp.d4_seg,
         d4_app=int(resp.d4_app) if resp.d4_app is not None else None,
-        d4_risco=int(resp.d4_risco) if resp.d4_risco is not None else None,
+        d4_risco=str(resp.d4_risco) if resp.d4_risco is not None else None,
         d4_violencia=int(resp.d4_violencia) if resp.d4_violencia is not None else None,
         d4_vuln=resp.d4_vuln,
         d4_tp_qual=int(resp.d4_tp_qual) if resp.d4_tp_qual is not None else None,

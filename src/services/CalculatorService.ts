@@ -94,7 +94,7 @@ export const INITIAL_CALCULATOR_DATA: CalculatorInputDTO = {
   d4_dep: '',
   d4_seg: 60,
   d4_app: '',
-  d4_risco: '',
+  d4_risco: [],
   d4_violencia: '',
   d4_vuln: 40,
   d4_tp_qual: ''
@@ -205,8 +205,16 @@ export class CalculatorService {
     let score = 0;
     score += parseFloat(data.d4_dep || '0') * 12;
     score += (100 - (data.d4_seg ?? 60)) * 0.20;
-    score += parseFloat(data.d4_app || '0') * 8;
-    score += parseFloat(data.d4_risco || '0') * 10;
+    // Risco percebido no trajeto (acumulativo com teto de 40 pts para manter a calibração de D4_MAX)
+    const riscos = Array.isArray(data.d4_risco)
+      ? data.d4_risco
+      : (typeof data.d4_risco === 'string' && data.d4_risco ? (data.d4_risco as string).split(',') : []);
+    let riscoScore = 0;
+    if (riscos.length > 0 && !riscos.includes('0')) {
+      const sum = riscos.reduce((acc, r) => acc + (parseFloat(r) || 0), 0);
+      riscoScore = Math.min(sum * 10, 40);
+    }
+    score += riscoScore;
     score += parseFloat(data.d4_violencia || '0') * 12;
     score += (data.d4_vuln ?? 40) * 0.20;
     score += parseFloat(data.d4_tp_qual || '0') * 10;
@@ -789,7 +797,10 @@ export class CalculatorService {
         errors.d4_ponto = 'Informe a distância a pé até o ponto';
       if (!data.d4_dep) errors.d4_dep = 'Indique a dependência do transporte público';
       if (!data.d4_app) errors.d4_app = 'Indique o acesso a aplicativo de transporte';
-      if (!data.d4_risco) errors.d4_risco = 'Indique a presença de áreas com risco';
+      const riscos = Array.isArray(data.d4_risco)
+        ? data.d4_risco
+        : (data.d4_risco ? [data.d4_risco as any] : []);
+      if (riscos.length === 0) errors.d4_risco = 'Indique os riscos percebidos no trajeto (ou marque "Nenhum risco")';
       if (!data.d4_violencia) errors.d4_violencia = 'Indique se foi vítima de assalto/violência';
       if (!data.d4_tp_qual) errors.d4_tp_qual = 'Avalie a qualidade do transporte público';
     }
