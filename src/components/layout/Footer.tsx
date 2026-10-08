@@ -228,7 +228,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-            <span>Lisboa · Porto · Madrid</span>
+            <span>Recife · São Paulo · Brasil</span>
             <button
               onClick={scrollToTop}
               aria-label="Voltar ao topo"

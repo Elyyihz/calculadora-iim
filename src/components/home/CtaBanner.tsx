@@ -1,174 +1,133 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Calculator, ArrowRight, BarChart3, Clock, DollarSign, Leaf } from 'lucide-react';
+import { Calculator, ArrowRight, MessageSquare, Sparkles } from 'lucide-react';
+import { COMPANY_INFO } from '../../data/institutionalData';
 
 export const CtaBanner: React.FC = () => {
   return (
-    <section style={{ padding: '0 0 5rem' }}>
+    <section style={{ padding: '2rem 0 7rem', background: '#FFFFFF' }}>
       <div className="container">
         <div
           className="card-blue"
           style={{
-            background: 'linear-gradient(135deg, var(--brand) 0%, var(--brand-mid) 100%)',
+            background: 'var(--brand)',
             borderRadius: 'var(--radius)',
-            padding: '3.5rem 2.5rem',
+            padding: '4.5rem 3.5rem',
             color: '#FFFFFF',
             position: 'relative',
             overflow: 'hidden',
-            border: '1px solid rgba(46, 158, 91, 0.3)',
-            boxShadow: 'var(--shadow-lg)'
+            border: '1px solid rgba(46, 158, 91, 0.25)',
+            boxShadow: '0 12px 40px rgba(11, 37, 69, 0.12)'
           }}
         >
-          {/* Subtle background graphics */}
+          {/* Subtle background ambient glow */}
           <div
             style={{
               position: 'absolute',
-              right: '-5%',
-              top: '-20%',
-              width: '400px',
-              height: '400px',
-              background: 'radial-gradient(circle, rgba(46, 158, 91, 0.15) 0%, transparent 70%)',
+              right: '-8%',
+              top: '-30%',
+              width: '500px',
+              height: '500px',
+              background: 'radial-gradient(circle, rgba(46, 158, 91, 0.18) 0%, transparent 70%)',
               pointerEvents: 'none'
             }}
           />
 
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '2.5rem',
-              alignItems: 'center',
+              maxWidth: '820px',
+              margin: '0 auto',
+              textAlign: 'center',
               position: 'relative',
               zIndex: 2
             }}
           >
-            <div>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '4px 14px',
-                  borderRadius: '16px',
-                  background: 'rgba(46, 158, 91, 0.18)',
-                  color: 'var(--accent)',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  marginBottom: '1rem',
-                  border: '1px solid rgba(46, 158, 91, 0.4)'
-                }}
-              >
-                <Calculator size={14} />
-                <span>Simulador Proprietário</span>
-              </div>
-
-              <h3
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(1.8rem, 3vw, 2.4rem)',
-                  fontWeight: 800,
-                  color: '#FFFFFF',
-                  lineHeight: 1.2,
-                  marginBottom: '1rem'
-                }}
-              >
-                Pronto para descobrir o índice de impacto de mobilidade da sua empresa?
-              </h3>
-
-              <p
-                style={{
-                  color: 'rgba(255, 255, 255, 0.92)',
-                  fontSize: '1rem',
-                  lineHeight: 1.65,
-                  marginBottom: '1.8rem'
-                }}
-              >
-                Utilize a ferramenta oficial dos nossos consultores para gerar um diagnóstico preliminar
-                em 4 etapas, obter projeções de economia financeira e simular o impacto de intervenções operacionais.
-              </p>
-
-              <Link
-                to="/calculadora"
-                className="btn btn-accent-glow"
-                style={{ padding: '13px 26px', fontSize: '0.95rem' }}
-              >
-                <Calculator size={17} />
-                <span>Abrir a Calculadora IIM v3.0</span>
-                <ArrowRight size={17} />
-              </Link>
-            </div>
-
-            {/* 4 DIMENSIONS PREVIEW PILLS */}
             <div
               style={{
-                background: 'rgba(255, 255, 255, 0.08)',
-                borderRadius: 'var(--radius)',
-                padding: '1.75rem',
-                border: '1px solid rgba(255, 255, 255, 0.18)'
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '5px 16px',
+                borderRadius: 'var(--radius-pill)',
+                background: 'rgba(46, 158, 91, 0.16)',
+                color: 'var(--accent)',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                marginBottom: '1.4rem',
+                border: '1px solid rgba(46, 158, 91, 0.35)'
               }}
             >
-              <div
+              <Sparkles size={14} />
+              <span>Diagnóstico Preliminar IIM</span>
+            </div>
+
+            <h3
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(2rem, 3.8vw, 3rem)',
+                fontWeight: 800,
+                color: '#FFFFFF',
+                lineHeight: 1.2,
+                marginBottom: '1.2rem'
+              }}
+            >
+              Pronto para descobrir o índice de impacto de mobilidade da sua empresa?
+            </h3>
+
+            <p
+              style={{
+                color: 'rgba(255, 255, 255, 0.92)',
+                fontSize: '1.1rem',
+                lineHeight: 1.75,
+                marginBottom: '2.5rem',
+                maxWidth: '680px',
+                margin: '0 auto 2.5rem'
+              }}
+            >
+              Utilize nossa ferramenta interativa proprietária para mapear as 4 dimensões, obter
+              a projeção de economia financeira e simular o retorno sobre o investimento em tempo real.
+            </p>
+
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '1.2rem'
+              }}
+            >
+              <Link
+                to="/calculadora"
+                className="btn btn-cta"
                 style={{
-                  fontSize: '0.78rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: 'var(--accent)',
-                  fontWeight: 700,
-                  marginBottom: '1rem'
+                  padding: '16px 34px',
+                  fontSize: '1.02rem',
+                  borderRadius: 'var(--radius-pill)',
+                  boxShadow: '0 6px 20px rgba(46, 158, 91, 0.35)'
                 }}
               >
-                4 Dimensões Ponderadas pelo Algoritmo IIM
-              </div>
+                <Calculator size={19} />
+                <span>Calcular IIM da Minha Empresa</span>
+                <ArrowRight size={18} />
+              </Link>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {[
-                  {
-                    title: 'D1: Tempo & Deslocamento',
-                    desc: 'Minutos perdidos por dia e índice de atrito na comutação',
-                    icon: <Clock size={18} color="var(--accent)" />
-                  },
-                  {
-                    title: 'D2: Custo & Eficiência Financeira',
-                    desc: 'Gastos com combustíveis, estacionamentos e subsídios',
-                    icon: <DollarSign size={18} color="var(--accent)" />
-                  },
-                  {
-                    title: 'D3: Emissões & Pegada Ambiental',
-                    desc: 'Estimativa de kg de CO₂e gerados no trajeto diário',
-                    icon: <Leaf size={18} color="var(--accent)" />
-                  },
-                  {
-                    title: 'D4: Bem-Estar & Saúde do Colaborador',
-                    desc: 'Stress acumulado, desgaste e impacto no turnover corporativo',
-                    icon: <BarChart3 size={18} color="var(--accent)" />
-                  }
-                ].map((dim, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      background: 'rgba(255, 255, 255, 0.08)',
-                      padding: '12px 14px',
-                      borderRadius: 'var(--radius-sm)',
-                      border: '1px solid rgba(255, 255, 255, 0.12)'
-                    }}
-                  >
-                    <div style={{ flexShrink: 0 }}>{dim.icon}</div>
-                    <div>
-                      <div style={{ fontSize: '0.88rem', fontWeight: 600, color: '#FFFFFF' }}>
-                        {dim.title}
-                      </div>
-                      <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.88)', lineHeight: 1.45 }}>
-                        {dim.desc}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <a
+                href={COMPANY_INFO.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline-light"
+                style={{
+                  padding: '16px 30px',
+                  fontSize: '1.02rem',
+                  borderRadius: 'var(--radius-pill)'
+                }}
+              >
+                <MessageSquare size={18} />
+                <span>Falar com Consultor</span>
+              </a>
             </div>
           </div>
         </div>

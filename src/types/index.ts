@@ -38,3 +38,27 @@ export interface StatMetric {
   label: string;
   subtext: string;
 }
+
+export interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+  category?: string;
+}
+
+export interface StepItem {
+  number: string;
+  title: string;
+  description: string;
+  details?: string[];
+}
+
+export interface PillarMovement {
+  id: string;
+  role: string;
+  stakeholder: string;
+  title: string;
+  description: string;
+  metric: string;
+  highlights: string[];
+}

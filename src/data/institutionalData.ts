@@ -1,33 +1,177 @@
-import { TeamMember, Pillar, ResponsibilityItem, StatMetric, NavItem } from '../types';
+import {
+  TeamMember,
+  Pillar,
+  ResponsibilityItem,
+  StatMetric,
+  NavItem,
+  FaqItem,
+  StepItem,
+  PillarMovement
+} from '../types';
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Início', href: '/' },
-  { label: 'Quem Somos', href: '/#quem-somos' },
-  { label: 'A Equipa', href: '/#a-equipa' },
-  { label: 'Responsabilidades', href: '/#responsabilidades' }
+  { label: 'O que nos move', href: '/#o-que-nos-move' },
+  { label: 'O Método', href: '/#o-metodo' },
+  { label: 'Da escuta à ação', href: '/#da-escuta-a-acao' },
+  { label: 'Nossa Origem', href: '/#nossa-origem' },
+  { label: 'FAQ', href: '/#faq' }
 ];
 
 export const COMPANY_INFO = {
   name: 'UrbanFlow',
-  tagline: 'Consultoria Estratégica em Mobilidade Corporativa & Eficiência Operacional',
-  description: 'Transformamos o deslocamento e a dinâmica de trabalho de grandes corporações através de diagnósticos quantitativos, inteligência de dados e estratégias sustentáveis de mobilidade.',
-  email: 'contacto@urbanflow-consultoria.pt',
-  phone: '+351 210 987 654',
-  address: 'Avenida da Liberdade 245, 4º Andar, 1250-143 Lisboa'
+  tagline: 'Consultoria Estratégica em Mobilidade Corporativa & People Analytics',
+  description: 'Transformamos deslocamentos urbanos em inteligência de dados, reduzindo custos invisíveis de turnover e presenteísmo e destravando a produtividade das organizações.',
+  email: 'contato@urbanflow.com.br',
+  phone: '+55 (81) 99876-5432',
+  whatsappUrl: 'https://wa.me/5581998765432?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20a%20consultoria%20UrbanFlow%20e%20o%20diagnóstico%20IIM.',
+  address: 'Polo Tecnológico / UNINASSAU · Recife, PE — Brasil'
 };
 
 export const HERO_STATS: StatMetric[] = [
-  { value: '+42%', label: 'Eficiência de Deslocação', subtext: 'Redução média no tempo diário de comutação' },
-  { value: '3.8x', label: 'Retorno sobre Investimento', subtext: 'ROI medido no primeiro ciclo de intervenções' },
-  { value: '-28%', label: 'Pegada de Carbono', subtext: 'Corte comprovado de emissões de CO₂e no trajeto casa-trabalho' },
-  { value: '85k+', label: 'Colaboradores Impactados', subtext: 'Em projetos de mobilidade inteligente e bem-estar' }
+  { value: '4 Dimensões', label: 'Análise Multicritério', subtext: 'Tempo, estresse, assiduidade e vulnerabilidade' },
+  { value: '-35%', label: 'Custos Invisíveis', subtext: 'Redução média comprovada em perdas operacionais' },
+  { value: '100% LGPD', label: 'Privacidade Nativa', subtext: 'Anonimização total sem coleta de rotas individuais' },
+  { value: 'ROI Claro', label: 'Impacto Financeiro', subtext: 'Modelagem direta para deliberação do CFO' }
+];
+
+export const PILLARS_MOVEMENT: PillarMovement[] = [
+  {
+    id: 'eficiencia-cfo',
+    role: 'Eficiência',
+    stakeholder: 'Diretoria Financeira · CFO',
+    title: 'Eliminação de custos invisíveis e ROI auditável',
+    description: 'Desperdício com vale-transporte descalibrado, atrasos sistemáticos e o custo bilionário de substituição de colaboradores que pedem demissão pelo trânsito corroem o EBITDA da sua empresa. O IIM monetiza o atrito urbano e gera retorno líquido mensurável.',
+    metric: 'Até -35% em despesas ocultas de mobilidade',
+    highlights: [
+      'Auditoria de custo real de reposição por função/cargo',
+      'Simulador de economia em tempo real para balanço executivo',
+      'Otimização inteligente de subsídios e vale-transporte'
+    ]
+  },
+  {
+    id: 'produtividade-gestores',
+    role: 'Produtividade',
+    stakeholder: 'Operações & Gestores',
+    title: 'Energia e foco desde o primeiro minuto de trabalho',
+    description: 'Rotas caóticas geram o custo de transição: o colaborador chega exausto e perde até 40% da capacidade cognitiva nas primeiras horas do expediente. Nossas intervenções devolvem clareza mental e garantem previsibilidade nas entregas da equipe.',
+    metric: 'Recuperação direta de horas produtivas semanais',
+    highlights: [
+      'Janelas flexíveis e escalonamento inteligente de entrada',
+      'Queda acentuada em atrasos crônicos e reuniões canceladas',
+      'Previsibilidade operacional para equipes sob alta demanda'
+    ]
+  },
+  {
+    id: 'bem-estar-rh',
+    role: 'Bem-estar',
+    stakeholder: 'Recursos Humanos · People',
+    title: 'Retenção de talentos e prevenção ativa do burnout',
+    description: 'O desgaste no trânsito é o vetor silencioso número um na decisão voluntária de demissão nas grandes metrópoles. Oferecer suporte à mobilidade é o benefício mais tangível de valorização humana, saúde física e mental e elevação do eNPS corporativo.',
+    metric: 'Retenção de colaboradores-chave e aumento de eNPS',
+    highlights: [
+      'Mitigação de estresse antecipado e privação de sono',
+      'Políticas híbridas orientadas por dados reais de moradia',
+      'Fortalecimento da cultura de pertencimento e acolhimento'
+    ]
+  }
+];
+
+export const METHOD_STEPS: StepItem[] = [
+  {
+    number: '01',
+    title: 'Conectamos os dados',
+    description: 'Mapeamos o perfil de deslocamento dos colaboradores com formulários digitais ultra-rápidos e dados cadastrais básicos da empresa. Processo 100% anônimo, sem atrito para a equipe e em estrita conformidade com a LGPD.',
+    details: [
+      'Coleta ágil e sem burocracia em poucos minutos',
+      'Zero rastreamento invasivo por GPS individual',
+      'Agrupamento inteligente por zonas e polos de moradia'
+    ]
+  },
+  {
+    number: '02',
+    title: 'Calculamos o IIM',
+    description: 'Processamos as respostas no algoritmo proprietário do Índice de Impacto de Mobilidade, ponderando as 4 dimensões (D1 a D4). O diagnóstico gera um score de 0 a 100 e quantifica as perdas com presenteísmo e turnover.',
+    details: [
+      'Ponderação científica testada academicamente',
+      'Gráfico de radar multicritério por área ou unidade',
+      'Monetização precisa do custo mensal e anual para o negócio'
+    ]
+  },
+  {
+    number: '03',
+    title: 'Traçamos um plano',
+    description: 'Desenhamos um Plano Diretor de Mobilidade Corporativa customizado, priorizado por matriz de esforço versus impacto financeiro. Ações práticas de curto, médio e longo prazo sob medida para o orçamento da empresa.',
+    details: [
+      'Ajustes de modelos híbridos e políticas de presença',
+      'Rotas otimizadas, fretamento inteligente ou auxílio flexível',
+      'Plano de ação executivo com metas claras para a liderança'
+    ]
+  },
+  {
+    number: '04',
+    title: 'Acompanhamos a jornada',
+    description: 'Monitoramos a implementação com painéis de controle e reavaliações periódicas. Medimos a evolução do índice IIM, a redução de emissões de carbono (ESG - Escopo 3) e o retorno real do investimento para a diretoria.',
+    details: [
+      'Dashboard executivo de evolução de indicadores',
+      'Cálculo de toneladas de CO₂e evitadas para relatórios ESG',
+      'Acompanhamento de satisfação dos colaboradores e ROI'
+    ]
+  }
+];
+
+export const ORIGIN_STORY = {
+  institution: 'UNINASSAU · Centro Universitário Maurício de Nassau',
+  city: 'Recife, Pernambuco — Brasil',
+  title: 'Nascida da pesquisa aplicada no coração do Recife',
+  paragraph1: 'A UrbanFlow teve sua gênese no ecossistema de pesquisa aplicada e engenharia de produção da UNINASSAU, em Recife (PE). Historicamente reconhecida como uma das capitais com o tráfego urbano mais desafiador do Brasil, a capital pernambucana serviu como o laboratório empírico natural ideal para investigar um fenômeno urgente e silencioso.',
+  paragraph2: 'Nossos fundadores perceberam que a mobilidade urbana era tratada pelo mercado apenas como uma despesa protocolar de transporte, quando na verdade constituía um dos maiores ralos invisíveis de produtividade, receita operacional e saúde mental das companhias.',
+  paragraph3: 'Combinando modelagem matemática avançada, People Analytics e pesquisa de campo com centenas de trabalhadores, desenvolvemos o algoritmo do Índice de Impacto de Mobilidade (IIM). Hoje, a metodologia ultrapassou as barreiras acadêmicas e se tornou uma consultoria corporativa de referência que transforma dados em qualidade de vida e eficiência financeira.',
+  badges: [
+    'Recife, PE · Berço Metodológico',
+    'UNINASSAU · Rigor Científico',
+    'Pesquisa Aplicada com Impacto Corporativo Real'
+  ]
+};
+
+export const FAQ_ITEMS: FaqItem[] = [
+  {
+    id: 'o-que-e-iim',
+    question: 'O que é exatamente o IIM (Índice de Impacto de Mobilidade)?',
+    answer: 'O IIM é uma métrica científica proprietária desenvolvida pela UrbanFlow que quantifica, em uma escala de 0 a 100, o grau de impacto negativo que os deslocamentos diários causam tanto na vida do colaborador quanto nas finanças da organização. Quanto maior a pontuação, mais crítico é o atrito e maiores são as perdas financeiras em produtividade, presenteísmo e risco de demissão voluntária.'
+  },
+  {
+    id: 'privacidade-lgpd',
+    question: 'Como a UrbanFlow garante a conformidade com a LGPD e a privacidade dos colaboradores?',
+    answer: 'A privacidade é um pilar estruturante da nossa arquitetura. Não realizamos rastreamento em tempo real por GPS e nunca solicitamos endereços residenciais exatos. As análises trabalham exclusivamente com dados anonimizados agregados por zonas de transporte e perfis demográficos, garantindo total conformidade com a Lei Geral de Proteção de Dados (LGPD) e segurança jurídica para a empresa.'
+  },
+  {
+    id: 'prazo-implementacao',
+    question: 'Qual é o tempo médio para realização de um diagnóstico corporativo completo?',
+    answer: 'Um diagnóstico padrão com o IIM é executado entre 7 e 15 dias úteis, divididos entre a fase de coleta digital das respostas, processamento algorítmico e elaboração do relatório executivo. A empresa recebe uma apresentação estruturada com o gráfico de radar dimensional, simulação financeira e o plano de ação priorizado.'
+  },
+  {
+    id: 'comprovacao-roi',
+    question: 'Como o IIM comprova o Retorno sobre o Investimento (ROI) para o CFO?',
+    answer: 'Nossa modelagem monetiza três grandes custos ocultos: o presenteísmo matinal (tempo de transição cognitiva até o início do trabalho efetivo), as perdas por atrasos e absenteísmo, e o custo de substituição de colaboradores (headhunter, rescisão e ramp-up de novos talentos). O simulador do IIM projeta a economia financeira líquida para cada ponto de redução do índice.'
+  },
+  {
+    id: 'porte-empresas',
+    question: 'A consultoria atende empresas de qualquer porte ou setor?',
+    answer: 'Sim. A metodologia atende desde médias empresas (a partir de 50 colaboradores) até corporações com milhares de funcionários em múltiplos polos. O IIM possui multiplicadores específicos calibrados para setores como Indústria, Tecnologia, Serviços, Saúde, Logística e Varejo.'
+  },
+  {
+    id: 'esg-descarbonizacao',
+    question: 'Como o diagnóstico do IIM se conecta à agenda ESG e às metas de carbono?',
+    answer: 'A mobilidade pendular dos colaboradores compõe o Escopo 3 do GHG Protocol (emissões indiretas da cadeia de valor). Ao mapear os modais utilizados e otimizar rotas ou introduzir dias de trabalho remoto orientado, a consultoria calcula as toneladas de CO₂e evitadas, gerando dados auditáveis para os relatórios de sustentabilidade e metas Net-Zero da organização.'
+  }
 ];
 
 export const PILLARS: Pillar[] = [
   {
     id: 'diagnostico-iim',
     title: 'Diagnóstico Científico (IIM)',
-    description: 'Avaliamos a sua operação através do Índice de Impacto de Mobilidade, combinando métricas de tempo, stress urbano, pegada ambiental e custos diretos.',
+    description: 'Avaliamos a sua operação através do Índice de Impacto de Mobilidade, combinando métricas de tempo, estresse urbano, assiduidade e custos diretos.',
     iconName: 'Compass',
     metrics: '4 Dimensões Integradas'
   },
@@ -56,44 +200,13 @@ export const PILLARS: Pillar[] = [
 
 export const TEAM_MEMBERS: TeamMember[] = [
   {
-    id: 'mariana-vasconcelos',
-    name: 'Dra. Mariana Vasconcelos',
-    role: 'Sócia Fundadora & Diretora de Estratégia',
-    specialty: 'Planeamento Urbano e Modelos de Decisão Corporativa',
-    bio: 'Mais de 16 anos a desenhar ecossistemas de mobilidade na Europa e América Latina. Doutorada em Engenharia de Transportes pela Universidade Técnica de Lisboa.',
+    id: 'pesquisa-uninassau',
+    name: 'Núcleo de Engenharia & Gestão UNINASSAU',
+    role: 'Polo de Pesquisa e Desenvolvimento Metodológico',
+    specialty: 'Engenharia de Produção, Ciência de Dados e Mobilidade Urbana',
+    bio: 'Desenvolvedores da modelagem multicritério e matriz de ponderação dimensional do IIM v3.0, com validação empírica no tráfego da Região Metropolitana do Recife.',
     avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80',
-    skills: ['Estratégia Corporativa', 'Políticas Urbanas', 'Modelagem IIM'],
-    linkedin: 'https://linkedin.com'
-  },
-  {
-    id: 'tiago-albuquerque',
-    name: 'Eng. Tiago Albuquerque',
-    role: 'Head de Inteligência Quantitativa e Algoritmos',
-    specialty: 'Otimização Matemática e Simulação de Tráfego',
-    bio: 'Especialista em algoritmos preditivos e coautor do algoritmo proprietário da Calculadora IIM v3. Mestre em Data Science e Investigação Operacional.',
-    avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80',
-    skills: ['Algoritmos de Otimização', 'Data Analytics', 'ROI Operacional'],
-    linkedin: 'https://linkedin.com'
-  },
-  {
-    id: 'clara-mendonca',
-    name: 'Clara Mendonça, MSc',
-    role: 'Diretora de Sustentabilidade & Impacto ESG',
-    specialty: 'Descarbonização e Contabilidade de Emissões de Carbono',
-    bio: 'Responsável pelo alinhamento das políticas de transporte das empresas clientes com as normas europeias CSRD e cálculo rigoroso de emissões de Escopo 3.',
-    avatarUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80',
-    skills: ['ESG & GHG Protocol', 'Transição Energética', 'Auditoria Sustentável'],
-    linkedin: 'https://linkedin.com'
-  },
-  {
-    id: 'andre-carvalho',
-    name: 'André Carvalho',
-    role: 'Líder de People Experience e Transformação Organizacional',
-    specialty: 'Cultura Corporativa, Saúde Mental e Ergonomia do Trabalho',
-    bio: 'Focado em diminuir o atrito do trânsito na saúde dos colaboradores. Mais de uma década a gerir projetos de atração de talento e qualidade de vida no trabalho.',
-    avatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80',
-    skills: ['Gestão de Mudança', 'Wellbeing Corporativo', 'People Analytics'],
-    linkedin: 'https://linkedin.com'
+    skills: ['Modelagem IIM', 'Pesquisa Aplicada', 'People Analytics']
   }
 ];
 
@@ -102,48 +215,12 @@ export const RESPONSIBILITIES: ResponsibilityItem[] = [
     id: 'ambiental',
     category: 'ESG',
     title: 'Responsabilidade Ambiental e Clima',
-    description: 'A mobilidade corporativa é um dos principais vetores não medidos de poluição atmosférica. O nosso compromisso é converter dados de comutação em reduções concretas de toneladas de CO₂.',
-    impactMetrics: 'Mais de 12.000 toneladas de CO₂e mitigadas anualmente com planos implementados',
+    description: 'A mobilidade corporativa é um vetor crítico de emissões indiretas de gases estufa. O nosso compromisso é converter dados de deslocamento em reduções auditáveis de carbono.',
+    impactMetrics: 'Milhares de toneladas de CO₂e mitigadas em planos de mobilidade inteligente',
     commitments: [
       'Inventariação rigorosa de emissões indiretas (Escopo 3) segundo o GHG Protocol.',
-      'Incentivo ativo à eletrificação de frotas e integração de micro-mobilidade verde.',
-      'Definição de metas auditáveis de neutralidade de carbono até 2030.'
-    ]
-  },
-  {
-    id: 'social',
-    category: 'Social',
-    title: 'Impacto Social e Qualidade de Vida',
-    description: 'Horas excessivas no trânsito degradam a saúde física e mental dos profissionais. Criamos estratégias para devolver tempo com a família e descanso aos colaboradores.',
-    impactMetrics: 'Média de 48 minutos diários devolvidos a cada colaborador em empresas parceiras',
-    commitments: [
-      'Erradicação de percursos diários desnecessários por meio de modelos híbridos inteligentes.',
-      'Subsídios e parcerias para transporte público limpo e frotas partilhadas.',
-      'Foco em inclusão, segurança nas deslocações e acessibilidade para pessoas com mobilidade reduzida.'
-    ]
-  },
-  {
-    id: 'governanca',
-    category: 'Governança',
-    title: 'Governança, Rigor Técnico e Ética',
-    description: 'Decisões de infraestrutura exigem conformidade legal e integridade ética no tratamento dos dados de localização e hábitos de deslocação dos colaboradores.',
-    impactMetrics: '100% dos dados anonimizados em conformidade total com o RGPD / GDPR',
-    commitments: [
-      'Anonimização estrita de coordenadas e moradas em todos os diagnósticos IIM.',
-      'Transparência algorítmica: cálculos de ROI e benchmarks auditáveis.',
-      'Conformidade rigorosa com normas de contratação pública e privada.'
-    ]
-  },
-  {
-    id: 'urbano',
-    category: 'Mobilidade',
-    title: 'Cidadania Urbana e Desenvolvimento Local',
-    description: 'As empresas não existem no vácuo: as suas rotas impactam a fluidez dos bairros em redor dos polos empresariais. Cooperamos para cidades mais humanas.',
-    impactMetrics: 'Parcerias com municípios e operadores de trânsito em 6 áreas metropolitanas',
-    commitments: [
-      'Alívio sistemático dos picos de congestionamento urbano via horários flexíveis.',
-      'Estímulo ao comércio de proximidade e descentralização dos polos de trabalho.',
-      'Partilha de relatórios abertos de tendências de mobilidade para a comunidade.'
+      'Incentivo ativo a transportes compartilhados e modelos híbridos com baixa emissão.',
+      'Definição de metas auditáveis de sustentabilidade corporativa.'
     ]
   }
 ];

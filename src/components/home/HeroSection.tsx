@@ -8,156 +8,185 @@ export const HeroSection: React.FC = () => {
     <section
       id="inicio"
       style={{
-        background: 'var(--brand)',
-        color: '#FFFFFF',
-        padding: '5rem 0 7rem',
+        background: 'linear-gradient(180deg, #FFFFFF 0%, #F5F7FA 100%)',
+        color: 'var(--text)',
+        padding: '7rem 0 6rem',
         position: 'relative',
         overflow: 'hidden'
       }}
     >
-      {/* Background radial glow */}
+      {/* Subtle ambient blur in the background */}
       <div
         style={{
           position: 'absolute',
-          top: '-15%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '700px',
-          height: '400px',
-          background: 'radial-gradient(ellipse at center, rgba(46, 158, 91, 0.15) 0%, transparent 70%)',
+          top: '-10%',
+          right: '5%',
+          width: '550px',
+          height: '550px',
+          background: 'radial-gradient(circle, rgba(46, 158, 91, 0.08) 0%, transparent 70%)',
+          pointerEvents: 'none'
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '0',
+          left: '5%',
+          width: '450px',
+          height: '450px',
+          background: 'radial-gradient(circle, rgba(11, 37, 69, 0.05) 0%, transparent 70%)',
           pointerEvents: 'none'
         }}
       />
 
       <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
-        {/* Eyebrow badge */}
+        {/* Minimalist Eyebrow pill */}
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '6px 16px',
+            padding: '6px 18px',
             borderRadius: 'var(--radius-pill)',
-            background: 'rgba(46, 158, 91, 0.12)',
-            border: '1px solid rgba(46, 158, 91, 0.3)',
-            color: 'var(--accent)',
-            fontSize: '0.78rem',
-            letterSpacing: '0.12em',
+            background: 'rgba(11, 37, 69, 0.05)',
+            border: '1px solid rgba(11, 37, 69, 0.12)',
+            color: 'var(--brand)',
+            fontSize: '0.80rem',
+            letterSpacing: '0.10em',
             textTransform: 'uppercase',
             fontWeight: 600,
-            marginBottom: '1.8rem'
+            marginBottom: '2rem'
           }}
         >
-          <Sparkles size={14} />
-          <span>Consultoria Estratégica & Inteligência Urbana</span>
+          <Sparkles size={14} color="var(--accent)" />
+          <span>Consultoria em Mobilidade Corporativa & People Analytics</span>
         </div>
 
-        {/* Hero Title */}
+        {/* Hero Title (Exact briefing specification) */}
         <h1
           style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
-            fontSize: 'clamp(2.3rem, 5.5vw, 4rem)',
-            color: '#FFFFFF',
+            fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)',
+            color: 'var(--brand)',
             lineHeight: 1.15,
-            maxWidth: '900px',
-            margin: '0 auto 1.5rem',
-            letterSpacing: '-0.02em'
+            maxWidth: '920px',
+            margin: '0 auto 1.8rem',
+            letterSpacing: '-0.025em'
           }}
         >
-          Redesenhe a mobilidade da sua empresa com{' '}
-          <span style={{ color: 'var(--accent)' }}>inteligência quantitativa</span>
+          Um novo caminho para sua empresa ir mais longe
         </h1>
 
-        {/* Hero Subtitle */}
+        {/* Hero Subtitle (Focused on transforming commute into data) */}
         <p
           style={{
-            color: 'rgba(255, 255, 255, 0.92)',
-            maxWidth: '680px',
-            margin: '0 auto 2.5rem',
-            fontSize: '1.1rem',
+            color: '#4B5563',
+            maxWidth: '740px',
+            margin: '0 auto 3rem',
+            fontSize: 'clamp(1.05rem, 2vw, 1.22rem)',
             fontWeight: 400,
-            lineHeight: 1.7
+            lineHeight: 1.75
           }}
         >
-          Ajudamos organizações a reduzir a pegada de carbono, eliminar custos com percursos ineficientes
-          e devolver tempo produtivo e qualidade de vida aos colaboradores através da nossa metodologia proprietária IIM.
+          Transformamos o trajeto dos seus colaboradores em dados estratégicos de alta precisão.
+          Identifique perdas ocultas, elimine custos invisíveis de turnover e presenteísmo e destrave
+          a verdadeira capacidade produtiva da sua organização.
         </p>
 
-        {/* CTA Buttons */}
+        {/* Action Buttons */}
         <div
           style={{
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '1rem',
-            marginBottom: '4.5rem'
+            gap: '1.2rem',
+            marginBottom: '5rem'
           }}
         >
-          <Link to="/calculadora" className="btn btn-accent-glow" style={{ padding: '14px 28px', fontSize: '1rem' }}>
-            <Calculator size={18} />
-            <span>Calcular Índice IIM da sua Empresa</span>
+          <Link
+            to="/calculadora"
+            className="btn btn-cta"
+            style={{
+              padding: '16px 34px',
+              fontSize: '1.02rem',
+              borderRadius: 'var(--radius-pill)',
+              boxShadow: '0 6px 24px rgba(46, 158, 91, 0.28)'
+            }}
+          >
+            <Calculator size={19} />
+            <span>Calcular IIM da Minha Empresa</span>
             <ArrowRight size={18} />
           </Link>
 
-          <a href="#quem-somos" className="btn btn-outline-light" style={{ padding: '14px 28px', fontSize: '1rem' }}>
-            <span>Conhecer a Nossa Abordagem</span>
+          <a
+            href="#o-metodo"
+            className="btn btn-ghost"
+            style={{
+              padding: '16px 30px',
+              fontSize: '1.02rem',
+              borderRadius: 'var(--radius-pill)',
+              background: '#FFFFFF',
+              color: 'var(--brand)',
+              border: '1px solid var(--border-strong)',
+              boxShadow: '0 2px 10px rgba(11, 37, 69, 0.04)'
+            }}
+          >
+            <span>Conhecer o Método</span>
           </a>
         </div>
 
-        {/* STATS STRIP */}
+        {/* Minimalist Proof Cards with generous white space */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '1.5rem',
-            maxWidth: '1060px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '1.8rem',
+            maxWidth: '1100px',
             margin: '0 auto'
           }}
         >
           {HERO_STATS.map((stat, idx) => (
             <div
               key={idx}
-              className="card-blue"
               style={{
-                background: 'rgba(19, 57, 102, 0.75)',
-                border: '1px solid rgba(46, 158, 91, 0.35)',
+                background: '#FFFFFF',
+                border: '1px solid rgba(11, 37, 69, 0.08)',
                 borderRadius: 'var(--radius)',
-                padding: '1.5rem 1.25rem',
-                backdropFilter: 'blur(8px)',
+                padding: '2rem 1.6rem',
                 textAlign: 'left',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
-                transition: 'transform var(--transition-fast)'
+                boxShadow: '0 4px 20px rgba(11, 37, 69, 0.04)',
+                transition: 'all var(--transition-fast)'
               }}
             >
               <div
                 style={{
                   fontFamily: 'var(--font-display)',
-                  fontSize: '2.3rem',
+                  fontSize: '2.1rem',
                   fontWeight: 800,
                   color: 'var(--accent)',
-                  lineHeight: 1,
-                  marginBottom: '0.5rem'
+                  lineHeight: 1.1,
+                  marginBottom: '0.6rem'
                 }}
               >
                 {stat.value}
               </div>
               <div
                 style={{
-                  fontSize: '0.92rem',
-                  fontWeight: 600,
-                  color: '#FFFFFF',
-                  marginBottom: '0.25rem'
+                  fontSize: '0.98rem',
+                  fontWeight: 700,
+                  color: 'var(--brand)',
+                  marginBottom: '0.35rem'
                 }}
               >
                 {stat.label}
               </div>
               <div
                 style={{
-                  fontSize: '0.80rem',
-                  color: 'rgba(255, 255, 255, 0.85)',
-                  lineHeight: 1.45
+                  fontSize: '0.84rem',
+                  color: '#6B7280',
+                  lineHeight: 1.55
                 }}
               >
                 {stat.subtext}
@@ -166,20 +195,6 @@ export const HeroSection: React.FC = () => {
           ))}
         </div>
       </div>
-
-      {/* Decorative smooth bottom curve matching the original HTML */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '-1px',
-          left: 0,
-          right: 0,
-          height: '60px',
-          background: 'var(--surface-2)',
-          clipPath: 'ellipse(60% 100% at 50% 100%)',
-          pointerEvents: 'none'
-        }}
-      />
     </section>
   );
 };
