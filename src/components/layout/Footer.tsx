@@ -118,8 +118,8 @@ export const Footer: React.FC = () => {
                 </li>
               ))}
               <li>
-                <Link
-                  to="/calculadora"
+                <a
+                  href="/#simulador"
                   style={{
                     fontSize: '0.90rem',
                     color: '#2E9E5B',
@@ -127,7 +127,22 @@ export const Footer: React.FC = () => {
                     textDecoration: 'none'
                   }}
                 >
-                  Calculadora IIM →
+                  Simulador Didático →
+                </a>
+              </li>
+              <li>
+                <Link
+                  to="/interno/calculadora"
+                  style={{
+                    fontSize: '0.82rem',
+                    color: '#6B7280',
+                    fontWeight: 500,
+                    textDecoration: 'none'
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = '#0B1924')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = '#6B7280')}
+                >
+                  Acesso Interno (Equipe) →
                 </Link>
               </li>
             </ul>

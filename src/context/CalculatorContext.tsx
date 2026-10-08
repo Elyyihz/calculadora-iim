@@ -21,6 +21,7 @@ interface CalculatorContextType {
   calculateDiagnosis: () => boolean;
   updateSimulationTarget: (targetIim: number) => void;
   resetCalculator: () => void;
+  loadData: (data: Partial<CalculatorInputDTO>) => void;
 }
 
 const CalculatorContext = createContext<CalculatorContextType | undefined>(undefined);
@@ -132,6 +133,11 @@ export const CalculatorProvider: React.FC<{ children: ReactNode }> = ({ children
     window.scrollTo({ top: 120, behavior: 'smooth' });
   };
 
+  const loadData = (data: Partial<CalculatorInputDTO>) => {
+    setFormData((prev) => ({ ...prev, ...data }));
+    setErrors({});
+  };
+
   return (
     <CalculatorContext.Provider
       value={{
@@ -147,7 +153,8 @@ export const CalculatorProvider: React.FC<{ children: ReactNode }> = ({ children
         goToStep,
         calculateDiagnosis,
         updateSimulationTarget,
-        resetCalculator
+        resetCalculator,
+        loadData
       }}
     >
       {children}

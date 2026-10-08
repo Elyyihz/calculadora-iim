@@ -80,22 +80,6 @@ export const Header: React.FC = () => {
               {item.label}
             </a>
           ))}
-
-          <Link
-            to="/calculadora"
-            style={{
-              color: '#2E9E5B',
-              fontSize: '0.92rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              transition: 'color 0.2s',
-              padding: '4px 0'
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#1E7A43')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#2E9E5B')}
-          >
-            Calculadora IIM
-          </Link>
         </nav>
 
         {/* ACTIONS: "Vamos conversar ↗" linking to real WhatsApp */}
@@ -186,19 +170,6 @@ export const Header: React.FC = () => {
               {item.label}
             </a>
           ))}
-          <Link
-            to="/calculadora"
-            onClick={() => setMobileMenuOpen(false)}
-            style={{
-              color: '#2E9E5B',
-              fontSize: '1rem',
-              fontWeight: 600,
-              padding: '8px 0',
-              textDecoration: 'none'
-            }}
-          >
-            Calculadora IIM
-          </Link>
           <a
             href={COMPANY_INFO.whatsappUrl}
             target="_blank"

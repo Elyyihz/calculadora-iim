@@ -12,6 +12,7 @@ import {
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Soluções', href: '/#o-que-nos-move' },
   { label: 'Nosso método', href: '/#o-metodo' },
+  { label: 'Simulador', href: '/#simulador' },
   { label: 'A UrbanFlow', href: '/#nossa-origem' },
   { label: 'FAQ', href: '/#faq' }
 ];

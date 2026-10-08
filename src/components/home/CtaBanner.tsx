@@ -1,6 +1,5 @@
 import React from 'react';
 import { ArrowUpRight, Calculator } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { COMPANY_INFO } from '../../data/institutionalData';
 
 export const CtaBanner: React.FC = () => {
@@ -127,9 +126,9 @@ export const CtaBanner: React.FC = () => {
                 <ArrowUpRight size={24} strokeWidth={2.4} />
               </a>
 
-              {/* Secondary Option: Self-service Calculator */}
-              <Link
-                to="/calculadora"
+              {/* Secondary Option: Self-service Didactic Simulator */}
+              <a
+                href="/#simulador"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -145,8 +144,8 @@ export const CtaBanner: React.FC = () => {
                 onMouseLeave={(e) => (e.currentTarget.style.color = '#2B4C38')}
               >
                 <Calculator size={15} />
-                <span>Ou simule agora na Calculadora IIM</span>
-              </Link>
+                <span>Ou experimente o simulador didático online</span>
+              </a>
             </div>
           </div>
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
@@ -79,8 +78,8 @@ export const HeroSection: React.FC = () => {
                   gap: '1rem'
                 }}
               >
-                <Link
-                  to="/calculadora"
+                <a
+                  href="/#simulador"
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -106,7 +105,7 @@ export const HeroSection: React.FC = () => {
                 >
                   <span>Conheça seu impacto</span>
                   <ArrowRight size={18} />
-                </Link>
+                </a>
 
                 <a
                   href="#o-metodo"
