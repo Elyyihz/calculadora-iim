@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, Calculator } from 'lucide-react';
-import { NAV_ITEMS } from '../../data/institutionalData';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { COMPANY_INFO, NAV_ITEMS } from '../../data/institutionalData';
 
 export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 15);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -27,27 +27,30 @@ export const Header: React.FC = () => {
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: scrolled ? 'rgba(11, 37, 69, 0.96)' : 'var(--brand)',
+        background: scrolled ? 'rgba(255, 255, 255, 0.95)' : '#FFFFFF',
         backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(46, 158, 91, 0.15)',
-        transition: 'all 0.3s ease',
-        padding: '0.9rem 0'
+        borderBottom: '1px solid rgba(11, 37, 69, 0.08)',
+        transition: 'all 0.25s ease',
+        padding: '1rem 0'
       }}
     >
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        {/* LOGO: Tag <img> preparada para receber o SVG oficial da UrbanFlow */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-          <img
-            src="/urbanflow-logo.svg"
-            alt="UrbanFlow Consultoria"
-            className="header-logo"
-            style={{
-              height: '38px',
-              width: 'auto',
-              maxWidth: '220px',
-              display: 'block'
-            }}
-          />
+        {/* LOGO: urbanflow (typography matching design) */}
+        <Link
+          to="/"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'baseline',
+            textDecoration: 'none',
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.45rem',
+            fontWeight: 800,
+            letterSpacing: '-0.03em',
+            color: '#133E28'
+          }}
+        >
+          <span>urban</span>
+          <span style={{ color: '#2E9E5B', fontWeight: 600 }}>flow</span>
         </Link>
 
         {/* DESKTOP NAVIGATION */}
@@ -55,49 +58,81 @@ export const Header: React.FC = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '1.8rem'
+            gap: '2.2rem'
           }}
           className="desktop-nav"
         >
-          {NAV_ITEMS.map((item) => {
-            const isCalculadora = item.href === '/calculadora';
-            return (
-              <a
-                key={item.label}
-                href={item.href}
-                style={{
-                  color: isCalculadora ? 'var(--accent)' : 'rgba(255, 255, 255, 0.82)',
-                  fontSize: '0.9rem',
-                  fontWeight: 500,
-                  transition: 'color var(--transition-fast)',
-                  position: 'relative',
-                  padding: '6px 0'
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = isCalculadora ? 'var(--accent)' : 'rgba(255, 255, 255, 0.82)')
-                }
-              >
-                {item.label}
-              </a>
-            );
-          })}
-        </nav>
+          {NAV_ITEMS.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              style={{
+                color: '#4B5563',
+                fontSize: '0.92rem',
+                fontWeight: 500,
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+                padding: '4px 0'
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#0B1924')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#4B5563')}
+            >
+              {item.label}
+            </a>
+          ))}
 
-        {/* ACTIONS (CTA TO CALCULATOR ROUTE: Verde #2E9E5B) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }} className="header-actions">
           <Link
             to="/calculadora"
-            className="btn btn-cta"
             style={{
-              padding: '9px 18px',
-              fontSize: '0.85rem'
+              color: '#2E9E5B',
+              fontSize: '0.92rem',
+              fontWeight: 600,
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+              padding: '4px 0'
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#1E7A43')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#2E9E5B')}
+          >
+            Calculadora IIM
+          </Link>
+        </nav>
+
+        {/* ACTIONS: "Vamos conversar ↗" linking to real WhatsApp */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }} className="header-actions">
+          <a
+            href={COMPANY_INFO.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Vamos conversar via WhatsApp"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '10px 22px',
+              fontSize: '0.90rem',
+              fontWeight: 600,
+              color: '#0B1924',
+              border: '1px solid #0B1924',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              background: 'transparent',
+              transition: 'all 0.2s ease',
+              cursor: 'pointer'
+            }}
+            className="btn-header-conversar"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#0B1924';
+              e.currentTarget.style.color = '#FFFFFF';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = '#0B1924';
             }}
           >
-            <Calculator size={16} />
-            <span>Calculadora IIM</span>
-            <ArrowUpRight size={15} />
-          </Link>
+            <span>Vamos conversar</span>
+            <ArrowUpRight size={16} strokeWidth={2.2} />
+          </a>
 
           {/* MOBILE TOGGLE */}
           <button
@@ -106,10 +141,12 @@ export const Header: React.FC = () => {
             className="mobile-toggle"
             style={{
               display: 'none',
-              color: '#FFFFFF',
+              color: '#0B1924',
               padding: '8px',
-              borderRadius: 'var(--radius-sm)',
-              background: 'rgba(255, 255, 255, 0.08)'
+              borderRadius: '8px',
+              background: 'rgba(11, 37, 69, 0.05)',
+              border: 'none',
+              cursor: 'pointer'
             }}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -121,13 +158,14 @@ export const Header: React.FC = () => {
       {mobileMenuOpen && (
         <div
           style={{
-            background: 'var(--brand)',
-            borderTop: '1px solid rgba(46, 158, 91, 0.2)',
+            background: '#FFFFFF',
+            borderTop: '1px solid rgba(11, 37, 69, 0.08)',
             padding: '1.5rem',
             display: 'flex',
             flexDirection: 'column',
             gap: '1rem',
-            marginTop: '0.8rem'
+            marginTop: '0.8rem',
+            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)'
           }}
           className="mobile-drawer"
         >
@@ -137,11 +175,12 @@ export const Header: React.FC = () => {
               href={item.href}
               onClick={() => setMobileMenuOpen(false)}
               style={{
-                color: '#FFFFFF',
-                fontSize: '1.05rem',
+                color: '#1F2937',
+                fontSize: '1rem',
                 fontWeight: 500,
                 padding: '8px 0',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
+                textDecoration: 'none',
+                borderBottom: '1px solid rgba(0, 0, 0, 0.04)'
               }}
             >
               {item.label}
@@ -150,17 +189,38 @@ export const Header: React.FC = () => {
           <Link
             to="/calculadora"
             onClick={() => setMobileMenuOpen(false)}
-            className="btn btn-cta"
             style={{
-              marginTop: '0.5rem',
-              justifyContent: 'center',
-              width: '100%'
+              color: '#2E9E5B',
+              fontSize: '1rem',
+              fontWeight: 600,
+              padding: '8px 0',
+              textDecoration: 'none'
             }}
           >
-            <Calculator size={18} />
-            <span>Acessar Calculadora IIM</span>
-            <ArrowUpRight size={16} />
+            Calculadora IIM
           </Link>
+          <a
+            href={COMPANY_INFO.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              padding: '12px',
+              background: '#0B1924',
+              color: '#FFFFFF',
+              borderRadius: '8px',
+              fontWeight: 600,
+              textDecoration: 'none',
+              marginTop: '0.5rem'
+            }}
+          >
+            <span>Vamos conversar</span>
+            <ArrowUpRight size={16} />
+          </a>
         </div>
       )}
 
@@ -172,7 +232,7 @@ export const Header: React.FC = () => {
           .mobile-toggle {
             display: flex !important;
           }
-          .header-actions .btn {
+          .header-actions .btn-header-conversar {
             display: none;
           }
         }

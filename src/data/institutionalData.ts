@@ -10,11 +10,9 @@ import {
 } from '../types';
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: 'Início', href: '/' },
-  { label: 'O que nos move', href: '/#o-que-nos-move' },
-  { label: 'O Método', href: '/#o-metodo' },
-  { label: 'Da escuta à ação', href: '/#da-escuta-a-acao' },
-  { label: 'Nossa Origem', href: '/#nossa-origem' },
+  { label: 'Soluções', href: '/#o-que-nos-move' },
+  { label: 'Nosso método', href: '/#o-metodo' },
+  { label: 'A UrbanFlow', href: '/#nossa-origem' },
   { label: 'FAQ', href: '/#faq' }
 ];
 
@@ -22,10 +20,13 @@ export const COMPANY_INFO = {
   name: 'UrbanFlow',
   tagline: 'Consultoria Estratégica em Mobilidade Corporativa & People Analytics',
   description: 'Transformamos deslocamentos urbanos em inteligência de dados, reduzindo custos invisíveis de turnover e presenteísmo e destravando a produtividade das organizações.',
-  email: 'contato@urbanflow.com.br',
-  phone: '+55 (81) 99876-5432',
-  whatsappUrl: 'https://wa.me/5581998765432?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20a%20consultoria%20UrbanFlow%20e%20o%20diagnóstico%20IIM.',
-  address: 'Polo Tecnológico / UNINASSAU · Recife, PE — Brasil'
+  email: 'urbanflowtcc@gmail.com',
+  phone: '+55 (81) 98899-6468',
+  phoneDisplay: '(81) 98899-6468',
+  whatsappUrl: 'https://wa.me/5581988996468?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20a%20consultoria%20UrbanFlow%20e%20preparar%20meu%20diagn%C3%B3stico%20IIM.',
+  instagramUrl: 'https://www.instagram.com/urbanflowconsultoria?stkn=MXc5azI2dDN6enA1eg==',
+  linkedinUrl: 'https://www.linkedin.com/in/urbanflow?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+  address: 'Recife e Região Metropolitana · Pernambuco, Brasil'
 };
 
 export const HERO_STATS: StatMetric[] = [

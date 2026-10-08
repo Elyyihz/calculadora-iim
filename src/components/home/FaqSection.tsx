@@ -1,18 +1,35 @@
 import React, { useState } from 'react';
-import { ChevronDown, HelpCircle, MessageSquare } from 'lucide-react';
-import { FAQ_ITEMS, COMPANY_INFO } from '../../data/institutionalData';
+import { Plus, Minus } from 'lucide-react';
+
+interface Faq {
+  question: string;
+  answer: string;
+}
+
+const FAQS: Faq[] = [
+  {
+    question: 'Para quem é a UrbanFlow?',
+    answer: 'A UrbanFlow atende empresas de médio e grande porte da Região Metropolitana do Recife e de todo o Brasil que buscam reduzir custos invisíveis associados a deslocamento, atrasos e turnover, além de promover qualidade de vida e atingir metas ESG (Escopo 3).'
+  },
+  {
+    question: 'O que a empresa recebe no diagnóstico?',
+    answer: 'A empresa recebe um relatório executivo detalhado contendo a nota do Índice de Impacto de Mobilidade (IIM de 0 a 100), o gráfico de radar dimensional, a quantificação financeira de perdas operacionais estimadas e uma matriz de intervenções prioritárias sob medida.'
+  },
+  {
+    question: 'Como os dados dos colaboradores são tratados?',
+    answer: 'Total conformidade com a LGPD. Os dados são coletados de forma agregada e anonimizada. Não realizamos rastreamento individual por GPS e não solicitamos o endereço residencial exato do colaborador, protegendo integralmente a privacidade da equipe.'
+  },
+  {
+    question: 'Já posso calcular o IIM da minha empresa aqui?',
+    answer: 'Sim! Disponibilizamos uma Calculadora IIM interativa preliminar em nosso site para que sua liderança possa simular o impacto e visualizar projeções em tempo real antes de contratar a consultoria completa.'
+  }
+];
 
 export const FaqSection: React.FC = () => {
-  // Store set of open item IDs (default first item open)
-  const [openIds, setOpenIds] = useState<Record<string, boolean>>({
-    'o-que-e-iim': true
-  });
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const toggleItem = (id: string) => {
-    setOpenIds((prev) => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
+  const toggle = (idx: number) => {
+    setOpenIndex((prev) => (prev === idx ? null : idx));
   };
 
   return (
@@ -20,165 +37,122 @@ export const FaqSection: React.FC = () => {
       id="faq"
       style={{
         background: '#FFFFFF',
-        padding: '7rem 0',
+        padding: '7rem 0 6rem',
         position: 'relative'
       }}
     >
-      <div className="container" style={{ maxWidth: '920px' }}>
-        {/* Section Header */}
-        <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '5px 14px',
-              borderRadius: 'var(--radius-pill)',
-              background: 'var(--accent-light)',
-              color: 'var(--accent)',
-              fontSize: '0.78rem',
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              marginBottom: '1.2rem'
-            }}
-          >
-            <HelpCircle size={14} />
-            <span>Perguntas Frequentes</span>
-          </div>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
-              fontWeight: 800,
-              color: 'var(--brand)',
-              lineHeight: 1.2,
-              marginBottom: '1.2rem'
-            }}
-          >
-            Tire suas dúvidas sobre o IIM
-          </h2>
-          <p
-            style={{
-              fontSize: '1.1rem',
-              color: 'var(--text-muted)',
-              lineHeight: 1.7,
-              fontWeight: 400
-            }}
-          >
-            Esclarecimentos detalhados sobre a metodologia, privacidade de dados, conformidade com a LGPD
-            e o retorno sobre o investimento financeiro para a sua diretoria.
-          </p>
-        </div>
-
-        {/* Accordion List */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '3.5rem' }}>
-          {FAQ_ITEMS.map((item) => {
-            const isOpen = !!openIds[item.id];
-            return (
-              <div
-                key={item.id}
-                style={{
-                  border: '1px solid rgba(11, 37, 69, 0.08)',
-                  borderRadius: 'var(--radius)',
-                  background: isOpen ? '#FFFFFF' : '#FAFAFA',
-                  boxShadow: isOpen ? '0 4px 20px rgba(11, 37, 69, 0.04)' : 'none',
-                  overflow: 'hidden',
-                  transition: 'all 0.25s ease'
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleItem(item.id)}
-                  aria-expanded={isOpen}
-                  style={{
-                    width: '100%',
-                    padding: '1.6rem 2rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: '1rem',
-                    textAlign: 'left',
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: '1.05rem',
-                      fontWeight: 700,
-                      color: isOpen ? 'var(--brand)' : '#374151',
-                      lineHeight: 1.4,
-                      transition: 'color 0.2s'
-                    }}
-                  >
-                    {item.question}
-                  </span>
-                  <div
-                    style={{
-                      width: '32px',
-                      height: '32px',
-                      borderRadius: '50%',
-                      background: isOpen ? 'var(--accent-light)' : 'rgba(11, 37, 69, 0.04)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                      transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                      transition: 'transform 0.25s ease, background 0.2s'
-                    }}
-                  >
-                    <ChevronDown size={18} color={isOpen ? 'var(--accent)' : 'var(--text-muted)'} />
-                  </div>
-                </button>
-
-                {isOpen && (
-                  <div
-                    style={{
-                      padding: '0 2rem 1.8rem',
-                      color: '#4B5563',
-                      fontSize: '0.98rem',
-                      lineHeight: 1.75,
-                      borderTop: '1px solid #F3F4F6',
-                      paddingTop: '1.2rem'
-                    }}
-                  >
-                    {item.answer}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Support Callout */}
+      <div className="container">
         <div
           style={{
-            textAlign: 'center',
-            padding: '2rem',
-            background: 'var(--surface-2)',
-            borderRadius: 'var(--radius)',
-            border: '1px solid rgba(11, 37, 69, 0.06)'
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '4rem',
+            alignItems: 'flex-start'
           }}
+          className="faq-grid"
         >
-          <p style={{ fontSize: '0.96rem', color: '#4B5563', marginBottom: '0.8rem' }}>
-            Ainda tem dúvidas técnicas ou deseja uma demonstração institucional para o seu time?
-          </p>
-          <a
-            href={COMPANY_INFO.whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary"
-            style={{
-              padding: '11px 24px',
-              fontSize: '0.90rem'
-            }}
-          >
-            <MessageSquare size={16} />
-            <span>Conversar com nossa equipe de consultores</span>
-          </a>
+          {/* Left Column: Heading */}
+          <div>
+            <div
+              style={{
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: '#3B5848',
+                marginBottom: '1.2rem'
+              }}
+            >
+              Antes do próximo passo
+            </div>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(2.2rem, 4vw, 3.2rem)',
+                fontWeight: 800,
+                color: '#0B1924',
+                lineHeight: 1.15,
+                letterSpacing: '-0.025em'
+              }}
+            >
+              Vamos tirar
+              <br />
+              suas dúvidas.
+            </h2>
+          </div>
+
+          {/* Right Column: Clean Minimalist Accordion */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {FAQS.map((faq, idx) => {
+              const isOpen = openIndex === idx;
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    borderTop: idx === 0 ? '1px solid #E5E7EB' : 'none',
+                    borderBottom: '1px solid #E5E7EB',
+                    padding: '1.5rem 0'
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => toggle(idx)}
+                    aria-expanded={isOpen}
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: '1.5rem',
+                      background: 'none',
+                      border: 'none',
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      padding: 0
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        color: isOpen ? '#2E9E5B' : '#0B1924',
+                        lineHeight: 1.4,
+                        transition: 'color 0.2s ease'
+                      }}
+                    >
+                      {faq.question}
+                    </span>
+                    <span
+                      style={{
+                        color: isOpen ? '#2E9E5B' : '#6B7280',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        transition: 'transform 0.2s ease'
+                      }}
+                    >
+                      {isOpen ? <Minus size={20} /> : <Plus size={20} />}
+                    </span>
+                  </button>
+
+                  {isOpen && (
+                    <div
+                      style={{
+                        paddingTop: '1rem',
+                        fontSize: '0.96rem',
+                        color: '#4B5563',
+                        lineHeight: 1.7
+                      }}
+                    >
+                      {faq.answer}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

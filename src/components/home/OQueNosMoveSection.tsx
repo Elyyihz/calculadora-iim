@@ -1,222 +1,166 @@
 import React from 'react';
-import { DollarSign, Zap, Heart, CheckCircle2, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { PILLARS_MOVEMENT } from '../../data/institutionalData';
+
+const PILLARS = [
+  {
+    code: '01 / FINANÇAS',
+    title: 'Custos invisíveis que pesam na operação.',
+    desc: 'Um diagnóstico para apoiar decisões sobre custos associados ao deslocamento e priorizar oportunidades de melhoria.',
+    target: 'Para lideranças e finanças'
+  },
+  {
+    code: '02 / OPERAÇÃO',
+    title: 'Produtividade que se perde no trajeto.',
+    desc: 'Entenda como trajetos e pontualidade afetam a operação e direcione intervenções para a realidade da sua equipe.',
+    target: 'Para gestores e operações'
+  },
+  {
+    code: '03 / PESSOAS',
+    title: 'Bem-estar que faz a diferença na retenção.',
+    desc: 'Coloque estresse e vulnerabilidade no centro da conversa sobre mobilidade, qualidade de vida e bem-estar.',
+    target: 'Para RH e ESG'
+  }
+];
 
 export const OQueNosMoveSection: React.FC = () => {
-  const getIcon = (role: string) => {
-    switch (role) {
-      case 'Eficiência':
-        return <DollarSign size={24} color="var(--accent)" />;
-      case 'Produtividade':
-        return <Zap size={24} color="var(--accent)" />;
-      case 'Bem-estar':
-      default:
-        return <Heart size={24} color="var(--accent)" />;
-    }
-  };
-
   return (
     <section
       id="o-que-nos-move"
       style={{
         background: '#FFFFFF',
-        padding: '7rem 0',
+        padding: '7rem 0 6rem',
         position: 'relative'
       }}
     >
       <div className="container">
-        {/* Section Header with generous margin */}
-        <div style={{ maxWidth: '780px', margin: '0 auto 4.5rem', textAlign: 'center' }}>
+        {/* Section Header */}
+        <div style={{ maxWidth: '780px', marginBottom: '4.5rem' }}>
           <div
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '5px 14px',
-              borderRadius: 'var(--radius-pill)',
-              background: 'var(--accent-light)',
-              color: 'var(--accent)',
               fontSize: '0.78rem',
               fontWeight: 700,
-              letterSpacing: '0.08em',
+              letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              marginBottom: '1.2rem'
+              color: '#3B5848',
+              marginBottom: '1rem'
             }}
           >
-            Três Dimensões de Valor
+            O que nos move
           </div>
           <h2
             style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              fontSize: 'clamp(2.2rem, 4.2vw, 3.2rem)',
               fontWeight: 800,
-              color: 'var(--brand)',
-              lineHeight: 1.2,
+              color: '#0B1924',
+              lineHeight: 1.15,
+              letterSpacing: '-0.025em',
               marginBottom: '1.2rem'
             }}
           >
-            O que nos move
+            O trabalho começa antes do expediente.
           </h2>
           <p
             style={{
               fontSize: '1.1rem',
-              color: 'var(--text-muted)',
+              color: '#4B5563',
               lineHeight: 1.7,
               fontWeight: 400
             }}
           >
-            A mobilidade corporativa deixou de ser um detalhe logístico e se tornou uma alavanca estratégica.
-            Alinhamos os três centros decisórios da sua empresa em torno de uma mesma métrica de impacto.
+            Três frentes onde a mobilidade impacta diretamente os resultados da sua empresa.
           </p>
         </div>
 
-        {/* 3 Pillars Grid with generous spacing */}
+        {/* 3 Pillar Cards Grid */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '2.5rem',
-            marginBottom: '4.5rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '2.5rem'
           }}
+          className="move-cards-grid"
         >
-          {PILLARS_MOVEMENT.map((pillar) => (
+          {PILLARS.map((p) => (
             <div
-              key={pillar.id}
+              key={p.code}
               style={{
                 background: '#FFFFFF',
-                borderRadius: 'var(--radius)',
-                border: '1px solid rgba(11, 37, 69, 0.08)',
-                padding: '2.8rem 2.2rem',
+                borderRadius: '16px',
+                border: '1px solid #E5E7EB',
+                padding: '2.6rem 2.2rem',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                boxShadow: '0 4px 25px rgba(11, 37, 69, 0.04)',
-                transition: 'transform var(--transition-fast), box-shadow var(--transition-fast)'
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                transition: 'all 0.25s ease'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 12px 35px rgba(11, 37, 69, 0.08)';
+                e.currentTarget.style.boxShadow = '0 12px 30px rgba(11, 37, 69, 0.07)';
+                e.currentTarget.style.borderColor = '#D1D5DB';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 25px rgba(11, 37, 69, 0.04)';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.03)';
+                e.currentTarget.style.borderColor = '#E5E7EB';
               }}
             >
               <div>
-                {/* Pillar Header / Icon & Badge */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.8rem' }}>
-                  <div
-                    style={{
-                      width: '52px',
-                      height: '52px',
-                      borderRadius: '12px',
-                      background: 'var(--accent-light)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    {getIcon(pillar.role)}
-                  </div>
-                  <span
-                    style={{
-                      fontSize: '0.78rem',
-                      fontWeight: 700,
-                      color: 'var(--brand)',
-                      background: 'var(--surface-2)',
-                      padding: '5px 12px',
-                      borderRadius: 'var(--radius-pill)',
-                      border: '1px solid var(--border)'
-                    }}
-                  >
-                    {pillar.stakeholder}
-                  </span>
+                {/* Code badge */}
+                <div
+                  style={{
+                    fontSize: '0.80rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.10em',
+                    textTransform: 'uppercase',
+                    color: '#2E9E5B',
+                    marginBottom: '1.2rem'
+                  }}
+                >
+                  {p.code}
                 </div>
 
-                {/* Pillar Title */}
+                {/* Title */}
                 <h3
                   style={{
                     fontFamily: 'var(--font-display)',
                     fontSize: '1.35rem',
-                    fontWeight: 800,
-                    color: 'var(--brand)',
-                    marginBottom: '1rem',
-                    lineHeight: 1.3
+                    fontWeight: 700,
+                    color: '#0B1924',
+                    lineHeight: 1.3,
+                    marginBottom: '1.2rem'
                   }}
                 >
-                  {pillar.title}
+                  {p.title}
                 </h3>
 
-                {/* Pillar Description */}
+                {/* Description */}
                 <p
                   style={{
                     fontSize: '0.96rem',
                     color: '#4B5563',
                     lineHeight: 1.7,
-                    marginBottom: '1.8rem'
+                    marginBottom: '2.5rem'
                   }}
                 >
-                  {pillar.description}
+                  {p.desc}
                 </p>
-
-                {/* Highlights List */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '2rem' }}>
-                  {pillar.highlights.map((h, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <CheckCircle2 size={16} color="var(--accent)" style={{ flexShrink: 0, marginTop: '3px' }} />
-                      <span style={{ fontSize: '0.88rem', color: 'var(--text)', fontWeight: 500, lineHeight: 1.45 }}>
-                        {h}
-                      </span>
-                    </div>
-                  ))}
-                </div>
               </div>
 
-              {/* Metric Tag at the bottom */}
+              {/* Target / Stakeholder label at the bottom */}
               <div
                 style={{
-                  padding: '12px 16px',
-                  borderRadius: 'var(--radius-sm)',
-                  background: 'var(--surface-2)',
-                  borderLeft: '4px solid var(--accent)',
-                  fontSize: '0.86rem',
-                  fontWeight: 600,
-                  color: 'var(--brand)'
+                  borderTop: '1px solid #F3F4F6',
+                  paddingTop: '1.2rem',
+                  fontSize: '0.84rem',
+                  color: '#2E9E5B',
+                  fontWeight: 600
                 }}
               >
-                {pillar.metric}
+                {p.target}
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Minimalist In-Section Bridge */}
-        <div
-          style={{
-            textAlign: 'center',
-            padding: '2.5rem',
-            background: 'var(--surface-2)',
-            borderRadius: 'var(--radius)',
-            border: '1px solid rgba(11, 37, 69, 0.06)',
-            maxWidth: '920px',
-            margin: '0 auto'
-          }}
-        >
-          <p style={{ fontSize: '1.05rem', color: 'var(--brand)', fontWeight: 600, marginBottom: '1rem' }}>
-            Quer mensurar o impacto direto desses 3 pilares no seu quadro de colaboradores?
-          </p>
-          <Link
-            to="/calculadora"
-            className="btn btn-primary"
-            style={{
-              padding: '12px 26px',
-              fontSize: '0.92rem'
-            }}
-          >
-            <span>Iniciar Diagnóstico na Calculadora IIM</span>
-            <ArrowRight size={16} />
-          </Link>
         </div>
       </div>
     </section>

@@ -1,451 +1,510 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Compass, Calculator, ArrowRight, Info } from 'lucide-react';
 
-interface DimensionDetail {
+interface DimensionItem {
+  id: string;
   code: string;
-  weight: string;
-  name: string;
-  color: string;
+  title: string;
+  labelChart: string;
   description: string;
-  factors: string[];
+  // Internal coordinate multiplier for radar visualization (not exposed to user)
+  val: number;
 }
 
-const DIMENSIONS: DimensionDetail[] = [
+const DIMENSIONS: DimensionItem[] = [
   {
-    code: 'D1',
-    weight: '30%',
-    name: 'Tempo e Distância (Trajeto)',
-    color: '#0B2545',
-    description: 'Avalia a fricção física e o tempo despendido no deslocamento pendular diário, penalizando esperas e baldeações.',
-    factors: ['Duração do trajeto ida e volta', 'Quilometragem e conexões/baldeações', 'Incerteza e variação de trânsito']
+    id: 'trajeto',
+    code: '01 / TRAJETO',
+    title: 'Trajeto',
+    labelChart: 'TRAJETO',
+    description: 'O caminho entre casa e trabalho. Esta dimensão olha para as condições do trajeto e sua participação no impacto da mobilidade.',
+    val: 82
   },
   {
-    code: 'D2',
-    weight: '27%',
-    name: 'Estresse e Fadiga Percebidos',
-    color: '#133966',
-    description: 'Mede o desgaste fisiológico e psicológico acumulado antes do expediente, com impacto direto no presenteísmo.',
-    factors: ['Nível de cansaço e perda de foco', 'Impacto na qualidade do sono', 'Ansiedade e privação de lazer']
+    id: 'estresse',
+    code: '02 / ESTRESSE',
+    title: 'Estresse',
+    labelChart: 'ESTRESSE',
+    description: 'O desgaste mental e físico gerado pela rotina de deslocamento. Avalia estresse crônico, fadiga, privação de sono e sobrecarga antes do expediente.',
+    val: 76
   },
   {
-    code: 'D3',
-    weight: '25%',
-    name: 'Pontualidade e Assiduidade',
-    color: '#2E9E5B',
-    description: 'Quantifica as perdas operacionais por absenteísmo forçado, recusa de tarefas e o risco real de demissão motivada pelo trânsito.',
-    factors: ['Frequência de atrasos e faltas', 'Licenças médicas e home office forçado', 'Intenção voluntária de demissão']
+    id: 'pontualidade',
+    code: '03 / PONTUALIDADE',
+    title: 'Pontualidade',
+    labelChart: 'PONTUALIDADE',
+    description: 'A relação entre deslocamento, pontualidade e assiduidade. Analisa frequência de atrasos e risco de rotatividade associado.',
+    val: 68
   },
   {
-    code: 'D4',
-    weight: '18%',
-    name: 'Vulnerabilidade Socioespacial',
-    color: '#059669',
-    description: 'Avalia a dependência de modais precários, exposição a riscos urbanos (obras, alagamentos, violência) e comprometimento de renda.',
-    factors: ['Dependência de transporte público', 'Exposição a riscos no itinerário', 'Comprometimento de renda com transporte']
+    id: 'vulnerabilidade',
+    code: '04 / VULNERABILIDADE',
+    title: 'Vulnerabilidade',
+    labelChart: 'VULNER.',
+    description: 'A exposição a riscos urbanos, dependência de transporte público e barreiras socioespaciais no itinerário diário.',
+    val: 62
   }
 ];
 
 export const OMetodoSection: React.FC = () => {
-  // Scenario state: 'comparison' | 'optimized' | 'baseline'
-  const [activeScenario, setActiveScenario] = useState<'comparison' | 'baseline' | 'optimized'>('comparison');
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const activeDim = DIMENSIONS[selectedIndex];
 
-  // Baseline values (sem gestão, IIM alto)
-  const baseline = { d1: 78, d2: 82, d3: 70, d4: 65 };
-  // Optimized values (com UrbanFlow, IIM baixo)
-  const optimized = { d1: 34, d2: 28, d3: 30, d4: 25 };
-
-  // Center & Radius for 400x400 viewBox
+  // SVG Radar Coordinates
   const cx = 200;
-  const cy = 200;
-  const rMax = 135;
+  const cy = 180;
+  const rMax = 115;
 
-  const getCoordinates = (d1: number, d2: number, d3: number, d4: number) => {
-    // D1: Top (angle -90°)
-    const x1 = cx;
-    const y1 = cy - (d1 / 100) * rMax;
-    // D2: Right (angle 0°)
-    const x2 = cx + (d2 / 100) * rMax;
-    const y2 = cy;
-    // D3: Bottom (angle 90°)
-    const x3 = cx;
-    const y3 = cy + (d3 / 100) * rMax;
-    // D4: Left (angle 180°)
-    const x4 = cx - (d4 / 100) * rMax;
-    const y4 = cy;
-
-    return `${x1},${y1} ${x2},${y2} ${x3},${y3} ${x4},${y4}`;
+  // Vertex points for the 4 dimensions:
+  // 0: Trajeto (Top: angle -90°)
+  // 1: Estresse (Right: angle 0°)
+  // 2: Pontualidade (Bottom: angle 90°)
+  // 3: Vulnerabilidade (Left: angle 180°)
+  const getPoint = (dimIndex: number, factor: number) => {
+    const dist = (factor / 100) * rMax;
+    switch (dimIndex) {
+      case 0:
+        return { x: cx, y: cy - dist };
+      case 1:
+        return { x: cx + dist, y: cy };
+      case 2:
+        return { x: cx, y: cy + dist };
+      case 3:
+      default:
+        return { x: cx - dist, y: cy };
+    }
   };
 
-  const baselinePoints = getCoordinates(baseline.d1, baseline.d2, baseline.d3, baseline.d4);
-  const optimizedPoints = getCoordinates(optimized.d1, optimized.d2, optimized.d3, optimized.d4);
+  const p0 = getPoint(0, DIMENSIONS[0].val);
+  const p1 = getPoint(1, DIMENSIONS[1].val);
+  const p2 = getPoint(2, DIMENSIONS[2].val);
+  const p3 = getPoint(3, DIMENSIONS[3].val);
+  const polygonPoints = `${p0.x},${p0.y} ${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y}`;
 
   return (
     <section
       id="o-metodo"
       style={{
-        background: 'var(--surface-2)',
-        padding: '7rem 0',
-        position: 'relative'
+        background: '#0B1924',
+        color: '#FFFFFF',
+        padding: '6.5rem 0',
+        position: 'relative',
+        overflow: 'hidden'
       }}
     >
       <div className="container">
-        {/* Section Header */}
-        <div style={{ maxWidth: '820px', margin: '0 auto 4.5rem', textAlign: 'center' }}>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '5px 14px',
-              borderRadius: 'var(--radius-pill)',
-              background: 'rgba(11, 37, 69, 0.08)',
-              color: 'var(--brand)',
-              fontSize: '0.78rem',
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              marginBottom: '1.2rem'
-            }}
-          >
-            <Compass size={14} color="var(--accent)" />
-            <span>Matriz Multicritério Proprietária</span>
-          </div>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
-              fontWeight: 800,
-              color: 'var(--brand)',
-              lineHeight: 1.2,
-              marginBottom: '1.2rem'
-            }}
-          >
-            O Método
-          </h2>
-          <p
-            style={{
-              fontSize: '1.1rem',
-              color: 'var(--text-muted)',
-              lineHeight: 1.7,
-              fontWeight: 400
-            }}
-          >
-            O Índice de Impacto de Mobilidade (IIM) consolida dados quantitativos e percepções humanas
-            em 4 dimensões científicas ponderadas. Uma escala de 0 a 100 onde quanto menor a pontuação,
-            maior a eficiência operacional e o bem-estar corporativo.
-          </p>
-        </div>
-
-        {/* Content Layout: Radar Chart on Left, Dimensions Details on Right */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-            gap: '3rem',
-            alignItems: 'center',
-            marginBottom: '4.5rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '3.5rem',
+            alignItems: 'center'
           }}
+          className="metodo-grid"
         >
-          {/* RADAR CHART INTERACTIVE CARD */}
-          <div
-            style={{
-              background: '#FFFFFF',
-              borderRadius: 'var(--radius)',
-              border: '1px solid rgba(11, 37, 69, 0.08)',
-              padding: '2.5rem 2rem',
-              boxShadow: '0 8px 30px rgba(11, 37, 69, 0.04)',
-              textAlign: 'center'
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '10px' }}>
-              <div style={{ textAlign: 'left' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  Visualização Polar
-                </span>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--brand)' }}>
-                  Gráfico de Radar do IIM
-                </h3>
-              </div>
-
-              {/* Scenario Toggle */}
-              <div
-                style={{
-                  display: 'inline-flex',
-                  background: 'var(--surface-2)',
-                  padding: '3px',
-                  borderRadius: 'var(--radius-pill)',
-                  border: '1px solid var(--border)'
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={() => setActiveScenario('comparison')}
-                  style={{
-                    padding: '5px 12px',
-                    borderRadius: 'var(--radius-pill)',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    color: activeScenario === 'comparison' ? '#FFFFFF' : 'var(--text-muted)',
-                    background: activeScenario === 'comparison' ? 'var(--brand)' : 'transparent',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  Comparativo
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveScenario('baseline')}
-                  style={{
-                    padding: '5px 12px',
-                    borderRadius: 'var(--radius-pill)',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    color: activeScenario === 'baseline' ? '#FFFFFF' : 'var(--text-muted)',
-                    background: activeScenario === 'baseline' ? '#cc3333' : 'transparent',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  Sem Gestão
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveScenario('optimized')}
-                  style={{
-                    padding: '5px 12px',
-                    borderRadius: 'var(--radius-pill)',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    color: activeScenario === 'optimized' ? '#FFFFFF' : 'var(--text-muted)',
-                    background: activeScenario === 'optimized' ? 'var(--accent)' : 'transparent',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  Otimizado
-                </button>
-              </div>
-            </div>
-
-            {/* SVG RADAR GRAPH */}
-            <div style={{ maxWidth: '380px', margin: '0 auto', position: 'relative' }}>
-              <svg viewBox="0 0 400 400" style={{ width: '100%', height: 'auto', display: 'block' }}>
-                {/* Concentric Grid Polygons */}
-                {[0.25, 0.5, 0.75, 1.0].map((level, i) => (
-                  <polygon
-                    key={i}
-                    points={getCoordinates(level * 100, level * 100, level * 100, level * 100)}
-                    fill="none"
-                    stroke="#E5E7EB"
-                    strokeWidth="1.2"
-                    strokeDasharray={level === 1 ? 'none' : '3 3'}
-                  />
-                ))}
-
-                {/* Axes lines */}
-                <line x1={cx} y1={cy - rMax} x2={cx} y2={cy + rMax} stroke="#D1D5DB" strokeWidth="1" />
-                <line x1={cx - rMax} y1={cy} x2={cx + rMax} y2={cy} stroke="#D1D5DB" strokeWidth="1" />
-
-                {/* Grid Scale Labels */}
-                <text x={cx + 6} y={cy - rMax * 0.25 + 4} fontSize="9" fill="#9CA3AF" fontWeight="600">25</text>
-                <text x={cx + 6} y={cy - rMax * 0.50 + 4} fontSize="9" fill="#9CA3AF" fontWeight="600">50</text>
-                <text x={cx + 6} y={cy - rMax * 0.75 + 4} fontSize="9" fill="#9CA3AF" fontWeight="600">75</text>
-                <text x={cx + 6} y={cy - rMax * 1.00 + 4} fontSize="9" fill="#9CA3AF" fontWeight="600">100</text>
-
-                {/* Baseline Polygon (Red / High Impact) */}
-                {(activeScenario === 'comparison' || activeScenario === 'baseline') && (
-                  <polygon
-                    points={baselinePoints}
-                    fill="rgba(204, 51, 51, 0.18)"
-                    stroke="#CC3333"
-                    strokeWidth="2.5"
-                    style={{ transition: 'all 0.4s ease' }}
-                  />
-                )}
-
-                {/* Optimized Polygon (Green / Low Impact) */}
-                {(activeScenario === 'comparison' || activeScenario === 'optimized') && (
-                  <polygon
-                    points={optimizedPoints}
-                    fill="rgba(46, 158, 91, 0.22)"
-                    stroke="#2E9E5B"
-                    strokeWidth="2.5"
-                    style={{ transition: 'all 0.4s ease' }}
-                  />
-                )}
-
-                {/* Dimension Vertex Points & Labels */}
-                {/* D1 Top */}
-                <circle cx={cx} cy={cy - rMax} r="4" fill="#0B2545" />
-                <text x={cx} y={cy - rMax - 14} textAnchor="middle" fontSize="12" fontWeight="700" fill="#0B2545" fontFamily="var(--font-display)">
-                  D1 · Trajeto (30%)
-                </text>
-
-                {/* D2 Right */}
-                <circle cx={cx + rMax} cy={cy} r="4" fill="#0B2545" />
-                <text x={cx + rMax + 12} y={cy + 4} textAnchor="start" fontSize="12" fontWeight="700" fill="#0B2545" fontFamily="var(--font-display)">
-                  D2 · Estresse (27%)
-                </text>
-
-                {/* D3 Bottom */}
-                <circle cx={cx} cy={cy + rMax} r="4" fill="#0B2545" />
-                <text x={cx} y={cy + rMax + 20} textAnchor="middle" fontSize="12" fontWeight="700" fill="#0B2545" fontFamily="var(--font-display)">
-                  D3 · Assiduidade (25%)
-                </text>
-
-                {/* D4 Left */}
-                <circle cx={cx - rMax} cy={cy} r="4" fill="#0B2545" />
-                <text x={cx - rMax - 12} y={cy + 4} textAnchor="end" fontSize="12" fontWeight="700" fill="#0B2545" fontFamily="var(--font-display)">
-                  D4 · Vulnerab. (18%)
-                </text>
-              </svg>
-            </div>
-
-            {/* Legend strip */}
+          {/* LEFT COLUMN: Texts + 4 Dimension Buttons */}
+          <div>
+            {/* Eyebrow */}
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '1.5rem',
-                marginTop: '1.5rem',
-                paddingTop: '1.2rem',
-                borderTop: '1px solid #F3F4F6',
-                fontSize: '0.82rem'
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: '#6EE7B7',
+                marginBottom: '1.2rem'
               }}
             >
-              {(activeScenario === 'comparison' || activeScenario === 'baseline') && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '12px', height: '12px', borderRadius: '3px', background: 'rgba(204, 51, 51, 0.6)', border: '1.5px solid #CC3333' }} />
-                  <span style={{ fontWeight: 600, color: 'var(--text)' }}>Sem Gestão (IIM 74 · Crítico)</span>
-                </div>
-              )}
-              {(activeScenario === 'comparison' || activeScenario === 'optimized') && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '12px', height: '12px', borderRadius: '3px', background: 'rgba(46, 158, 91, 0.6)', border: '1.5px solid #2E9E5B' }} />
-                  <span style={{ fontWeight: 600, color: 'var(--text)' }}>UrbanFlow (IIM 32 · Baixo Impacto)</span>
-                </div>
-              )}
+              Dados que dão direção
             </div>
-          </div>
 
-          {/* 4 DIMENSIONS DETAIL CARDS */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-            {DIMENSIONS.map((dim) => (
-              <div
-                key={dim.code}
-                style={{
-                  background: '#FFFFFF',
-                  borderRadius: 'var(--radius)',
-                  border: '1px solid rgba(11, 37, 69, 0.08)',
-                  padding: '1.5rem 1.8rem',
-                  boxShadow: '0 2px 14px rgba(11, 37, 69, 0.03)',
-                  transition: 'border-color var(--transition-fast)'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: '0.90rem',
-                        fontWeight: 800,
-                        color: '#FFFFFF',
-                        background: 'var(--brand)',
-                        padding: '3px 10px',
-                        borderRadius: '6px'
-                      }}
-                    >
-                      {dim.code}
-                    </span>
-                    <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--brand)' }}>
-                      {dim.name}
-                    </h4>
-                  </div>
-                  <span
+            {/* Title */}
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(2.1rem, 4vw, 3.1rem)',
+                fontWeight: 800,
+                color: '#FFFFFF',
+                lineHeight: 1.15,
+                letterSpacing: '-0.02em',
+                marginBottom: '1.4rem'
+              }}
+            >
+              Quatro perspectivas.
+              <br />
+              Um caminho mais inteligente.
+            </h2>
+
+            {/* Subtitle */}
+            <p
+              style={{
+                fontSize: '1.05rem',
+                color: '#94A3B8',
+                lineHeight: 1.7,
+                fontWeight: 400,
+                marginBottom: '2.5rem',
+                maxWidth: '520px'
+              }}
+            >
+              O Índice de Impacto de Mobilidade (IIM) reúne quatro dimensões do deslocamento em uma visão estruturada para orientar o diagnóstico.
+            </p>
+
+            {/* 4 Clean Dimension Buttons in a 2x2 Grid (percentages removed, harmoniously aligned) */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '1rem',
+                maxWidth: '520px'
+              }}
+              className="dimension-buttons-grid"
+            >
+              {DIMENSIONS.map((dim, idx) => {
+                const isActive = selectedIndex === idx;
+                return (
+                  <button
+                    key={dim.id}
+                    type="button"
+                    onClick={() => setSelectedIndex(idx)}
+                    aria-label={`Selecionar dimensão ${dim.title}`}
                     style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: '0.92rem',
-                      fontWeight: 800,
-                      color: 'var(--accent)',
-                      background: 'var(--accent-light)',
-                      padding: '3px 10px',
-                      borderRadius: 'var(--radius-pill)'
+                      background: isActive ? '#C6F6D5' : 'rgba(255, 255, 255, 0.03)',
+                      color: isActive ? '#0B1924' : '#F8FAFC',
+                      border: isActive
+                        ? '1px solid #2E9E5B'
+                        : '1px solid rgba(255, 255, 255, 0.14)',
+                      borderRadius: '12px',
+                      padding: '1.1rem 1.4rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      textAlign: 'left',
+                      boxShadow: isActive ? '0 4px 18px rgba(46, 158, 91, 0.22)' : 'none'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.14)';
+                      }
                     }}
                   >
-                    Peso {dim.weight}
-                  </span>
-                </div>
-
-                <p style={{ fontSize: '0.88rem', color: '#4B5563', lineHeight: 1.6, marginBottom: '0.8rem' }}>
-                  {dim.description}
-                </p>
-
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {dim.factors.map((f, idx) => (
                     <span
-                      key={idx}
                       style={{
-                        fontSize: '0.78rem',
-                        color: 'var(--brand)',
-                        background: 'var(--surface-2)',
-                        padding: '4px 10px',
-                        borderRadius: '6px',
-                        fontWeight: 500
+                        fontSize: '1rem',
+                        fontWeight: isActive ? 700 : 500,
+                        letterSpacing: '-0.01em'
                       }}
                     >
-                      • {f}
+                      {dim.title}
                     </span>
-                  ))}
+                  </button>
+                );
+              })}
+            </div>
+            {/* Note: The obsolete sentence "Os percentuais representam os pesos de cada dimensão..." was removed intentionally as per confidential methodology rules. */}
+          </div>
+
+          {/* RIGHT COLUMN: Dark Container Card with Radar Chart & Selected Dimension Info */}
+          <div>
+            <div
+              style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                borderRadius: '18px',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                padding: '2.4rem 2.2rem 2.2rem',
+                boxShadow: '0 16px 40px rgba(0, 0, 0, 0.25)',
+                position: 'relative'
+              }}
+            >
+              {/* Header inside the card */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '1rem'
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: '#94A3B8'
+                  }}
+                >
+                  Índice de Impacto de Mobilidade
+                </span>
+                <span
+                  style={{
+                    fontSize: '0.74rem',
+                    fontWeight: 600,
+                    color: '#CBD5E1',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: 'var(--radius-pill)',
+                    padding: '4px 12px',
+                    background: 'rgba(255, 255, 255, 0.04)'
+                  }}
+                >
+                  O método
+                </span>
+              </div>
+
+              {/* RADAR SVG VISUALIZATION */}
+              <div
+                style={{
+                  width: '100%',
+                  maxWidth: '380px',
+                  margin: '0 auto 1.5rem',
+                  position: 'relative'
+                }}
+              >
+                <svg
+                  viewBox="0 0 400 360"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                >
+                  {/* Concentric diamond grid guidelines */}
+                  {[0.33, 0.66, 1.0].map((ratio, i) => {
+                    const top = cy - rMax * ratio;
+                    const right = cx + rMax * ratio;
+                    const bottom = cy + rMax * ratio;
+                    const left = cx - rMax * ratio;
+                    return (
+                      <polygon
+                        key={i}
+                        points={`${cx},${top} ${right},${cy} ${cx},${bottom} ${left},${cy}`}
+                        fill="none"
+                        stroke="rgba(255, 255, 255, 0.12)"
+                        strokeWidth="1"
+                        strokeDasharray={ratio === 1.0 ? 'none' : '3 3'}
+                      />
+                    );
+                  })}
+
+                  {/* Axis lines */}
+                  <line
+                    x1={cx}
+                    y1={cy - rMax}
+                    x2={cx}
+                    y2={cy + rMax}
+                    stroke="rgba(255, 255, 255, 0.15)"
+                    strokeWidth="1"
+                  />
+                  <line
+                    x1={cx - rMax}
+                    y1={cy}
+                    x2={cx + rMax}
+                    y2={cy}
+                    stroke="rgba(255, 255, 255, 0.15)"
+                    strokeWidth="1"
+                  />
+
+                  {/* Polygon shape for IIM Dimensions */}
+                  <polygon
+                    points={polygonPoints}
+                    fill="rgba(46, 158, 91, 0.24)"
+                    stroke="#2E9E5B"
+                    strokeWidth="2"
+                    style={{ transition: 'all 0.3s ease' }}
+                  />
+
+                  {/* Center Circle IIM */}
+                  <circle
+                    cx={cx}
+                    cy={cy}
+                    r="24"
+                    fill="#0B1924"
+                    stroke="rgba(255, 255, 255, 0.25)"
+                    strokeWidth="1.5"
+                  />
+                  <text
+                    x={cx}
+                    y={cy + 4}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fill="#FFFFFF"
+                    fontSize="11"
+                    fontWeight="800"
+                    fontFamily="var(--font-display)"
+                    letterSpacing="0.05em"
+                  >
+                    IIM
+                  </text>
+
+                  {/* Dimension vertex labels & markers */}
+                  {/* D0: TRAJETO (Top) */}
+                  <g
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setSelectedIndex(0)}
+                  >
+                    <text
+                      x={cx}
+                      y={cy - rMax - 12}
+                      textAnchor="middle"
+                      fill={selectedIndex === 0 ? '#C6F6D5' : '#94A3B8'}
+                      fontSize="11"
+                      fontWeight={selectedIndex === 0 ? '700' : '500'}
+                      letterSpacing="0.06em"
+                    >
+                      TRAJETO
+                    </text>
+                    <circle
+                      cx={p0.x}
+                      cy={p0.y}
+                      r={selectedIndex === 0 ? 6 : 4}
+                      fill={selectedIndex === 0 ? '#C6F6D5' : '#2E9E5B'}
+                      stroke={selectedIndex === 0 ? '#2E9E5B' : 'transparent'}
+                      strokeWidth="2"
+                    />
+                  </g>
+
+                  {/* D1: ESTRESSE (Right) */}
+                  <g
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setSelectedIndex(1)}
+                  >
+                    <text
+                      x={cx + rMax + 14}
+                      y={cy + 4}
+                      textAnchor="start"
+                      fill={selectedIndex === 1 ? '#C6F6D5' : '#94A3B8'}
+                      fontSize="11"
+                      fontWeight={selectedIndex === 1 ? '700' : '500'}
+                      letterSpacing="0.06em"
+                    >
+                      ESTRESSE
+                    </text>
+                    <circle
+                      cx={p1.x}
+                      cy={p1.y}
+                      r={selectedIndex === 1 ? 6 : 4}
+                      fill={selectedIndex === 1 ? '#C6F6D5' : '#2E9E5B'}
+                      stroke={selectedIndex === 1 ? '#2E9E5B' : 'transparent'}
+                      strokeWidth="2"
+                    />
+                  </g>
+
+                  {/* D2: PONTUALIDADE (Bottom) */}
+                  <g
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setSelectedIndex(2)}
+                  >
+                    <text
+                      x={cx}
+                      y={cy + rMax + 20}
+                      textAnchor="middle"
+                      fill={selectedIndex === 2 ? '#C6F6D5' : '#94A3B8'}
+                      fontSize="11"
+                      fontWeight={selectedIndex === 2 ? '700' : '500'}
+                      letterSpacing="0.06em"
+                    >
+                      PONTUALIDADE
+                    </text>
+                    <circle
+                      cx={p2.x}
+                      cy={p2.y}
+                      r={selectedIndex === 2 ? 6 : 4}
+                      fill={selectedIndex === 2 ? '#C6F6D5' : '#2E9E5B'}
+                      stroke={selectedIndex === 2 ? '#2E9E5B' : 'transparent'}
+                      strokeWidth="2"
+                    />
+                  </g>
+
+                  {/* D3: VULNERABILIDADE (Left) */}
+                  <g
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setSelectedIndex(3)}
+                  >
+                    <text
+                      x={cx - rMax - 14}
+                      y={cy + 4}
+                      textAnchor="end"
+                      fill={selectedIndex === 3 ? '#C6F6D5' : '#94A3B8'}
+                      fontSize="11"
+                      fontWeight={selectedIndex === 3 ? '700' : '500'}
+                      letterSpacing="0.06em"
+                    >
+                      VULNER.
+                    </text>
+                    <circle
+                      cx={p3.x}
+                      cy={p3.y}
+                      r={selectedIndex === 3 ? 6 : 4}
+                      fill={selectedIndex === 3 ? '#C6F6D5' : '#2E9E5B'}
+                      stroke={selectedIndex === 3 ? '#2E9E5B' : 'transparent'}
+                      strokeWidth="2"
+                    />
+                  </g>
+                </svg>
+              </div>
+
+              {/* Lower Section: Detailed Description of the Selected Dimension (NO GIANT NUMERICAL PERCENTAGE) */}
+              <div
+                style={{
+                  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                  paddingTop: '1.4rem'
+                }}
+              >
+                {/* Clean Title only, giant percentage removed */}
+                <div
+                  style={{
+                    fontSize: '0.80rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.10em',
+                    textTransform: 'uppercase',
+                    color: '#6EE7B7',
+                    marginBottom: '0.6rem'
+                  }}
+                >
+                  {activeDim.code}
+                </div>
+
+                {/* Description */}
+                <p
+                  style={{
+                    fontSize: '0.94rem',
+                    color: '#CBD5E1',
+                    lineHeight: 1.65,
+                    marginBottom: '1.4rem',
+                    minHeight: '52px'
+                  }}
+                >
+                  {activeDim.description}
+                </p>
+
+                {/* Legal disclaimer */}
+                <div
+                  style={{
+                    fontSize: '0.73rem',
+                    color: '#64748B',
+                    lineHeight: 1.5,
+                    borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                    paddingTop: '0.8rem'
+                  }}
+                >
+                  Dados estimados e projetados. A metodologia apoia o diagnóstico; não representa garantia de resultado.
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* BOTTOM METRIC CALLOUT */}
-        <div
-          style={{
-            background: 'var(--brand)',
-            borderRadius: 'var(--radius)',
-            padding: '2.5rem 3rem',
-            color: '#FFFFFF',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '1.5rem',
-            boxShadow: '0 8px 32px rgba(11, 37, 69, 0.16)'
-          }}
-          className="card-blue"
-        >
-          <div style={{ maxWidth: '640px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--accent)', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
-              <Info size={14} />
-              <span>Regra de Escala do IIM</span>
             </div>
-            <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#FFFFFF', marginBottom: '0.5rem' }}>
-              Quanto maior a pontuação, maior o atrito e a perda financeira
-            </h3>
-            <p style={{ fontSize: '0.92rem', color: 'rgba(255, 255, 255, 0.90)', lineHeight: 1.6 }}>
-              O IIM opera em escala inversa ao bem-estar: scores acima de 60 exigem intervenção emergencial.
-              Nosso objetivo na consultoria é conduzir sua organização para a faixa verde (IIM ≤ 40).
-            </p>
           </div>
-
-          <Link
-            to="/calculadora"
-            className="btn btn-cta"
-            style={{
-              padding: '14px 28px',
-              fontSize: '0.95rem'
-            }}
-          >
-            <Calculator size={18} />
-            <span>Testar na Calculadora</span>
-            <ArrowRight size={17} />
-          </Link>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .dimension-buttons-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };
