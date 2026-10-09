@@ -6,13 +6,15 @@ import {
   NavItem,
   FaqItem,
   StepItem,
-  PillarMovement
+  PillarMovement,
+  SuccessCase
 } from '../types';
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Soluções', href: '/#o-que-nos-move' },
   { label: 'Nosso método', href: '/#o-metodo' },
   { label: 'Simulador', href: '/#simulador' },
+  { label: 'Cases', href: '/#cases-de-sucesso' },
   { label: 'A UrbanFlow', href: '/#nossa-origem' },
   { label: 'FAQ', href: '/#faq' }
 ];
@@ -226,3 +228,142 @@ export const RESPONSIBILITIES: ResponsibilityItem[] = [
     ]
   }
 ];
+
+export const SUCCESS_CASES: SuccessCase[] = [
+  {
+    id: 'logistica-operacoes',
+    companyName: 'LogiNord Operações & Distribuição',
+    sector: 'Logística & Supply Chain',
+    companySize: '480 colaboradores operacionais',
+    location: 'Região Metropolitana do Recife · Polo Suape',
+    tagline: 'Eliminação do gargalo de atrasos matinais e redução de 56% no turnover operacional com reescalonamento inteligente e fretamento otimizado.',
+    initialScoreIIM: 76,
+    finalScoreIIM: 39,
+    highlightMetric: '-68% em atrasos e R$ 245 mil/ano poupados',
+    problem: {
+      title: 'Atrasos sistemáticos e rotatividade crônica na linha de triagem',
+      description: 'Com deslocamentos médios de 1h50 por trecho em transporte público saturado, os operadores chegavam com fadiga extrema. Atrasos sistemáticos na abertura do primeiro turno paralisavam a linha de expedição, gerando alto estresse e pedidos contínuos de demissão.',
+      points: [
+        'Mais de 35 minutos de atraso médio acumulado nos turnos de abertura (07h00).',
+        'Taxa de turnover anual na operação em 32%, custando R$ 410 mil/ano em rescisões e novos treinamentos.',
+        '74% dos operadores relatavam exaustão física e insônia antes mesmo do início da jornada de trabalho.'
+      ]
+    },
+    solution: {
+      title: 'Diagnóstico georreferenciado do IIM e malha sincronizada de transporte',
+      description: 'A UrbanFlow realizou a coleta do IIM mapeando os polos residenciais de 100% da equipe operacional, identificando os nós críticos de retenção e desenhando um plano de mobilidade focado em eficiência e pontualidade.',
+      interventions: [
+        'Deslocamento estratégico de 30 minutos na escala de início do turno (das 07h00 para 07h30), escapando do pior congestionamento viário.',
+        'Roteirização de 4 vans de fretamento compartilhado conectando os maiores adensamentos residenciais aos centros de distribuição.',
+        'Instalação de ponto de apoio de mobilidade ativa com vestiários e bicicletário seguro para deslocamentos de última milha.'
+      ]
+    },
+    results: {
+      title: 'Previsibilidade na expedição e retorno financeiro auditável',
+      description: 'Em 90 dias após a implementação, o IIM despencou 37 pontos, restaurando a disciplina operacional da fábrica e mitigando os custos de reposição.',
+      metrics: [
+        { label: 'Índice IIM Consolidado', before: '76 pts (Crítico)', after: '39 pts (Moderado)', badge: '-48% no Impacto', isPositive: true },
+        { label: 'Atrasos Sistemáticos', before: '35 min/colaborador', after: '9 min/colaborador', badge: '-68% de queda', isPositive: true },
+        { label: 'Turnover Operacional', before: '32% ao ano', after: '14% ao ano', badge: '-56% rotatividade', isPositive: true },
+        { label: 'Economia Líquida Anual', before: 'R$ 0', after: 'R$ 245.000 / ano', badge: 'ROI de 3.4x', isPositive: true }
+      ],
+      roiSummary: 'Retorno sobre investimento de 3,4x no primeiro ano e estabilização de 100% da escala operacional matinal.'
+    },
+    testimonial: {
+      quote: 'Achávamos que o problema da nossa operação era falta de pontualidade dos funcionários. O diagnóstico do IIM nos provou que era uma falha de engenharia de horários em relação à malha de transporte. Em três meses, a linha voltou a rodar no horário e as demissões despencaram.',
+      author: 'Diretoria de Operações & Logística',
+      role: 'LogiNord Distribuição'
+    }
+  },
+  {
+    id: 'tecnologia-financas',
+    companyName: 'FinVibe Soluções Digitais',
+    sector: 'Fintech & Tecnologia',
+    companySize: '210 profissionais de TI e Produto',
+    location: 'Polo Empresarial Urbano',
+    tagline: 'Fim da perda de talentos sêniores e recuperação do foco cognitivo substituindo o presencial rígido por um modelo híbrido guiado por dados de deslocamento.',
+    initialScoreIIM: 68,
+    finalScoreIIM: 31,
+    highlightMetric: '+46 pontos no eNPS e 2,2h semanais de foco recuperadas',
+    problem: {
+      title: 'Fadiga cognitiva matinal e debandada de especialistas seniores',
+      description: 'A exigência de retorno presencial 100% causou imediata insatisfação nos times de desenvolvimento. O trânsito pesado minava a energia dos profissionais antes de sentarem na frente do computador, provocando forte presenteísmo e perda de desenvolvedores para empresas remotas.',
+      points: [
+        'Perda média de 2 horas cognitivas úteis por dia por profissional no custo de transição e estresse de trânsito.',
+        'Evasão de 4 desenvolvedores sêniores em 60 dias exclusivamente pelo cansaço do deslocamento diário.',
+        'Desperdício de R$ 38 mil/mês em convênios de estacionamento corporativo com baixa ocupação real.'
+      ]
+    },
+    solution: {
+      title: 'Híbrido Inteligente com base no IIM e Vale-Mobilidade Flexível',
+      description: 'A UrbanFlow cruzou a matriz de tempo de comutação com os ritos ágeis de desenvolvimento, desenhando uma política de presença flexível e previsível sem perda de coesão entre os squads.',
+      interventions: [
+        'Política híbrida de 2 a 3 dias com "dias-núcleo" de rituais presenciais, eliminando idas desnecessárias ao escritório.',
+        'Janela de chegada flexível entre 07h30 e 10h00, permitindo evitar o pico e garantindo sincronia assíncrona respeitada.',
+        'Substituição do subsídio fixo de vagas por carteira digital flexível de mobilidade para caronas corporativas, transporte ativo e aplicativos.'
+      ]
+    },
+    results: {
+      title: 'Produtividade de ponta a ponta e recorde histórico de retenção',
+      description: 'A entrega de sprints aumentou significativamente com o fim do estresse de trânsito, e os pedidos de demissão por atrito de deslocamento foram completamente zerados.',
+      metrics: [
+        { label: 'Índice IIM Consolidado', before: '68 pts (Alto)', after: '31 pts (Baixo)', badge: '-54% no Impacto', isPositive: true },
+        { label: 'Retenção de Sêniores', before: '76% no período', after: '96% no período', badge: '+20 p.p. retenção', isPositive: true },
+        { label: 'eNPS Interno', before: '+18 (Neutro)', after: '+64 (Zona de Excelência)', badge: '+46 pontos', isPositive: true },
+        { label: 'Foco Produtivo Diário', before: '120 min de perda/dia', after: '25 min de perda/dia', badge: '+2,2h úteis/sem', isPositive: true }
+      ],
+      roiSummary: 'Preservação da capacidade de entrega dos produtos de software e corte de 80% nos custos emergenciais de contratação técnica.'
+    },
+    testimonial: {
+      quote: 'O IIM nos deu a fundamentação técnica e científica que precisávamos para alinhar a liderança. O resultado foi um salto imediato no eNPS e a certeza de que nossa equipe produz melhor quando não é esgotada pelo asfalto.',
+      author: 'Head de Pessoas & Cultura',
+      role: 'FinVibe Soluções Digitais'
+    }
+  },
+  {
+    id: 'atendimento-bpo',
+    companyName: 'OmniContact Serviços de Relacionamento',
+    sector: 'Customer Care & Serviços Compartilhados',
+    companySize: '750 operadores e supervisores',
+    location: 'Polo Central Integrado',
+    tagline: 'Mitigação da vulnerabilidade nos trajetos noturnos e redução drástica do absenteísmo com criação de rotas seguras e adequação de escalas.',
+    initialScoreIIM: 82,
+    finalScoreIIM: 42,
+    highlightMetric: '-71% em absenteísmo e R$ 390 mil/ano poupados em SLAs',
+    problem: {
+      title: 'Insegurança em paradas noturnas e absenteísmo crônico às segundas',
+      description: 'Colaboradores do segundo turno (término após 21h30) enfrentavam pontos de ônibus escuros e longos intervalos de espera, gerando alta sensação de insegurança, estresse agudo e faltas recorrentes que comprometiam os SLAs contratuais de atendimento.',
+      points: [
+        'Absenteísmo às segundas e sextas-feiras atingindo 14,5%, estourando o tempo médio de atendimento (TMA) e gerando risco de multas.',
+        '68% dos operadores relatavam medo constante e sensação de vulnerabilidade no trajeto noturno.',
+        'Custos descontrolados com horas extras de supervisão e transporte emergencial de contingência.'
+      ]
+    },
+    solution: {
+      title: 'Programa Corredor Seguro e sincronização de escalas com a malha urbana',
+      description: 'Com os dados da dimensão D4 (Vulnerabilidade) e D2 (Estresse) do IIM, a UrbanFlow articulou intervenções estruturadas para assegurar proteção física e previsibilidade no trajeto.',
+      interventions: [
+        'Criação do "Corredor Seguro": embarque assistido na porta da empresa e vans circulares até os terminais integrados centrais a partir das 21h00.',
+        'Sincronização dos minutos de encerramento dos turnos exatamente com os horários de saída das linhas troncais.',
+        'Criação do canal interno de monitoramento preventivo de rotas e segurança comunitária entre os colaboradores.'
+      ]
+    },
+    results: {
+      title: 'Segurança humana revertida em estabilidade operacional de SLAs',
+      description: 'O clima de segurança e acolhimento reduziu radicalmente as faltas e atestados médicos, garantindo cumprimento integral dos contratos de atendimento corporativo.',
+      metrics: [
+        { label: 'Índice IIM Consolidado', before: '82 pts (Crítico)', after: '42 pts (Moderado)', badge: '-49% no Impacto', isPositive: true },
+        { label: 'Taxa de Absenteísmo', before: '14,5%', after: '4,2%', badge: '-71% de faltas', isPositive: true },
+        { label: 'Sensação de Vulnerabilidade', before: '68% em risco', after: '16% em risco', badge: '-76% insegurança', isPositive: true },
+        { label: 'Economia em Multas & HE', before: 'Custos elevados', after: 'R$ 390.000 / ano', badge: '100% SLAs cumpridos', isPositive: true }
+      ],
+      roiSummary: 'Proteção total dos SLAs de clientes corporativos e redução de 75% nos custos com horas extras emergenciais.'
+    },
+    testimonial: {
+      quote: 'Cuidar da volta para casa das nossas equipes transformou a relação das pessoas com a empresa. Quando o colaborador sente que a empresa se importa com sua segurança real, o absenteísmo despenca e a qualidade do atendimento sobe.',
+      author: 'Gerência Geral de Operações',
+      role: 'OmniContact Serviços de Relacionamento'
+    }
+  }
+];
+

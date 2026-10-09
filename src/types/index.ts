@@ -62,3 +62,45 @@ export interface PillarMovement {
   metric: string;
   highlights: string[];
 }
+
+export interface SuccessCaseMetric {
+  label: string;
+  before: string;
+  after: string;
+  badge: string;
+  isPositive?: boolean;
+}
+
+export interface SuccessCase {
+  id: string;
+  companyName: string;
+  sector: string;
+  companySize: string;
+  location: string;
+  tagline: string;
+  initialScoreIIM: number;
+  finalScoreIIM: number;
+  highlightMetric: string;
+  problem: {
+    title: string;
+    description: string;
+    points: string[];
+  };
+  solution: {
+    title: string;
+    description: string;
+    interventions: string[];
+  };
+  results: {
+    title: string;
+    description: string;
+    metrics: SuccessCaseMetric[];
+    roiSummary: string;
+  };
+  testimonial: {
+    quote: string;
+    author: string;
+    role: string;
+  };
+}
+

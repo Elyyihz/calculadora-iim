@@ -5,6 +5,7 @@ import { OQueNosMoveSection } from '../components/home/OQueNosMoveSection';
 import { OMetodoSection } from '../components/home/OMetodoSection';
 import { CalculadoraDidaticaSection } from '../components/home/CalculadoraDidaticaSection';
 import { DaEscutaAcaoSection } from '../components/home/DaEscutaAcaoSection';
+import { CasesDeSucessoSection } from '../components/home/CasesDeSucessoSection';
 import { NossaOrigemSection } from '../components/home/NossaOrigemSection';
 import { FaqSection } from '../components/home/FaqSection';
 import { CtaBanner } from '../components/home/CtaBanner';
@@ -40,7 +41,10 @@ export const HomePage: React.FC = () => {
       {/* 5. Da escuta à ação: 4 passos */}
       <DaEscutaAcaoSection />
 
-      {/* 5. Nossa Origem: História em Recife/UNINASSAU */}
+      {/* 6. Cases de Sucesso: Simulações práticas do serviço e ROI */}
+      <CasesDeSucessoSection />
+
+      {/* 7. Nossa Origem: História em Recife/UNINASSAU */}
       <NossaOrigemSection />
 
       {/* 6. FAQ: Acordeão com perguntas frequentes */}
