@@ -1,5 +1,6 @@
 import React from 'react';
 import { ProjectionMilestone } from '../../../types/calculatorDTOs';
+import { AlertTriangle } from 'lucide-react';
 
 interface ProjectionsSectionProps {
   marcos: ProjectionMilestone[];
@@ -44,7 +45,17 @@ export const ProjectionsSection: React.FC<ProjectionsSectionProps> = ({
         </table>
       </div>
 
-      <p className="proj-note">{notaInercial}</p>
+      <p
+        className="proj-note"
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '8px'
+        }}
+      >
+        <AlertTriangle size={16} color="#D97706" style={{ flexShrink: 0, marginTop: '2px' }} />
+        <span>{notaInercial}</span>
+      </p>
     </div>
   );
 };

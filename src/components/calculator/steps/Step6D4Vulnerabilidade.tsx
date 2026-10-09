@@ -1,9 +1,21 @@
 import React from 'react';
 import { CalculatorFormData } from '../../../types/calculator';
+import { D4RiscoTipo } from '../../../types/calculatorDTOs';
 import { FormField } from '../common/FormField';
-import { FormChips } from '../common/FormChips';
+import { FormChips, FormChipsMulti } from '../common/FormChips';
 import { FormScale } from '../common/FormScale';
-import { ArrowLeft, BarChart2 } from 'lucide-react';
+import {
+  ArrowLeft,
+  BarChart2,
+  Check,
+  Sliders,
+  X,
+  XCircle,
+  ShieldCheck,
+  Construction,
+  CloudRain,
+  AlertTriangle
+} from 'lucide-react';
 
 interface Step6D4VulnerabilidadeProps {
   data: CalculatorFormData;
@@ -105,27 +117,32 @@ export const Step6D4Vulnerabilidade: React.FC<Step6D4VulnerabilidadeProps> = ({
             selectedValue={data.d4_app}
             onChange={(val) => onChange('d4_app', val)}
             options={[
-              { value: '0', label: '✅ Sim, uso regularmente' },
-              { value: '1', label: '⚖️ Às vezes' },
-              { value: '3', label: '❌ Não uso (custo)' },
-              { value: '4', label: '❌ Não tenho acesso' }
+              { value: '0', label: 'Sim, uso regularmente', icon: <Check size={14} /> },
+              { value: '1', label: 'Às vezes', icon: <Sliders size={14} /> },
+              { value: '3', label: 'Não uso (custo)', icon: <X size={14} /> },
+              { value: '4', label: 'Não tenho acesso', icon: <XCircle size={14} /> }
             ]}
           />
         </FormField>
 
         <FormField
-          label="06 · O trajeto passa por áreas com risco percebido?"
+          label="06 · O trajeto passa por áreas com risco percebido? (seleção múltipla)"
+          tip="Risco acumulado no trajeto — obras, alagamentos e violência amplificam a vulnerabilidade. Pode selecionar mais de uma opção."
           hasError={!!errors.d4_risco}
           errorMessage={errors.d4_risco}
         >
-          <FormChips
-            selectedValue={data.d4_risco}
-            onChange={(val) => onChange('d4_risco', val)}
+          <div style={{ marginBottom: '8px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            Selecione todos os riscos enfrentados na rota (ou selecione <strong>Nenhum risco</strong>):
+          </div>
+          <FormChipsMulti<D4RiscoTipo>
+            selectedValues={data.d4_risco || []}
+            onChange={(vals) => onChange('d4_risco', vals)}
+            exclusiveValue="0"
             options={[
-              { value: '0', label: 'Nenhum risco' },
-              { value: '1', label: 'Obras / desvios' },
-              { value: '3', label: 'Enchentes / alagamentos' },
-              { value: '4', label: 'Violência / insegurança' }
+              { value: '0', label: 'Nenhum risco', icon: <ShieldCheck size={14} /> },
+              { value: '1', label: 'Obras / desvios', icon: <Construction size={14} /> },
+              { value: '3', label: 'Enchentes / alagamentos', icon: <CloudRain size={14} /> },
+              { value: '4', label: 'Violência / insegurança', icon: <AlertTriangle size={14} /> }
             ]}
           />
         </FormField>

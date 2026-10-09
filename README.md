@@ -110,3 +110,28 @@ Os ficheiros otimizados serão gerados na pasta `dist/`.
 ```bash
 npm run preview
 ```
+
+---
+
+## 🐍 Backend API RESTful (FastAPI + SQLAlchemy)
+
+O projeto conta com um backend Python para suportar a consultoria corporativa e viabilizar extrações estatísticas de mobilidade:
+
+### Instalação e Execução da API
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+- **Swagger Interativo**: `http://localhost:8000/docs`
+- **Endpoints Principais**:
+  - `POST /api/diagnosticos`: Persistência de respostas e resultados calculados
+  - `GET /api/diagnosticos`: Listagem de diagnósticos com filtros por setor/faixa
+  - `GET /api/diagnosticos/{id}`: Obtenção de diagnóstico por ID
+  - `GET /api/estatisticas`: Inteligência estatística agregada (médias, benchmark setorial, dispersão de modais)
+
+### Testes do Backend
+```bash
+python3 -m unittest backend/tests/test_api.py
+```

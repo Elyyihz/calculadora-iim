@@ -1,0 +1,31 @@
+id_colaborador,setor,cargo,tempo_trajeto_min,distancia_km,estresse_transito_1a5,qualidade_sono_1a5,atrasos_mes,risco_demissao_1a5,modal_predominante,gasto_transporte_renda_pct
+COLAB_001,Operações,Assistente Operacional,95,22,4,3,3,4,Onibus/Metro,14
+COLAB_002,Tecnologia,Engenheiro de Software,40,11,2,2,0,1,Carro/Moto,7
+COLAB_003,Atendimento,Operador de Suporte,110,26,5,4,4,5,Onibus/Metro,16
+COLAB_004,Financeiro,Analista Contábil,55,14,3,3,1,2,Misto/App,9
+COLAB_005,Logística,Assistente de Estoque,105,24,4,4,3,4,Onibus/Metro,15
+COLAB_006,Recursos Humanos,Analista de DHO,50,12,2,2,0,1,Carro/Moto,8
+COLAB_007,Comercial,Executivo de Contas,70,18,3,3,2,2,Carro/Moto,10
+COLAB_008,Atendimento,Analista de SAC,125,29,5,5,5,5,Onibus/Metro,18
+COLAB_009,Operações,Técnico de Manutenção,85,20,4,3,2,3,Onibus/Metro,13
+COLAB_010,Tecnologia,Designer UI/UX,45,10,1,2,0,1,Bicicleta/Ativo,3
+COLAB_011,Logística,Conferente,115,27,5,4,4,4,Onibus/Metro,16
+COLAB_012,Financeiro,Assistente Fiscal,65,15,3,3,1,2,Onibus/Metro,11
+COLAB_013,Operações,Supervisor de Turno,75,17,3,3,1,2,Carro/Moto,9
+COLAB_014,Atendimento,Líder de Atendimento,100,23,4,4,3,4,Onibus/Metro,15
+COLAB_015,Tecnologia,DevOps Engineer,50,13,2,2,0,1,Misto/App,8
+COLAB_016,Comercial,Consultor de Vendas,80,21,3,3,2,3,Carro/Moto,11
+COLAB_017,Logística,Motorista de Apoio,90,25,4,4,2,3,Misto/App,12
+COLAB_018,Recursos Humanos,Coordenador de RH,40,9,2,2,0,1,Carro/Moto,6
+COLAB_019,Operações,Operador de Linha,120,28,5,5,5,5,Onibus/Metro,17
+COLAB_020,Atendimento,Assistente de Ouvidoria,105,24,4,4,3,4,Onibus/Metro,14
+COLAB_021,Financeiro,Especialista de FP&A,45,11,2,2,0,1,Carro/Moto,7
+COLAB_022,Operações,Auxiliar Operacional,130,31,5,5,6,5,Onibus/Metro,19
+COLAB_023,Tecnologia,Product Owner,60,16,3,2,1,2,Carro/Moto,8
+COLAB_024,Logística,Planejador de Rotas,80,19,3,3,1,2,Onibus/Metro,12
+COLAB_025,Comercial,Analista de Vendas,75,17,3,3,2,2,Misto/App,10
+COLAB_026,Atendimento,Operador de Teleatendimento,115,25,5,4,4,5,Onibus/Metro,16
+COLAB_027,Operações,Técnico Eletricista,90,22,4,3,2,3,Onibus/Metro,13
+COLAB_028,Financeiro,Analista de Tesouraria,50,12,2,2,0,1,Carro/Moto,8
+COLAB_029,Tecnologia,Desenvolvedor Backend,55,14,2,3,1,1,Misto/App,8
+COLAB_030,Logística,Assistente de Expedição,100,23,4,4,3,4,Onibus/Metro,15

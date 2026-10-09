@@ -2,7 +2,21 @@ import React from 'react';
 import { CalculatorFormData } from '../../../types/calculator';
 import { FormField } from '../common/FormField';
 import { FormChips } from '../common/FormChips';
-import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  AlertTriangle,
+  User,
+  Wrench,
+  Settings,
+  FileSpreadsheet,
+  BarChart3,
+  Users,
+  Award,
+  Check,
+  Sliders,
+  Home
+} from 'lucide-react';
 
 interface Step2ColaboradorProps {
   data: CalculatorFormData;
@@ -25,8 +39,9 @@ export const Step2Colaborador: React.FC<Step2ColaboradorProps> = ({
   return (
     <div className="calc-section-card">
       <div className="calc-section-head">
-        <div className="calc-dim-badge">
-          👤<span className="pct">Etapa 2</span>
+        <div className="calc-dim-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+          <User size={15} />
+          <span className="pct">Etapa 2</span>
         </div>
         <div className="calc-section-head-text">
           <h2>Perfil do Colaborador</h2>
@@ -45,12 +60,12 @@ export const Step2Colaborador: React.FC<Step2ColaboradorProps> = ({
             selectedValue={data.func_cargo}
             onChange={(val) => onChange('func_cargo', val)}
             options={[
-              { value: 'operacional', label: '🔧 Operacional' },
-              { value: 'tecnico', label: '⚙️ Técnico' },
-              { value: 'administrativo', label: '📋 Administrativo' },
-              { value: 'analitico', label: '📊 Analítico / Especialista' },
-              { value: 'lideranca', label: '👔 Liderança / Gestão' },
-              { value: 'diretoria', label: '🏆 Diretoria / C-Level' }
+              { value: 'operacional', label: 'Operacional', icon: <Wrench size={14} /> },
+              { value: 'tecnico', label: 'Técnico', icon: <Settings size={14} /> },
+              { value: 'administrativo', label: 'Administrativo', icon: <FileSpreadsheet size={14} /> },
+              { value: 'analitico', label: 'Analítico / Especialista', icon: <BarChart3 size={14} /> },
+              { value: 'lideranca', label: 'Liderança / Gestão', icon: <Users size={14} /> },
+              { value: 'diretoria', label: 'Diretoria / C-Level', icon: <Award size={14} /> }
             ]}
           />
         </FormField>
@@ -64,9 +79,9 @@ export const Step2Colaborador: React.FC<Step2ColaboradorProps> = ({
             selectedValue={data.func_presenca}
             onChange={(val) => onChange('func_presenca', val)}
             options={[
-              { value: 'obrigatorio', label: '✅ Sim, 100% obrigatório' },
-              { value: 'parcial', label: '⚖️ Parcial' },
-              { value: 'nao', label: '🏠 Não, pode ser remoto' }
+              { value: 'obrigatorio', label: '100% obrigatório', icon: <Check size={14} /> },
+              { value: 'parcial', label: 'Parcial', icon: <Sliders size={14} /> },
+              { value: 'nao', label: 'Pode ser remoto', icon: <Home size={14} /> }
             ]}
           />
         </FormField>

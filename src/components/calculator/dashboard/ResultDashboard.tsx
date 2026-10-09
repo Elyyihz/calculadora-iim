@@ -1,16 +1,18 @@
 import React from 'react';
-import { FullIimDiagnosis, SimulatedSavings } from '../../../types/calculatorDTOs';
+import { CalculatorInputDTO, FullIimDiagnosis, SimulatedSavings } from '../../../types/calculatorDTOs';
 import { ScoreHero } from './ScoreHero';
 import { RadarDimensionalSection } from './RadarDimensionalSection';
 import { FinancialImpactSection } from './FinancialImpactSection';
 import { ProjectionsSection } from './ProjectionsSection';
 import { SavingsSimulatorSection } from './SavingsSimulatorSection';
 import { InterventionsSection } from './InterventionsSection';
+import { ConversionCtaSection } from './ConversionCtaSection';
 import { RecommendationsSection } from './RecommendationsSection';
 import { CompanyScaleSection } from './CompanyScaleSection';
 import { MethodologySection } from './MethodologySection';
 
 interface ResultDashboardProps {
+  formData?: CalculatorInputDTO;
   result: FullIimDiagnosis;
   simulatedSavings: SimulatedSavings | null;
   onUpdateSimulation: (targetIim: number) => void;
@@ -19,6 +21,7 @@ interface ResultDashboardProps {
 }
 
 export const ResultDashboard: React.FC<ResultDashboardProps> = ({
+  formData,
   result,
   simulatedSavings,
   onUpdateSimulation,
@@ -28,7 +31,7 @@ export const ResultDashboard: React.FC<ResultDashboardProps> = ({
   return (
     <div id="resultado" className="res-dashboard active">
       {/* 1. HERO SCORE & PRINT ACTION */}
-      <ScoreHero result={result} />
+      <ScoreHero result={result} formData={formData} />
 
       {/* 2. RADAR & DIMENSIONAL SCORES */}
       <RadarDimensionalSection
@@ -56,6 +59,13 @@ export const ResultDashboard: React.FC<ResultDashboardProps> = ({
       {/* 6. INTERVENÇÕES COM ROI */}
       <InterventionsSection intervencoes={result.intervencoesPrioritarias} />
 
+      {/* BLOCO DE CONVERSÃO (CALL TO ACTION) APÓS A TABELA DE INTERVENÇÕES */}
+      <ConversionCtaSection
+        empresaNome={result.empresaNome}
+        iimScore={result.iimRounded}
+        classificacao={result.classificacao}
+      />
+
       {/* 7. RECOMENDAÇÕES URBANFLOW */}
       <RecommendationsSection recomendacoes={result.recomendacoes} />
 
@@ -64,6 +74,11 @@ export const ResultDashboard: React.FC<ResultDashboardProps> = ({
 
       {/* 9. METODOLOGIA IIM & REINICIALIZAÇÃO */}
       <MethodologySection onEdit={onEdit} onReset={onReset} />
+
+      {/* 10. AVISO LEGAL NO RODAPÉ DE IMPRESSÃO / PDF (@media print) */}
+      <div className="print-only-footer">
+        Todos os números apresentados devem ser tratados como dados estimados e projetados
+      </div>
     </div>
   );
 };

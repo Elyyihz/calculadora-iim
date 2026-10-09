@@ -10,6 +10,27 @@ import {
   FullIimDiagnosis
 } from '../types/calculatorDTOs';
 
+/**
+ * PESOS OFICIAIS DAS DIMENSÕES DO IIM v3.0
+ *
+ * Configuração central e isolada dos coeficientes ponderadores de cada dimensão.
+ * Pode ser ajustada diretamente aqui sem necessidade de alterar as funções matemáticas:
+ * - D1: Trajeto (Tempo, distância e comutação) — 30% (0.30)
+ * - D2: Estresse (Desgaste físico, mental e qualidade de sono) — 27% (0.27)
+ * - D3: Pontualidade (Atrasos, faltas e risco de turnover) — 25% (0.25)
+ * - D4: Vulnerabilidade (Custo relativo de transporte e segurança) — 18% (0.18)
+ *
+ * Nota: A soma dos pesos deve totalizar 1.00 (100%).
+ */
+export const IIM_WEIGHTS = {
+  D1: 0.30,
+  D2: 0.27,
+  D3: 0.25,
+  D4: 0.18
+} as const;
+
+export type IimWeights = typeof IIM_WEIGHTS;
+
 export const INITIAL_CALCULATOR_DATA: CalculatorInputDTO = {
   // Etapa 1
   empresa_nome: '',
@@ -25,7 +46,7 @@ export const INITIAL_CALCULATOR_DATA: CalculatorInputDTO = {
   empresa_burnout: '',
   empresa_faturamento: '',
   empresa_salario_medio: '',
-  empresa_beneficios: '',
+  empresa_beneficios: [],
   empresa_ciclista: '',
 
   // Etapa 2
@@ -73,7 +94,7 @@ export const INITIAL_CALCULATOR_DATA: CalculatorInputDTO = {
   d4_dep: '',
   d4_seg: 60,
   d4_app: '',
-  d4_risco: '',
+  d4_risco: [],
   d4_violencia: '',
   d4_vuln: 40,
   d4_tp_qual: ''
@@ -85,6 +106,7 @@ export class CalculatorService {
   public static readonly D2_MAX = 150;
   public static readonly D3_MAX = 90;
   public static readonly D4_MAX = 260;
+  public static readonly WEIGHTS = IIM_WEIGHTS;
 
   // =========================================================================
   // D1 — TEMPO E DISTÂNCIA (TRAJETO)
@@ -183,8 +205,16 @@ export class CalculatorService {
     let score = 0;
     score += parseFloat(data.d4_dep || '0') * 12;
     score += (100 - (data.d4_seg ?? 60)) * 0.20;
-    score += parseFloat(data.d4_app || '0') * 8;
-    score += parseFloat(data.d4_risco || '0') * 10;
+    // Risco percebido no trajeto (acumulativo com teto de 40 pts para manter a calibração de D4_MAX)
+    const riscos = Array.isArray(data.d4_risco)
+      ? data.d4_risco
+      : (typeof data.d4_risco === 'string' && data.d4_risco ? (data.d4_risco as string).split(',') : []);
+    let riscoScore = 0;
+    if (riscos.length > 0 && !riscos.includes('0')) {
+      const sum = riscos.reduce((acc, r) => acc + (parseFloat(r) || 0), 0);
+      riscoScore = Math.min(sum * 10, 40);
+    }
+    score += riscoScore;
     score += parseFloat(data.d4_violencia || '0') * 12;
     score += (data.d4_vuln ?? 40) * 0.20;
     score += parseFloat(data.d4_tp_qual || '0') * 10;
@@ -242,7 +272,14 @@ export class CalculatorService {
     if (data.empresa_turno === 'noturno') mod += 10;
     if (data.empresa_flex === 'nao') mod += 8;
     if (['periferia', 'fora'].includes(data.empresa_local)) mod += 8;
-    if (data.empresa_beneficios === 'nenhum') mod += 5;
+
+    const beneficios = Array.isArray(data.empresa_beneficios)
+      ? data.empresa_beneficios
+      : (data.empresa_beneficios ? [data.empresa_beneficios as any] : []);
+
+    if (beneficios.includes('nenhum') || beneficios.length === 0) {
+      mod += 5;
+    }
     return mod;
   }
 
@@ -277,42 +314,42 @@ export class CalculatorService {
     contexto: string;
   } {
     const basePonderada =
-      dimScores.d1Norm * 0.30 +
-      dimScores.d2Norm * 0.27 +
-      dimScores.d3Norm * 0.25 +
-      dimScores.d4Norm * 0.18;
+      dimScores.d1Norm * IIM_WEIGHTS.D1 +
+      dimScores.d2Norm * IIM_WEIGHTS.D2 +
+      dimScores.d3Norm * IIM_WEIGHTS.D3 +
+      dimScores.d4Norm * IIM_WEIGHTS.D4;
 
     let iim = basePonderada * dimScores.daysMultiplier * dimScores.sectorMultiplier;
     iim = Math.min(iim + dimScores.organizationalModifier * 0.3, 100);
     const iimRounded = Math.round(iim);
 
-    let classificacao = '🟢 Baixo Impacto';
-    let classBg = '#e8fbf3';
-    let classColor = '#0D2B1F';
+    let classificacao = 'Baixo Impacto (Mobilidade Eficiente)';
+    let classBg = '#EBF7F0';
+    let classColor = '#0B2545';
 
     if (iim <= 40) {
-      classificacao = '🟢 Baixo Impacto';
-      classBg = '#e8fbf3';
-      classColor = '#0D2B1F';
+      classificacao = 'Baixo Impacto (Mobilidade Eficiente)';
+      classBg = '#EBF7F0';
+      classColor = '#0B2545';
     } else if (iim <= 60) {
-      classificacao = '🟡 Impacto Moderado';
+      classificacao = 'Impacto Moderado (Atenção a Desgaste)';
       classBg = '#fffaeb';
       classColor = '#7a5c00';
     } else if (iim <= 80) {
-      classificacao = '🟠 Alto Impacto';
+      classificacao = 'Alto Impacto (Mobilidade Prejudicial)';
       classBg = '#fff3e8';
       classColor = '#7a3e00';
     } else {
-      classificacao = '🔴 Impacto Crítico';
+      classificacao = 'Impacto Crítico (Alto Risco e Prejuízo)';
       classBg = '#fff0f0';
       classColor = '#cc3333';
     }
 
     const contextMap: Record<number, string> = {
-      40: 'Situação estável — colaborador tem condições favoráveis de deslocamento.',
-      60: 'Sinais de desgaste detectados — intervenção preventiva pode evitar escalada de custos.',
-      80: 'Alto impacto operacional — perda de produtividade e risco de turnover significativos.',
-      100: 'Impacto crítico — cada mês sem intervenção adiciona custo acumulado e risco de perda do colaborador.'
+      40: 'Situação favorável (0–40): mobilidade fluida com impacto negativo mínimo nos custos e no bem-estar.',
+      60: 'Atenção necessária (41–60): atrito intermediário no trajeto, com início de perda produtiva e estresse perceptível.',
+      80: 'Impacto negativo elevado (61–80): deslocamento desgastante gerando perda severa de produtividade e risco de rotatividade.',
+      100: 'Impacto negativo crítico (81–100): condições severas de mobilidade acarretando alto prejuízo financeiro e risco de burnout.'
     };
     const ctxKey = iim <= 40 ? 40 : iim <= 60 ? 60 : iim <= 80 ? 80 : 100;
 
@@ -365,10 +402,10 @@ export class CalculatorService {
     // Decomposição de custo por dimensão
     const safeIim = Math.max(iim, 1);
     const custoPorDimensao = {
-      d1: perdaProdutividadeMensal * 0.30 * (d1 / safeIim),
-      d2: (perdaProdutividadeMensal + presenteismoMensal) * 0.27 * (d2 / safeIim),
-      d3: perdaProdutividadeMensal * 0.25 * (d3 / safeIim),
-      d4: perdaProdutividadeMensal * 0.18 * (d4 / safeIim)
+      d1: perdaProdutividadeMensal * IIM_WEIGHTS.D1 * (d1 / safeIim),
+      d2: (perdaProdutividadeMensal + presenteismoMensal) * IIM_WEIGHTS.D2 * (d2 / safeIim),
+      d3: perdaProdutividadeMensal * IIM_WEIGHTS.D3 * (d3 / safeIim),
+      d4: perdaProdutividadeMensal * IIM_WEIGHTS.D4 * (d4 / safeIim)
     };
 
     return {
@@ -394,7 +431,7 @@ export class CalculatorService {
       { meses: 1, label: 'Agora (1 mês)', isAnual: false, obs: 'custo acumulado' },
       { meses: 3, label: '3 meses', isAnual: false, obs: 'custo acumulado' },
       { meses: 6, label: '6 meses', isAnual: false, obs: 'custo acumulado' },
-      { meses: 12, label: '12 meses', isAnual: true, obs: '⚠ custo acumulado anual' }
+      { meses: 12, label: '12 meses', isAnual: true, obs: 'Custo acumulado anual' }
     ];
 
     const marcos: ProjectionMilestone[] = horizons.map((h) => ({
@@ -407,7 +444,7 @@ export class CalculatorService {
 
     const notaInercial =
       iim > 60
-        ? '⚠ Com IIM acima de 60, o risco de turnover é ponderado mensalmente. A perda de um colaborador de alto custo de reposição pode triplicar o impacto de um único mês. Cada mês de inação é custo composto.'
+        ? 'Com IIM acima de 60, o risco de turnover é ponderado mensalmente. A perda de um colaborador de alto custo de reposição pode triplicar o impacto de um único mês. Cada mês de inação é custo composto.'
         : 'IIM moderado — o custo acumulado é real mas gerenciável com intervenções preventivas de baixo esforço.';
 
     return { marcos, notaInercial };
@@ -512,7 +549,11 @@ export class CalculatorService {
       const nD3 = Math.max(dimScores.d3Norm - inv.dI.d3, 0);
       const nD4 = Math.max(dimScores.d4Norm - inv.dI.d4, 0);
 
-      const newIIM = nD1 * 0.30 + nD2 * 0.27 + nD3 * 0.25 + nD4 * 0.18;
+      const newIIM =
+        nD1 * IIM_WEIGHTS.D1 +
+        nD2 * IIM_WEIGHTS.D2 +
+        nD3 * IIM_WEIGHTS.D3 +
+        nD4 * IIM_WEIGHTS.D4;
       const reducaoIIM = Math.max(iim - newIIM, 0);
       const economiaMensal = custoMensal * (reducaoIIM / Math.max(iim, 1));
       const roiScore = economiaMensal / esforcoPeso[inv.esforco];
@@ -558,7 +599,7 @@ export class CalculatorService {
     let itens: string[] = [];
 
     if (iim <= 40) {
-      titulo = '✅ Situação estável — plano de manutenção preventiva';
+      titulo = 'Situação estável — plano de manutenção preventiva';
       itens = [
         'Monitoramento anual do IIM — manter linha de base para comparação setorial',
         'Avaliar benefícios complementares de mobilidade (auxílio-mobilidade flexível)',
@@ -566,7 +607,7 @@ export class CalculatorService {
         'Diagnóstico UrbanFlow anual para detectar mudanças no perfil residencial da equipe'
       ];
     } else if (iim <= 60) {
-      titulo = `⚠ Sinais de desgaste em ${dimensoesCriticas} — intervenção preventiva recomendada`;
+      titulo = `Sinais de desgaste em ${dimensoesCriticas} — intervenção preventiva recomendada`;
       itens = [
         'Revisar cobertura do vale-transporte — custo descoberto é vulnerabilidade financeira direta',
         'Avaliar flexibilidade de horário de entrada (±30 min) — intervenção de custo baixo e alto impacto em D1 e D2',
@@ -575,7 +616,7 @@ export class CalculatorService {
         'Diagnóstico UrbanFlow de origem-destino para mapear concentração de colaboradores por bairro'
       ];
     } else if (iim <= 80) {
-      titulo = `🚨 Alto impacto em ${dimensoesCriticas} — intervenção necessária`;
+      titulo = `Alto impacto em ${dimensoesCriticas} — intervenção necessária`;
       itens = [
         'Auditoria completa de benefícios de mobilidade — comparar cobertura real vs. custo de transporte declarado',
         'Implementar regime híbrido para cargos compatíveis — maior alavanca individual de redução do IIM',
@@ -585,7 +626,7 @@ export class CalculatorService {
         'Diagnóstico UrbanFlow completo recomendado — estimativa de ROI da intervenção antes de decidir investimento'
       ];
     } else {
-      titulo = '🔴 Impacto crítico — ação imediata necessária';
+      titulo = 'Impacto crítico — ação imediata necessária';
       itens = [
         'Reunião emergencial RH + liderança para plano de mobilidade com prazo definido',
         'Implementação imediata de flexibilidade de horário — alívio rápido sem custo operacional',
@@ -708,8 +749,10 @@ export class CalculatorService {
       if (data.empresa_turnover === '') errors.empresa_turnover = 'Informe o turnover anual';
       if (data.empresa_burnout === '') errors.empresa_burnout = 'Informe os afastamentos por burnout';
       if (data.empresa_faturamento === '') errors.empresa_faturamento = 'Informe o faturamento anual';
-      if (data.empresa_salario_medio === '') errors.empresa_salario_medio = 'Informe o salário médio mensal';
-      if (!data.empresa_beneficios) errors.empresa_beneficios = 'Selecione os benefícios oferecidos';
+      const beneficios = Array.isArray(data.empresa_beneficios)
+        ? data.empresa_beneficios
+        : (data.empresa_beneficios ? [data.empresa_beneficios as any] : []);
+      if (beneficios.length === 0) errors.empresa_beneficios = 'Selecione os benefícios oferecidos (ou marque "Nenhum")';
       if (!data.empresa_ciclista) errors.empresa_ciclista = 'Indique a infraestrutura para ciclistas';
     } else if (step === 2) {
       if (!data.func_cargo) errors.func_cargo = 'Selecione o cargo / função';
@@ -754,7 +797,10 @@ export class CalculatorService {
         errors.d4_ponto = 'Informe a distância a pé até o ponto';
       if (!data.d4_dep) errors.d4_dep = 'Indique a dependência do transporte público';
       if (!data.d4_app) errors.d4_app = 'Indique o acesso a aplicativo de transporte';
-      if (!data.d4_risco) errors.d4_risco = 'Indique a presença de áreas com risco';
+      const riscos = Array.isArray(data.d4_risco)
+        ? data.d4_risco
+        : (data.d4_risco ? [data.d4_risco as any] : []);
+      if (riscos.length === 0) errors.d4_risco = 'Indique os riscos percebidos no trajeto (ou marque "Nenhum risco")';
       if (!data.d4_violencia) errors.d4_violencia = 'Indique se foi vítima de assalto/violência';
       if (!data.d4_tp_qual) errors.d4_tp_qual = 'Avalie a qualidade do transporte público';
     }

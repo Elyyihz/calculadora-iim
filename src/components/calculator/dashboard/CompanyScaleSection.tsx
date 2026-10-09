@@ -1,5 +1,6 @@
 import React from 'react';
 import { CompanyScaleProjection } from '../../../types/calculatorDTOs';
+import { AlertTriangle } from 'lucide-react';
 
 interface CompanyScaleSectionProps {
   projecao: CompanyScaleProjection;
@@ -67,7 +68,12 @@ export const CompanyScaleSection: React.FC<CompanyScaleSectionProps> = ({
           lineHeight: 1.5
         }}
       >
-        ⚠️ Estimativa ilustrativa: projeta o custo mensal deste único colaborador respondente para
+        <AlertTriangle
+          size={14}
+          color="#D97706"
+          style={{ display: 'inline', verticalAlign: '-2px', marginRight: '5px' }}
+        />
+        <strong>Estimativa ilustrativa:</strong> projeta o custo mensal deste único colaborador respondente para
         todo o quadro presencial, assumindo perfil de IIM homogêneo. Não é uma estimativa
         estatisticamente validada da empresa — o Diagnóstico UrbanFlow completo aplica o instrumento a
         uma amostra representativa dos colaboradores para gerar uma projeção com validade

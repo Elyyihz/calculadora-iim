@@ -1,5 +1,6 @@
 import React from 'react';
-import { ArrowLeft, RotateCcw } from 'lucide-react';
+import { ArrowLeft, RotateCcw, Info, ShieldCheck, AlertCircle, AlertTriangle, AlertOctagon } from 'lucide-react';
+import { IIM_WEIGHTS } from '../../../services/CalculatorService';
 
 interface MethodologySectionProps {
   onEdit: () => void;
@@ -10,6 +11,11 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
   onEdit,
   onReset
 }) => {
+  const d1W = IIM_WEIGHTS.D1.toFixed(2).replace('.', ',');
+  const d2W = IIM_WEIGHTS.D2.toFixed(2).replace('.', ',');
+  const d3W = IIM_WEIGHTS.D3.toFixed(2).replace('.', ',');
+  const d4W = IIM_WEIGHTS.D4.toFixed(2).replace('.', ',');
+
   return (
     <div className="res-section">
       <p className="calc-subsection-title" style={{ marginTop: 0 }}>
@@ -17,96 +23,150 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
       </p>
 
       <div className="formula-box">
-        IIM = [(D1×0,30) + (D2×0,27) + (D3×0,25) + (D4×0,18)] × Mult. de Dias × Fator Setorial +
-        Modificador Organizacional
+        {`IIM = [(D1×${d1W}) + (D2×${d2W}) + (D3×${d3W}) + (D4×${d4W})] × Mult. de Dias × Fator Setorial + Modificador Organizacional`}
+      </div>
+
+      {/* REGRA DA ESCALA DO IIM */}
+      <div
+        style={{
+          background: 'var(--accent-light)',
+          border: '1px solid var(--accent-mid)',
+          borderRadius: 'var(--radius-sm)',
+          padding: '11px 16px',
+          marginBottom: '1.25rem',
+          fontSize: '0.84rem',
+          color: 'var(--brand)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          lineHeight: 1.45
+        }}
+      >
+        <Info size={18} color="var(--accent)" style={{ flexShrink: 0 }} />
+        <span>
+          <strong>Regra da Escala:</strong> Quanto maior a pontuação (aproximando-se de 100), pior é a mobilidade e maior é o impacto negativo financeiro e de bem-estar para a empresa e para o colaborador.
+        </span>
       </div>
 
       <div style={{ overflowX: 'auto' }}>
         <table className="info-table">
           <thead>
             <tr>
-              <th>Pontuação</th>
+              <th>Faixa IIM</th>
               <th>Classificação</th>
-              <th>Ação recomendada</th>
+              <th>Impacto na Empresa &amp; Colaborador</th>
+              <th>Ação Recomendada</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>0–40</td>
+              <td style={{ fontWeight: 700 }}>0–40</td>
               <td>
                 <span
                   style={{
-                    background: '#e8fbf3',
-                    color: '#0D2B1F',
+                    background: '#EBF7F0',
+                    color: '#0B2545',
                     borderRadius: '4px',
-                    padding: '2px 8px',
-                    fontSize: '0.8rem',
-                    fontWeight: 600
+                    padding: '3px 8px',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px'
                   }}
                 >
-                  🟢 Baixo impacto
+                  <ShieldCheck size={13} color="var(--accent)" />
+                  <span>Baixo impacto (Eficiente)</span>
                 </span>
               </td>
-              <td style={{ color: 'var(--text-muted)' }}>Monitoramento anual.</td>
+              <td style={{ color: 'var(--text-muted)' }}>
+                Mobilidade fluida; impacto negativo mínimo nos custos operacionais e no bem-estar.
+              </td>
+              <td style={{ color: 'var(--text-muted)' }}>Monitoramento periódico anual.</td>
             </tr>
             <tr>
-              <td>41–60</td>
+              <td style={{ fontWeight: 700 }}>41–60</td>
               <td>
                 <span
                   style={{
                     background: '#fffaeb',
                     color: '#7a5c00',
                     borderRadius: '4px',
-                    padding: '2px 8px',
-                    fontSize: '0.8rem',
-                    fontWeight: 600
+                    padding: '3px 8px',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px'
                   }}
                 >
-                  🟡 Impacto moderado
+                  <AlertCircle size={13} color="#D97706" />
+                  <span>Impacto moderado (Atenção)</span>
                 </span>
               </td>
               <td style={{ color: 'var(--text-muted)' }}>
-                Revisar VT e flexibilidade de horário.
+                Atrito intermediário; início de perda produtiva e desgaste perceptível no trajeto.
+              </td>
+              <td style={{ color: 'var(--text-muted)' }}>
+                Revisar horários flexíveis e benefícios de transporte corporativo.
               </td>
             </tr>
             <tr>
-              <td>61–80</td>
+              <td style={{ fontWeight: 700 }}>61–80</td>
               <td>
                 <span
                   style={{
                     background: '#fff3e8',
                     color: '#7a3e00',
                     borderRadius: '4px',
-                    padding: '2px 8px',
-                    fontSize: '0.8rem',
-                    fontWeight: 600
+                    padding: '3px 8px',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px'
                   }}
                 >
-                  🟠 Alto impacto
+                  <AlertTriangle size={13} color="#EA580C" />
+                  <span>Alto impacto (Prejudicial)</span>
                 </span>
               </td>
               <td style={{ color: 'var(--text-muted)' }}>
-                Intervenção necessária. Mapeamento de alternativas de modal.
+                Mobilidade deficiente; forte perda de produtividade, estresse e risco de turnover.
+              </td>
+              <td style={{ color: 'var(--text-muted)' }}>
+                Intervenção tática em 30–60 dias (trabalho híbrido, vans/fretados, rotas).
               </td>
             </tr>
             <tr>
-              <td>81–100</td>
+              <td style={{ fontWeight: 700 }}>81–100</td>
               <td>
                 <span
                   style={{
                     background: '#fff0f0',
                     color: '#cc3333',
                     borderRadius: '4px',
-                    padding: '2px 8px',
-                    fontSize: '0.8rem',
-                    fontWeight: 600
+                    padding: '3px 8px',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px'
                   }}
                 >
-                  🔴 Impacto crítico
+                  <AlertOctagon size={13} color="#DC2626" />
+                  <span>Impacto crítico (Alto Risco)</span>
                 </span>
               </td>
               <td style={{ color: 'var(--text-muted)' }}>
-                Ação imediata. Cada mês adiciona custo acumulado.
+                Condições severas de deslocamento; custo agudo, exaustão e risco iminente de burnout/desligamento.
+              </td>
+              <td style={{ color: 'var(--text-muted)' }}>
+                Ação emergencial imediata com consultoria especializada UrbanFlow.
               </td>
             </tr>
           </tbody>
@@ -140,7 +200,7 @@ export const MethodologySection: React.FC<MethodologySectionProps> = ({
 
         <button type="button" className="btn btn-danger" onClick={onReset}>
           <RotateCcw size={16} />
-          <span>↺ Novo diagnóstico</span>
+          <span>Novo diagnóstico</span>
         </button>
       </div>
     </div>

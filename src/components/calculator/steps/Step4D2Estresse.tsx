@@ -3,7 +3,7 @@ import { CalculatorFormData } from '../../../types/calculator';
 import { FormField } from '../common/FormField';
 import { FormChips, ChipOption } from '../common/FormChips';
 import { FormScale } from '../common/FormScale';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ShieldCheck, AlertCircle, AlertTriangle } from 'lucide-react';
 
 interface Step4D2EstresseProps {
   data: CalculatorFormData;
@@ -127,9 +127,9 @@ export const Step4D2Estresse: React.FC<Step4D2EstresseProps> = ({
             selectedValue={data.d2_lazer}
             onChange={(val) => onChange('d2_lazer', val)}
             options={[
-              { value: '0', label: '🟢 Não, tenho tempo' },
-              { value: '2', label: '🟡 Às vezes prejudica' },
-              { value: '4', label: '🔴 Sim, sempre prejudica' }
+              { value: '0', label: 'Não, tenho tempo', icon: <ShieldCheck size={14} color="var(--accent)" /> },
+              { value: '2', label: 'Às vezes prejudica', icon: <AlertCircle size={14} color="#D97706" /> },
+              { value: '4', label: 'Sim, sempre prejudica', icon: <AlertTriangle size={14} color="#DC2626" /> }
             ]}
           />
         </FormField>

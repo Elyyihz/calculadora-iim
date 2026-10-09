@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { HeroSection } from '../components/home/HeroSection';
-import { QuemSomosSection } from '../components/home/QuemSomosSection';
-import { EquipaSection } from '../components/home/EquipaSection';
-import { ResponsabilidadesSection } from '../components/home/ResponsabilidadesSection';
+import { OQueNosMoveSection } from '../components/home/OQueNosMoveSection';
+import { OMetodoSection } from '../components/home/OMetodoSection';
+import { CalculadoraDidaticaSection } from '../components/home/CalculadoraDidaticaSection';
+import { DaEscutaAcaoSection } from '../components/home/DaEscutaAcaoSection';
+import { CasesDeSucessoSection } from '../components/home/CasesDeSucessoSection';
+import { NossaOrigemSection } from '../components/home/NossaOrigemSection';
+import { FaqSection } from '../components/home/FaqSection';
 import { CtaBanner } from '../components/home/CtaBanner';
 
 export const HomePage: React.FC = () => {
@@ -21,12 +25,33 @@ export const HomePage: React.FC = () => {
   }, [hash]);
 
   return (
-    <>
+    <div style={{ background: '#FFFFFF', minHeight: '100vh' }}>
+      {/* 1. Hero: Um novo caminho para sua empresa ir mais longe */}
       <HeroSection />
-      <QuemSomosSection />
-      <EquipaSection />
-      <ResponsabilidadesSection />
+
+      {/* 2. O que nos move: Três pilares (Eficiência/CFO, Produtividade/Gestores, Bem-estar/RH) */}
+      <OQueNosMoveSection />
+
+      {/* 3. O Método: Gráfico de radar do IIM */}
+      <OMetodoSection />
+
+      {/* 4. Versão Didática da Calculadora (Conceitual para Visitantes) */}
+      <CalculadoraDidaticaSection />
+
+      {/* 5. Da escuta à ação: 4 passos */}
+      <DaEscutaAcaoSection />
+
+      {/* 6. Cases de Sucesso: Simulações práticas do serviço e ROI */}
+      <CasesDeSucessoSection />
+
+      {/* 7. Nossa Origem: História em Recife/UNINASSAU */}
+      <NossaOrigemSection />
+
+      {/* 6. FAQ: Acordeão com perguntas frequentes */}
+      <FaqSection />
+
+      {/* 7. Conversão / CTA */}
       <CtaBanner />
-    </>
+    </div>
   );
 };

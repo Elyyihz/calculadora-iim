@@ -3,6 +3,8 @@
  * Strictly typed inputs for every step of the wizard
  */
 
+export type BeneficioTipo = 'nenhum' | 'vt' | 'vt_extra' | 'fretado' | 'estacionamento' | 'auxilio';
+
 export interface EmpresaDTO {
   empresa_nome: string;
   empresa_setor: string;
@@ -17,7 +19,7 @@ export interface EmpresaDTO {
   empresa_burnout: number | '';
   empresa_faturamento: number | '';
   empresa_salario_medio: number | '';
-  empresa_beneficios: 'nenhum' | 'vt' | 'vt_extra' | 'fretado' | 'estacionamento' | 'auxilio' | '';
+  empresa_beneficios: BeneficioTipo[];
   empresa_ciclista: 'sim' | 'nao' | '';
 }
 
@@ -64,13 +66,15 @@ export interface D3PontualidadeDTO {
   d3_intencao: '0' | '1' | '3' | '4' | '';
 }
 
+export type D4RiscoTipo = '0' | '1' | '3' | '4';
+
 export interface D4VulnerabilidadeDTO {
   d4_bairro: string;
   d4_ponto: number | '';
   d4_dep: '0' | '1' | '3' | '4' | '';
   d4_seg: number;
   d4_app: '0' | '1' | '3' | '4' | '';
-  d4_risco: '0' | '1' | '3' | '4' | '';
+  d4_risco: D4RiscoTipo[];
   d4_violencia: '0' | '2' | '4' | '';
   d4_vuln: number;
   d4_tp_qual: '0' | '1' | '3' | '4' | '';

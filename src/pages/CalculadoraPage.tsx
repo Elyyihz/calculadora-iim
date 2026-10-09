@@ -1,212 +1,216 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Play, Layers } from 'lucide-react';
-import { CalculatorWizard } from '../components/calculator/CalculatorWizard';
-import { CalculatorProvider } from '../context/CalculatorContext';
+import { Lock, Sparkles, ArrowRight, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { COMPANY_INFO } from '../data/institutionalData';
 
+/**
+ * Public portal page for the calculator route (/calculadora).
+ *
+ * Clarifies governance boundaries: redirects public visitors to the
+ * didactical preview simulator on the homepage, while routing authorized team
+ * personnel to the private 36-question workspace.
+ */
 export const CalculadoraPage: React.FC = () => {
-  const [viewMode, setViewMode] = useState<'wizard' | 'legacy'>('wizard');
-
   return (
-    <div style={{ background: 'var(--surface-2)', minHeight: '85vh', paddingBottom: '4rem' }}>
-      {/* SUB-HEADER NAVIGATION */}
-      <div
-        className="no-print"
-        style={{
-          background: 'var(--brand)',
-          borderBottom: '1px solid rgba(46, 204, 138, 0.2)',
-          padding: '0.8rem 0'
-        }}
-      >
-        <div
-          className="container"
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}
+    <div style={{ background: '#F8FAFC', minHeight: '80vh', padding: '5rem 1.5rem' }}>
+      <div className="container" style={{ maxWidth: '780px' }}>
+        {/* Top Back link */}
+        <Link
+          to="/"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            fontSize: '0.86rem',
+            color: '#6B7280',
+            textDecoration: 'none',
+            marginBottom: '2rem'
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = '#0B1924')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = '#6B7280')}
         >
-          <Link
-            to="/"
+          <ArrowLeft size={16} />
+          <span>Voltar para a página inicial</span>
+        </Link>
+
+        {/* Main Card */}
+        <div
+          style={{
+            background: '#FFFFFF',
+            borderRadius: '24px',
+            border: '1px solid #E5E7EB',
+            padding: '3.5rem 3rem',
+            boxShadow: '0 12px 35px rgba(0, 0, 0, 0.04)',
+            textAlign: 'center'
+          }}
+        >
+          {/* Eyebrow */}
+          <div
             style={{
-              color: 'var(--accent)',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              textDecoration: 'none'
+              padding: '6px 16px',
+              borderRadius: 'var(--radius-pill)',
+              background: 'rgba(11, 25, 36, 0.06)',
+              color: '#0B1924',
+              fontSize: '0.78rem',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              marginBottom: '1.5rem'
             }}
           >
-            <ArrowLeft size={16} />
-            <span>Voltar ao Site Institucional</span>
-          </Link>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                background: 'rgba(255, 255, 255, 0.08)',
-                padding: '3px',
-                borderRadius: '20px',
-                border: '1px solid rgba(255, 255, 255, 0.12)'
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => setViewMode('wizard')}
-                style={{
-                  padding: '5px 14px',
-                  borderRadius: '16px',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  color: viewMode === 'wizard' ? 'var(--brand)' : 'rgba(255, 255, 255, 0.75)',
-                  background: viewMode === 'wizard' ? 'var(--accent)' : 'transparent',
-                  transition: 'all 0.2s'
-                }}
-              >
-                <Layers size={13} />
-                <span>Formulário Multi-Etapas (Stepper)</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setViewMode('legacy')}
-                style={{
-                  padding: '5px 14px',
-                  borderRadius: '16px',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  color: viewMode === 'legacy' ? 'var(--brand)' : 'rgba(255, 255, 255, 0.75)',
-                  background: viewMode === 'legacy' ? 'var(--accent)' : 'transparent',
-                  transition: 'all 0.2s'
-                }}
-              >
-                <Play size={13} />
-                <span>HTML Legado</span>
-              </button>
-            </div>
+            <ShieldCheck size={14} color="#2E9E5B" />
+            <span>Governança Metodológica do IIM</span>
           </div>
-        </div>
-      </div>
 
-      {/* HERO BANNER */}
-      <div
-        className="no-print"
-        style={{
-          background: 'var(--brand)',
-          padding: '3rem 1.5rem 4.5rem',
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <div
-          style={{
-            fontSize: '0.75rem',
-            letterSpacing: '0.14em',
-            color: 'var(--accent)',
-            textTransform: 'uppercase',
-            fontWeight: 600,
-            marginBottom: '0.75rem'
-          }}
-        >
-          Ferramenta Proprietária v3.0 · UrbanFlow
-        </div>
+          <h1
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)',
+              fontWeight: 800,
+              color: '#0B1924',
+              lineHeight: 1.2,
+              marginBottom: '1.2rem'
+            }}
+          >
+            Acesso à Metodologia Completa
+          </h1>
 
-        <h1
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 800,
-            fontSize: 'clamp(2rem, 4.5vw, 3.2rem)',
-            color: '#FFFFFF',
-            lineHeight: 1.15,
-            marginBottom: '1rem'
-          }}
-        >
-          Calculadora <span style={{ color: 'var(--accent)' }}>IIM</span>
-        </h1>
+          <p
+            style={{
+              fontSize: '1.05rem',
+              color: '#4B5563',
+              lineHeight: 1.7,
+              marginBottom: '2.5rem',
+              maxWidth: '620px',
+              margin: '0 auto 2.5rem'
+            }}
+          >
+            A Calculadora IIM Completa de <strong>36 critérios ponderados</strong> e módulo de ingestão
+            de planilhas de colaboradores é uma ferramenta confidencial de uso exclusivo da equipe técnica
+            e consultores da UrbanFlow durante a prestação de serviços.
+          </p>
 
-        <p
-          style={{
-            color: 'rgba(255, 255, 255, 0.65)',
-            maxWidth: '620px',
-            margin: '0 auto',
-            fontSize: '0.98rem',
-            fontWeight: 300,
-            lineHeight: 1.6
-          }}
-        >
-          Índice de Impacto de Mobilidade — diagnóstico completo em 4 dimensões
-          ponderadas com projeção financeira e simulador de ROI.
-        </p>
-
-        {/* CURVED BOTTOM DECORATION */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-1px',
-            left: 0,
-            right: 0,
-            height: '40px',
-            background: 'var(--surface-2)',
-            clipPath: 'ellipse(60% 100% at 50% 100%)',
-            pointerEvents: 'none'
-          }}
-        />
-      </div>
-
-      {/* MAIN VIEW */}
-      {viewMode === 'wizard' ? (
-        <CalculatorProvider>
-          <CalculatorWizard />
-        </CalculatorProvider>
-      ) : (
-        <div className="container" style={{ marginTop: '2rem' }}>
+          {/* Action options */}
           <div
             style={{
-              background: 'var(--surface)',
-              borderRadius: 'var(--radius)',
-              border: '1px solid var(--border)',
-              boxShadow: 'var(--shadow-lg)',
-              overflow: 'hidden'
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '1.5rem',
+              textAlign: 'left',
+              marginBottom: '2.5rem'
             }}
           >
+            {/* Option 1: Public Didactical Simulator */}
             <div
               style={{
-                background: 'var(--brand)',
-                padding: '10px 18px',
+                background: '#F0FDF4',
+                border: '1.5px solid #86EFAC',
+                borderRadius: '16px',
+                padding: '1.8rem',
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                borderBottom: '1px solid rgba(46, 204, 138, 0.2)'
+                flexDirection: 'column',
+                justifyContent: 'space-between'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff5f56' }} />
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ffbd2e' }} />
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#27c93f' }} />
-                <span style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.7)', marginLeft: '10px' }}>
-                  calculadora-iim-v3.1-1.html
-                </span>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#166534', fontWeight: 700, fontSize: '0.85rem', marginBottom: '8px' }}>
+                  <Sparkles size={16} />
+                  <span>Para Visitantes & Empresas</span>
+                </div>
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0B1924', marginBottom: '8px' }}>
+                  Simulador Didático
+                </h3>
+                <p style={{ fontSize: '0.88rem', color: '#374151', lineHeight: 1.55, marginBottom: '1.5rem' }}>
+                  Experimente nossa versão simplificada na Landing Page para entender o conceito e visualizar o impacto estimado.
+                </p>
               </div>
+
+              <a
+                href="/#simulador"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '12px 18px',
+                  background: '#2E9E5B',
+                  color: '#FFFFFF',
+                  borderRadius: '10px',
+                  fontWeight: 700,
+                  fontSize: '0.90rem',
+                  textDecoration: 'none',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 14px rgba(46, 158, 91, 0.25)'
+                }}
+              >
+                <span>Acessar Simulador na Home</span>
+                <ArrowRight size={16} />
+              </a>
             </div>
 
-            <iframe
-              src="/calculadora-prototype.html"
-              title="Calculadora IIM Legada"
+            {/* Option 2: Internal Team Workspace */}
+            <div
               style={{
-                width: '100%',
-                height: '840px',
-                border: 'none',
-                display: 'block'
+                background: '#F8FAFC',
+                border: '1.5px solid #E2E8F0',
+                borderRadius: '16px',
+                padding: '1.8rem',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
               }}
-            />
+            >
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#0B1924', fontWeight: 700, fontSize: '0.85rem', marginBottom: '8px' }}>
+                  <Lock size={16} />
+                  <span>Equipe UrbanFlow</span>
+                </div>
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0B1924', marginBottom: '8px' }}>
+                  Workspace Restrito
+                </h3>
+                <p style={{ fontSize: '0.88rem', color: '#4B5563', lineHeight: 1.55, marginBottom: '1.5rem' }}>
+                  Área protegida para analistas aplicarem as 36 perguntas ou realizarem a importação de planilhas.
+                </p>
+              </div>
+
+              <Link
+                to="/interno/calculadora"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '12px 18px',
+                  background: '#0B1924',
+                  color: '#FFFFFF',
+                  borderRadius: '10px',
+                  fontWeight: 700,
+                  fontSize: '0.90rem',
+                  textDecoration: 'none',
+                  justifyContent: 'center'
+                }}
+              >
+                <span>Entrar no Workspace Interno</span>
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+
+          {/* Contact Support */}
+          <div style={{ fontSize: '0.86rem', color: '#6B7280' }}>
+            Dúvidas sobre o diagnóstico?{' '}
+            <a
+              href={COMPANY_INFO.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: '#2E9E5B', fontWeight: 600, textDecoration: 'none' }}
+            >
+              Fale diretamente com nossa equipe no WhatsApp
+            </a>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

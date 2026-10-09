@@ -1,28 +1,49 @@
-import React from 'react';
-import { FullIimDiagnosis } from '../../../types/calculatorDTOs';
-import { Printer, ShieldCheck } from 'lucide-react';
+import React, { useState } from 'react';
+import { CalculatorInputDTO, FullIimDiagnosis } from '../../../types/calculatorDTOs';
+import { Printer, ShieldCheck, Database, CheckCircle2, AlertCircle, AlertTriangle, AlertOctagon, Loader2, Info } from 'lucide-react';
+import { apiService } from '../../../services/apiService';
 
 interface ScoreHeroProps {
   result: FullIimDiagnosis;
+  formData?: CalculatorInputDTO;
 }
 
-export const ScoreHero: React.FC<ScoreHeroProps> = ({ result }) => {
+export const ScoreHero: React.FC<ScoreHeroProps> = ({ result, formData }) => {
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [savedId, setSavedId] = useState<number | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSaveDiagnosis = async () => {
+    if (!formData) return;
+    setSaveStatus('saving');
+    setErrorMessage(null);
+
+    const res = await apiService.salvarDiagnostico(formData, result);
+    if (res.success && res.data) {
+      setSaveStatus('saved');
+      setSavedId(res.data.id);
+    } else {
+      setSaveStatus('error');
+      setErrorMessage(res.error || 'Não foi possível salvar na API.');
+    }
+  };
+
   return (
     <>
       {/* EXCLUSIVE PRINT/PDF HEADER (Hidden on screen, rendered in PDF/print) */}
       <div className="print-only-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <ShieldCheck size={26} color="#0D2B1F" />
+          <ShieldCheck size={26} color="#0B2545" />
           <div>
-            <div style={{ fontWeight: 800, fontSize: '1.2rem', fontFamily: 'var(--font-display)', color: '#0D2B1F' }}>
+            <div style={{ fontWeight: 800, fontSize: '1.2rem', fontFamily: 'var(--font-display)', color: '#0B2545' }}>
               UrbanFlow <span style={{ fontWeight: 400 }}>Consultoria</span>
             </div>
-            <div style={{ fontSize: '0.72rem', color: '#5A7568', textTransform: 'uppercase' }}>
+            <div style={{ fontSize: '0.72rem', color: '#6B7280', textTransform: 'uppercase' }}>
               Relatório Executivo de Diagnóstico — Índice de Impacto de Mobilidade (IIM v3.0)
             </div>
           </div>
         </div>
-        <div style={{ textAlign: 'right', fontSize: '0.75rem', color: '#5A7568' }}>
+        <div style={{ textAlign: 'right', fontSize: '0.75rem', color: '#6B7280' }}>
           <div>Data: {new Date().toLocaleDateString('pt-BR')}</div>
           <div>Uso Interno · Confidencial</div>
         </div>
@@ -54,16 +75,140 @@ export const ScoreHero: React.FC<ScoreHeroProps> = ({ result }) => {
             className="iim-class"
             style={{
               background: result.classBg,
-              color: result.classColor
+              color: result.classColor,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px'
             }}
           >
-            {result.classificacao}
+            {result.iimRounded <= 40 ? (
+              <ShieldCheck size={15} />
+            ) : result.iimRounded <= 60 ? (
+              <AlertCircle size={15} />
+            ) : result.iimRounded <= 80 ? (
+              <AlertTriangle size={15} />
+            ) : (
+              <AlertOctagon size={15} />
+            )}
+            <span>{result.classificacao}</span>
           </span>
         </div>
 
         <p className="iim-context">{result.contexto}</p>
 
-        <div className="no-print" style={{ marginTop: '1.5rem' }}>
+        {/* REGRA DE ESCALA EXPLICATIVA DO SCORE IIM */}
+        <div
+          style={{
+            margin: '1.25rem auto 0',
+            background: 'rgba(255, 255, 255, 0.08)',
+            border: '1px solid rgba(255, 255, 255, 0.16)',
+            borderRadius: 'var(--radius-pill)',
+            padding: '7px 18px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontSize: '0.82rem',
+            color: 'rgba(255, 255, 255, 0.9)',
+            maxWidth: '680px',
+            lineHeight: 1.45
+          }}
+        >
+          <Info size={15} color="var(--accent)" style={{ flexShrink: 0 }} />
+          <span>
+            <strong>Entenda a escala:</strong> Quanto maior a pontuação (aproximando-se de 100), pior é a mobilidade e maior é o impacto negativo financeiro e de bem-estar para a empresa e para o colaborador.
+          </span>
+        </div>
+
+        {/* FEEDBACK BANNER FOR API SAVE */}
+        {saveStatus === 'saved' && (
+          <div
+            className="no-print"
+            style={{
+              marginTop: '1.25rem',
+              background: 'rgba(46, 158, 91, 0.15)',
+              border: '1px solid var(--accent)',
+              padding: '10px 16px',
+              borderRadius: 'var(--radius-sm)',
+              color: '#FFFFFF',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '0.85rem'
+            }}
+          >
+            <CheckCircle2 size={18} color="var(--accent)" />
+            <span>
+              Diagnóstico salvo com sucesso na base corporativa! Protocolo: <strong>#{savedId}</strong>
+            </span>
+          </div>
+        )}
+
+        {saveStatus === 'error' && (
+          <div
+            className="no-print"
+            style={{
+              marginTop: '1.25rem',
+              background: 'rgba(204, 51, 51, 0.2)',
+              border: '1px solid rgba(204, 51, 51, 0.5)',
+              padding: '10px 16px',
+              borderRadius: 'var(--radius-sm)',
+              color: '#FFB8B8',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '0.82rem',
+              maxWidth: '90%'
+            }}
+          >
+            <AlertCircle size={18} color="#FF6B6B" />
+            <span>
+              {errorMessage} (Inicie o backend com <code>uvicorn app.main:app --reload</code> na pasta <code>backend</code>)
+            </span>
+          </div>
+        )}
+
+        <div
+          className="no-print"
+          style={{
+            marginTop: '1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            flexWrap: 'wrap'
+          }}
+        >
+          {formData && (
+            <button
+              type="button"
+              className="btn btn-cta"
+              onClick={handleSaveDiagnosis}
+              disabled={saveStatus === 'saving' || saveStatus === 'saved'}
+              style={{
+                padding: '9px 20px',
+                fontSize: '0.85rem',
+                opacity: saveStatus === 'saved' ? 0.7 : 1
+              }}
+            >
+              {saveStatus === 'saving' ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  <span>Salvando no Servidor...</span>
+                </>
+              ) : saveStatus === 'saved' ? (
+                <>
+                  <CheckCircle2 size={16} />
+                  <span>Salvo na Base #{savedId}</span>
+                </>
+              ) : (
+                <>
+                  <Database size={16} />
+                  <span>Salvar Diagnóstico na Base de Dados</span>
+                </>
+              )}
+            </button>
+          )}
+
           <button
             type="button"
             className="btn btn-outline-light"
@@ -79,6 +224,11 @@ export const ScoreHero: React.FC<ScoreHeroProps> = ({ result }) => {
             <span>Gerar relatório para impressão / PDF</span>
           </button>
         </div>
+      </div>
+
+      {/* AVISO LEGAL EXATAMENTE ABAIXO DO CARTÃO PRINCIPAL DO SCORE IIM */}
+      <div className="res-legal-disclaimer">
+        Todos os números apresentados devem ser tratados como dados estimados e projetados
       </div>
     </>
   );

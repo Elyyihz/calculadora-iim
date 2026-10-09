@@ -171,12 +171,14 @@ export const ResponsabilidadesSection: React.FC = () => {
 
         {/* ETHICAL PLEDGE BANNER */}
         <div
+          className="card-blue"
           style={{
             background: 'var(--brand)',
             borderRadius: 'var(--radius)',
             padding: '2.5rem',
             color: '#FFFFFF',
-            border: '1px solid rgba(46, 204, 138, 0.2)',
+            border: '1px solid rgba(46, 158, 91, 0.3)',
+            boxShadow: 'var(--shadow-lg)',
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
@@ -187,12 +189,12 @@ export const ResponsabilidadesSection: React.FC = () => {
           <div style={{ maxWidth: '640px' }}>
             <div
               style={{
-                fontSize: '0.72rem',
+                fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.12em',
                 color: 'var(--accent)',
-                fontWeight: 600,
-                marginBottom: '0.5rem'
+                fontWeight: 700,
+                marginBottom: '0.6rem'
               }}
             >
               Declaração de Conformidade & Privacidade
@@ -202,12 +204,14 @@ export const ResponsabilidadesSection: React.FC = () => {
                 fontFamily: 'var(--font-display)',
                 fontSize: '1.35rem',
                 fontWeight: 700,
-                marginBottom: '0.6rem'
+                color: '#FFFFFF',
+                marginBottom: '0.75rem',
+                lineHeight: 1.3
               }}
             >
               Dados seguros, anonimização nativa e conformidade RGPD
             </h4>
-            <p style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '0.90rem', color: 'rgba(255, 255, 255, 0.92)', lineHeight: 1.65 }}>
               A UrbanFlow não recolhe dados individuais identificáveis para fins de rastreio contínuo.
               Todos os diagnósticos e outputs da Calculadora IIM operam sob agregações estatísticas,
               resguardando os direitos dos colaboradores e a integridade jurídica da organização contratante.
@@ -216,10 +220,10 @@ export const ResponsabilidadesSection: React.FC = () => {
 
           <div
             style={{
-              background: 'rgba(255, 255, 255, 0.06)',
+              background: 'rgba(255, 255, 255, 0.08)',
               padding: '1.25rem 1.5rem',
               borderRadius: 'var(--radius-sm)',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
+              border: '1px solid rgba(255, 255, 255, 0.20)',
               textAlign: 'center',
               minWidth: '200px'
             }}
@@ -235,10 +239,10 @@ export const ResponsabilidadesSection: React.FC = () => {
             >
               100%
             </div>
-            <div style={{ fontSize: '0.78rem', color: '#fff', fontWeight: 600, marginTop: '4px' }}>
+            <div style={{ fontSize: '0.80rem', color: '#FFFFFF', fontWeight: 600, marginTop: '4px' }}>
               Anonimizado & Conforme
             </div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-faint)', marginTop: '2px' }}>
+            <div style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.85)', marginTop: '2px' }}>
               ISO 27001 & RGPD
             </div>
           </div>
