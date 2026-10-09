@@ -240,7 +240,7 @@ export const CalculadoraInternaPage: React.FC = () => {
         {/* TAB 1: FULL 36-QUESTION WIZARD */}
         {activeTab === 'wizard' && (
           <div className="container" style={{ marginTop: '2rem' }}>
-            <CalculatorWizard />
+            <CalculatorWizard onNavigateToSpreadsheet={() => setActiveTab('spreadsheet')} />
           </div>
         )}
 

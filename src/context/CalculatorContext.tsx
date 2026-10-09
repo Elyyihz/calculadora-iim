@@ -19,6 +19,7 @@ interface CalculatorContextType {
   goToPreviousStep: () => void;
   goToStep: (targetStep: StepId) => boolean;
   calculateDiagnosis: () => boolean;
+  calculateDiagnosisFromData: (data: Partial<CalculatorInputDTO>) => boolean;
   updateSimulationTarget: (targetIim: number) => void;
   resetCalculator: () => void;
   loadData: (data: Partial<CalculatorInputDTO>) => void;
@@ -113,6 +114,24 @@ export const CalculatorProvider: React.FC<{ children: ReactNode }> = ({ children
     return true;
   };
 
+  const calculateDiagnosisFromData = (data: Partial<CalculatorInputDTO>): boolean => {
+    const mergedData: CalculatorInputDTO = {
+      ...INITIAL_CALCULATOR_DATA,
+      ...formData,
+      ...data
+    };
+    setFormData(mergedData);
+    setErrors({});
+
+    const fullResult = CalculatorService.generateFullDiagnosis(mergedData);
+    setResult(fullResult);
+    setSimulatedSavings(fullResult.simuladorPadrao);
+    setCompletedSteps([1, 2, 3, 4, 5, 6]);
+    setCurrentStep(7);
+    window.scrollTo({ top: 120, behavior: 'smooth' });
+    return true;
+  };
+
   const updateSimulationTarget = (targetIim: number) => {
     if (!result) return;
     const sim = CalculatorService.calculateSimuladorEconomia(
@@ -152,6 +171,7 @@ export const CalculatorProvider: React.FC<{ children: ReactNode }> = ({ children
         goToPreviousStep,
         goToStep,
         calculateDiagnosis,
+        calculateDiagnosisFromData,
         updateSimulationTarget,
         resetCalculator,
         loadData
