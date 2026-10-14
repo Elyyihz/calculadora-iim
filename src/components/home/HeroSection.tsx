@@ -18,8 +18,8 @@ export const HeroSection: React.FC = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-              gap: '4rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+              gap: 'clamp(2.5rem, 5vw, 4rem)',
               alignItems: 'center'
             }}
             className="hero-grid"

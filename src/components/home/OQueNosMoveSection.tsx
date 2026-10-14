@@ -75,8 +75,8 @@ export const OQueNosMoveSection: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '2.5rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+            gap: 'clamp(1.5rem, 3vw, 2.5rem)'
           }}
           className="move-cards-grid"
         >
@@ -87,7 +87,7 @@ export const OQueNosMoveSection: React.FC = () => {
                 background: '#FFFFFF',
                 borderRadius: '16px',
                 border: '1px solid #E5E7EB',
-                padding: '2.6rem 2.2rem',
+                padding: 'clamp(1.6rem, 3vw, 2.6rem) clamp(1.2rem, 3vw, 2.2rem)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',

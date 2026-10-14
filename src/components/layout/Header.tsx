@@ -34,48 +34,23 @@ export const Header: React.FC = () => {
         padding: '1rem 0'
       }}
     >
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="container header-container">
         {/* LOGO: urbanflow (typography matching design) */}
         <Link
           to="/"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'baseline',
-            textDecoration: 'none',
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.45rem',
-            fontWeight: 800,
-            letterSpacing: '-0.03em',
-            color: '#133E28'
-          }}
+          className="header-logo"
         >
           <span>urban</span>
           <span style={{ color: '#2E9E5B', fontWeight: 600 }}>flow</span>
         </Link>
 
         {/* DESKTOP NAVIGATION */}
-        <nav
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '2.2rem'
-          }}
-          className="desktop-nav"
-        >
+        <nav className="desktop-nav">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.label}
               href={item.href}
-              style={{
-                color: '#4B5563',
-                fontSize: '0.92rem',
-                fontWeight: 500,
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-                padding: '4px 0'
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = '#0B1924')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = '#4B5563')}
+              className="nav-link"
             >
               {item.label}
             </a>
@@ -83,39 +58,17 @@ export const Header: React.FC = () => {
         </nav>
 
         {/* ACTIONS: "Vamos conversar ↗" linking to real WhatsApp */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }} className="header-actions">
+        <div className="header-actions">
           <a
             href={COMPANY_INFO.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Vamos conversar via WhatsApp"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '10px 22px',
-              fontSize: '0.90rem',
-              fontWeight: 600,
-              color: '#0B1924',
-              border: '1px solid #0B1924',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              background: 'transparent',
-              transition: 'all 0.2s ease',
-              cursor: 'pointer'
-            }}
             className="btn-header-conversar"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#0B1924';
-              e.currentTarget.style.color = '#FFFFFF';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = '#0B1924';
-            }}
           >
-            <span>Vamos conversar</span>
-            <ArrowUpRight size={16} strokeWidth={2.2} />
+            <span className="btn-full-text">Vamos conversar</span>
+            <span className="btn-short-text">Conversar</span>
+            <ArrowUpRight size={15} strokeWidth={2.2} />
           </a>
 
           {/* MOBILE TOGGLE */}
@@ -123,49 +76,21 @@ export const Header: React.FC = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Abrir menu"
             className="mobile-toggle"
-            style={{
-              display: 'none',
-              color: '#0B1924',
-              padding: '8px',
-              borderRadius: '8px',
-              background: 'rgba(11, 37, 69, 0.05)',
-              border: 'none',
-              cursor: 'pointer'
-            }}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
       {/* MOBILE DRAWER */}
       {mobileMenuOpen && (
-        <div
-          style={{
-            background: '#FFFFFF',
-            borderTop: '1px solid rgba(11, 37, 69, 0.08)',
-            padding: '1.5rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-            marginTop: '0.8rem',
-            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)'
-          }}
-          className="mobile-drawer"
-        >
+        <div className="mobile-drawer">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.label}
               href={item.href}
               onClick={() => setMobileMenuOpen(false)}
-              style={{
-                color: '#1F2937',
-                fontSize: '1rem',
-                fontWeight: 500,
-                padding: '8px 0',
-                textDecoration: 'none',
-                borderBottom: '1px solid rgba(0, 0, 0, 0.04)'
-              }}
+              className="mobile-drawer-link"
             >
               {item.label}
             </a>
@@ -175,19 +100,7 @@ export const Header: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMobileMenuOpen(false)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              padding: '12px',
-              background: '#0B1924',
-              color: '#FFFFFF',
-              borderRadius: '8px',
-              fontWeight: 600,
-              textDecoration: 'none',
-              marginTop: '0.5rem'
-            }}
+            className="mobile-drawer-cta"
           >
             <span>Vamos conversar</span>
             <ArrowUpRight size={16} />
@@ -196,15 +109,168 @@ export const Header: React.FC = () => {
       )}
 
       <style>{`
+        .header-container {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: relative;
+        }
+
+        .header-logo {
+          display: inline-flex;
+          align-items: baseline;
+          text-decoration: none;
+          font-family: var(--font-display);
+          font-size: 1.45rem;
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          color: #133E28;
+          flex-shrink: 0;
+          white-space: nowrap;
+          z-index: 2;
+        }
+
+        .desktop-nav {
+          display: flex;
+          align-items: center;
+          gap: 2.2rem;
+        }
+
+        .nav-link {
+          color: #4B5563;
+          font-size: 0.92rem;
+          font-weight: 500;
+          text-decoration: none;
+          transition: color 0.2s;
+          padding: 4px 0;
+        }
+
+        .nav-link:hover {
+          color: #0B1924;
+        }
+
+        .header-actions {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          flex-shrink: 0;
+        }
+
+        .btn-header-conversar {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 10px 22px;
+          font-size: 0.90rem;
+          font-weight: 600;
+          color: #0B1924;
+          border: 1px solid #0B1924;
+          border-radius: 8px;
+          text-decoration: none;
+          background: transparent;
+          transition: all 0.2s ease;
+          cursor: pointer;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+
+        .btn-header-conversar:hover {
+          background: #0B1924;
+          color: #FFFFFF;
+        }
+
+        .btn-header-conversar .btn-short-text {
+          display: none;
+        }
+
+        .btn-header-conversar .btn-full-text {
+          display: inline;
+        }
+
+        .mobile-toggle {
+          display: none;
+          color: #0B1924;
+          padding: 8px;
+          border-radius: 8px;
+          background: rgba(11, 37, 69, 0.05);
+          border: none;
+          cursor: pointer;
+          flex-shrink: 0;
+        }
+
+        .mobile-drawer {
+          background: #FFFFFF;
+          border-top: 1px solid rgba(11, 37, 69, 0.08);
+          padding: 1.5rem;
+          display: flex;
+          flexDirection: column;
+          gap: 1rem;
+          margin-top: 0.8rem;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .mobile-drawer-link {
+          color: #1F2937;
+          font-size: 1rem;
+          font-weight: 500;
+          padding: 8px 0;
+          text-decoration: none;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .mobile-drawer-cta {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 12px;
+          background: #0B1924;
+          color: #FFFFFF;
+          border-radius: 8px;
+          font-weight: 600;
+          text-decoration: none;
+          margin-top: 0.5rem;
+        }
+
         @media (max-width: 860px) {
           .desktop-nav {
             display: none !important;
           }
           .mobile-toggle {
             display: flex !important;
+            align-items: center;
+            justify-content: center;
           }
-          .header-actions .btn-header-conversar {
-            display: none;
+          .header-logo {
+            font-size: 1.35rem !important;
+          }
+          .header-actions {
+            gap: 10px !important;
+          }
+          .btn-header-conversar {
+            padding: 7px 14px !important;
+            font-size: 0.82rem !important;
+          }
+          .btn-header-conversar .btn-full-text {
+            display: none !important;
+          }
+          .btn-header-conversar .btn-short-text {
+            display: inline !important;
+          }
+        }
+
+        @media (max-width: 520px) {
+          /* Em telas de celular (<= 520px), remove o botão duplicado do topo para
+             garantir espaço total e ZERO sobreposição com a marca urbanflow.
+             O botão de contato fica com destaque máximo no menu drawer (hambúrguer)! */
+          .btn-header-conversar {
+            display: none !important;
+          }
+          .header-logo {
+            font-size: 1.25rem !important;
+          }
+          .header-actions {
+            gap: 6px !important;
           }
         }
       `}</style>

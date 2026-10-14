@@ -76,6 +76,13 @@ img {
   padding: 0 1.5rem;
 }
 
+@media (max-width: 640px) {
+  .container,
+  .container-narrow {
+    padding: 0 1rem;
+  }
+}
+
 /* Base Buttons */
 .btn {
   font-family: var(--font-body);

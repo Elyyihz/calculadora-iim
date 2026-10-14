@@ -15,8 +15,8 @@ export const NossaOrigemSection: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-            gap: '3.5rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gap: 'clamp(2rem, 5vw, 3.5rem)',
             alignItems: 'center'
           }}
           className="origem-grid"
@@ -26,7 +26,7 @@ export const NossaOrigemSection: React.FC = () => {
             style={{
               background: '#EAF2EC',
               borderRadius: '20px',
-              padding: '2.5rem 2.2rem',
+              padding: 'clamp(1.5rem, 4vw, 2.5rem) clamp(1.2rem, 3.5vw, 2.2rem)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',

@@ -172,7 +172,7 @@ export const CalculadoraDidaticaSection: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
             gap: '2.5rem',
             alignItems: 'start'
           }}
@@ -184,7 +184,7 @@ export const CalculadoraDidaticaSection: React.FC = () => {
               background: '#FFFFFF',
               borderRadius: '20px',
               border: '1px solid #E5E7EB',
-              padding: '2.5rem 2.2rem',
+              padding: 'clamp(1.5rem, 4vw, 2.5rem) clamp(1.2rem, 3.5vw, 2.2rem)',
               boxShadow: '0 8px 30px rgba(0, 0, 0, 0.03)',
               display: 'flex',
               flexDirection: 'column',

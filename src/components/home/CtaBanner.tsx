@@ -174,11 +174,11 @@ export const CtaBanner: React.FC = () => {
       <style>{`
         @media (max-width: 640px) {
           .cta-banner-card {
-            padding: 2.8rem 1.8rem 2rem !important;
+            padding: 2.5rem 1.4rem 2rem !important;
           }
           .main-cta-button {
             width: 100% !important;
-            padding: 18px 24px !important;
+            padding: 16px 20px !important;
             font-size: 1.05rem !important;
           }
         }

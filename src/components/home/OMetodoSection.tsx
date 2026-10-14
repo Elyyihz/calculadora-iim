@@ -95,8 +95,8 @@ export const OMetodoSection: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '3.5rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gap: 'clamp(2rem, 4vw, 3.5rem)',
             alignItems: 'center'
           }}
           className="metodo-grid"
@@ -218,7 +218,7 @@ export const OMetodoSection: React.FC = () => {
                 background: 'rgba(255, 255, 255, 0.02)',
                 borderRadius: '18px',
                 border: '1px solid rgba(255, 255, 255, 0.12)',
-                padding: '2.4rem 2.2rem 2.2rem',
+                padding: 'clamp(1.4rem, 3vw, 2.4rem) clamp(1rem, 3vw, 2.2rem)',
                 boxShadow: '0 16px 40px rgba(0, 0, 0, 0.25)',
                 position: 'relative'
               }}

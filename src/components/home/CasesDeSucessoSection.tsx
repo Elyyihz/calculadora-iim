@@ -105,7 +105,7 @@ export const CasesDeSucessoSection: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
             gap: '1rem',
             marginBottom: '2.5rem'
           }}
@@ -233,7 +233,7 @@ export const CasesDeSucessoSection: React.FC = () => {
           {/* Top Hero Banner of the Case */}
           <div
             style={{
-              padding: '2.5rem 2.5rem 2rem',
+              padding: 'clamp(1.4rem, 3vw, 2.5rem) clamp(1.2rem, 3vw, 2.5rem) clamp(1.2rem, 3vw, 2rem)',
               borderBottom: '1px solid #F3F4F6',
               background: 'linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%)'
             }}
@@ -457,10 +457,10 @@ export const CasesDeSucessoSection: React.FC = () => {
           {/* 3 Pillars Breakdown: Problem, Solution, Results */}
           <div
             style={{
-              padding: '2.5rem',
+              padding: 'clamp(1.2rem, 3vw, 2.5rem)',
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
-              gap: '2rem'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+              gap: 'clamp(1.2rem, 3vw, 2rem)'
             }}
             className="case-breakdown-grid"
           >
@@ -729,7 +729,7 @@ export const CasesDeSucessoSection: React.FC = () => {
           {/* Bottom Conversion Action for this Case */}
           <div
             style={{
-              padding: '1.8rem 2.5rem',
+              padding: '1.8rem clamp(1.2rem, 3vw, 2.5rem)',
               background: '#0B1924',
               color: '#FFFFFF',
               display: 'flex',
