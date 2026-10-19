@@ -1,17 +1,22 @@
 import React, { useState, useMemo } from 'react';
 import {
   Download,
-  Upload,
   CheckCircle2,
   AlertTriangle,
   ArrowRight,
   Info,
   Database,
   Sparkles,
-  FileText
+  FileText,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { useCalculatorStore } from '../../../context/CalculatorContext';
 import { CalculatorInputDTO } from '../../../types/calculatorDTOs';
+import { SpreadsheetDropzone } from './SpreadsheetDropzone';
+import { SpreadsheetColumnInspector } from './SpreadsheetColumnInspector';
+import { ParsedSpreadsheetResult } from '../../../types/spreadsheet';
+import { spreadsheetParserService } from '../../../services/SpreadsheetParserService';
 
 interface EmployeeRow {
   id: string;
@@ -38,6 +43,9 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
 
   const [rawText, setRawText] = useState<string>('');
   const [parsedRows, setParsedRows] = useState<EmployeeRow[]>([]);
+  const [parsedResult, setParsedResult] = useState<ParsedSpreadsheetResult | null>(null);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [showPasteBox, setShowPasteBox] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Manual inputs for corporate aggregation tuning
@@ -68,82 +76,103 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
   };
 
   /**
-   * Parses CSV string into strongly-typed employee rows.
+   * Maps rows from a ParsedSpreadsheetResult into strongly-typed EmployeeRow objects.
+   *
+   * Dynamically searches keys matching expected column names or patterns,
+   * providing graceful fallbacks if partial columns are provided.
    */
-  const parseCsvData = (text: string): EmployeeRow[] => {
-    const lines = text.trim().split(/\r?\n/);
-    if (lines.length < 2) return [];
+  const mapParsedResultToEmployees = (result: ParsedSpreadsheetResult): EmployeeRow[] => {
+    return result.rows.map((row, idx) => {
+      const getVal = (patterns: RegExp[], defaultVal: any) => {
+        for (const [key, val] of Object.entries(row)) {
+          if (patterns.some((p) => p.test(key))) {
+            return val !== undefined && val !== null && val !== '' ? val : defaultVal;
+          }
+        }
+        return defaultVal;
+      };
 
-    const rows: EmployeeRow[] = [];
-    // Skip header line
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (!line) continue;
+      const id = String(getVal([/id/i, /colab/i, /matricula/i, /func/i], `COLAB_${String(idx + 1).padStart(3, '0')}`));
+      const setor = String(getVal([/setor/i, /departamento/i, /area/i], 'Operações'));
+      const cargo = String(getVal([/cargo/i, /funcao/i, /papel/i], 'Colaborador'));
+      const tempo = Number(getVal([/tempo/i, /trajeto/i, /minutos/i, /duracao/i], 60)) || 60;
+      const dist = Number(getVal([/distancia/i, /km/i, /quilometros/i], Math.round(tempo * 0.35))) || 15;
+      const estresse = Math.min(Math.max(Number(getVal([/estresse/i, /stress/i], 3)) || 3, 1), 5);
+      const sono = Math.min(Math.max(Number(getVal([/sono/i, /dormir/i], 3)) || 3, 1), 5);
+      const atrasos = Math.max(Number(getVal([/atraso/i, /pontualidade/i], 1)) || 0, 0);
+      const risco = Math.min(Math.max(Number(getVal([/risco/i, /demissao/i, /saida/i, /turnover/i], 2)) || 2, 1), 5);
+      const modal = String(getVal([/modal/i, /transporte/i, /deslocamento/i], 'Onibus/Metro'));
+      const gasto = Number(getVal([/gasto/i, /custo/i, /renda/i, /pct/i, /percentual/i], 12)) || 12;
 
-      // Split by comma or semicolon
-      const cols = line.split(/[,;\t]/).map((c) => c.trim().replace(/^["']|["']$/g, ''));
-      if (cols.length >= 6) {
-        rows.push({
-          id: cols[0] || `COLAB_${i}`,
-          setor: cols[1] || 'Geral',
-          cargo: cols[2] || 'Colaborador',
-          tempoTrajetoMin: Number(cols[3]) || 60,
-          distanciaKm: Number(cols[4]) || 15,
-          estresse: Number(cols[5]) || 3,
-          sono: Number(cols[6]) || 3,
-          atrasosMes: Number(cols[7]) || 1,
-          riscoDemissao: Number(cols[8]) || 2,
-          modal: cols[9] || 'Onibus/Metro',
-          gastoPct: Number(cols[10]) || 10
-        });
-      }
-    }
-    return rows;
+      return {
+        id,
+        setor,
+        cargo,
+        tempoTrajetoMin: tempo,
+        distanciaKm: dist,
+        estresse,
+        sono,
+        atrasosMes: atrasos,
+        riscoDemissao: risco,
+        modal,
+        gastoPct: gasto
+      };
+    });
   };
 
   /**
-   * Handles local file upload.
+   * Handles successful parsing from the drag-and-drop zone (CSV or Excel).
    */
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleDropzoneParsed = (result: ParsedSpreadsheetResult, file: File) => {
+    setParsedResult(result);
+    setUploadedFile(file);
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const content = event.target?.result as string;
-      setRawText(content);
-      const parsed = parseCsvData(content);
-      setParsedRows(parsed);
-      if (parsed.length > 0) {
-        setFeedback({
-          type: 'success',
-          message: `${parsed.length} respostas de colaboradores identificadas com sucesso na planilha.`
-        });
-      } else {
-        setFeedback({
-          type: 'error',
-          message: 'Não foi possível reconhecer linhas de dados no arquivo. Verifique o modelo padrão.'
-        });
-      }
-    };
-    reader.readAsText(file);
+    const mapped = mapParsedResultToEmployees(result);
+    setParsedRows(mapped);
+
+    setFeedback({
+      type: 'success',
+      message: `${result.metadata.totalRows} respostas lidas com sucesso (${result.metadata.totalColumns} colunas identificadas) do arquivo "${file.name}".`
+    });
   };
 
   /**
-   * Handles text input pasting.
+   * Clears the active spreadsheet and resets state.
+   */
+  const handleClearSpreadsheet = () => {
+    setParsedResult(null);
+    setUploadedFile(null);
+    setParsedRows([]);
+    setRawText('');
+    setFeedback(null);
+  };
+
+  /**
+   * Handles text input pasting with automatic CSV parsing and column extraction.
    */
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const val = e.target.value;
     setRawText(val);
-    const parsed = parseCsvData(val);
-    setParsedRows(parsed);
-    if (parsed.length > 0) {
+
+    if (!val || !val.trim()) {
+      handleClearSpreadsheet();
+      return;
+    }
+
+    try {
+      const result = spreadsheetParserService.parseCsvString(val, 'dados_colados.csv', val.length);
+      setParsedResult(result);
+      const mapped = mapParsedResultToEmployees(result);
+      setParsedRows(mapped);
       setFeedback({
         type: 'success',
-        message: `${parsed.length} registros válidos detectados a partir do texto colado.`
+        message: `${mapped.length} registros válidos e ${result.headers.length} colunas detectadas a partir do texto colado.`
       });
-    } else {
-      setFeedback(null);
+    } catch (err: any) {
+      setFeedback({
+        type: 'error',
+        message: err?.message || 'Falha ao processar texto colado. Verifique os delimitadores.'
+      });
     }
   };
 
@@ -423,7 +452,7 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
           marginBottom: '2rem'
         }}
       >
-        {/* Upload Box & Textarea */}
+        {/* Upload Box: Dropzone for CSV/Excel with optional collapsed paste */}
         <div>
           <label
             style={{
@@ -434,73 +463,58 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
               marginBottom: '0.6rem'
             }}
           >
-            1. Carregar Arquivo CSV ou Colar Dados Tabulares
+            1. Carregar Planilha de Respostas (CSV ou Excel)
           </label>
 
-          {/* Upload Drop Area */}
-          <div
-            style={{
-              border: '2px dashed #CBD5E1',
-              borderRadius: '12px',
-              padding: '1.6rem 1.2rem',
-              textAlign: 'center',
-              background: '#FAFAFA',
-              marginBottom: '1rem',
-              cursor: 'pointer',
-              position: 'relative'
-            }}
-          >
-            <input
-              type="file"
-              accept=".csv,.txt"
-              onChange={handleFileUpload}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                opacity: 0,
-                cursor: 'pointer'
-              }}
-            />
-            <Upload size={24} color="#64748B" style={{ margin: '0 auto 8px' }} />
-            <div style={{ fontSize: '0.88rem', fontWeight: 600, color: '#0B1924' }}>
-              Clique para selecionar ou arraste o arquivo CSV
-            </div>
-            <div style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: '4px' }}>
-              Formatos aceitos: CSV delimitado por vírgula ou ponto-e-vírgula (ex: respostas_colaboradores_exemplo.csv)
-            </div>
-          </div>
+          <SpreadsheetDropzone
+            onParsed={handleDropzoneParsed}
+            onClear={handleClearSpreadsheet}
+            currentResult={parsedResult}
+            currentFile={uploadedFile}
+          />
 
-          {/* Paste Textarea */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-              <span style={{ fontSize: '0.78rem', color: '#64748B', fontWeight: 600 }}>
-                Ou cole o conteúdo da planilha diretamente aqui:
-              </span>
-              {parsedRows.length > 0 && (
-                <span style={{ fontSize: '0.78rem', color: '#2E9E5B', fontWeight: 700 }}>
-                  {parsedRows.length} linhas lidas
-                </span>
-              )}
-            </div>
-            <textarea
-              rows={4}
-              value={rawText}
-              onChange={handleTextChange}
-              placeholder="Cole aqui as linhas copiadas do Excel / Google Sheets..."
+          {/* Collapsible Manual Paste Alternative */}
+          <div style={{ marginTop: '1rem' }}>
+            <button
+              type="button"
+              onClick={() => setShowPasteBox(!showPasteBox)}
               style={{
-                width: '100%',
-                padding: '10px 12px',
-                borderRadius: '8px',
-                border: '1px solid #D1D5DB',
-                fontSize: '0.82rem',
-                fontFamily: 'monospace',
-                boxSizing: 'border-box',
-                outline: 'none'
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'none',
+                border: 'none',
+                color: '#4B5563',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                padding: '4px 0'
               }}
-            />
+            >
+              {showPasteBox ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+              <span>Ou colar dados tabulares copiados manualmente</span>
+            </button>
+
+            {showPasteBox && (
+              <div style={{ marginTop: '0.5rem' }}>
+                <textarea
+                  rows={4}
+                  value={rawText}
+                  onChange={handleTextChange}
+                  placeholder="Cole aqui as linhas copiadas do Excel / Google Sheets..."
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    borderRadius: '8px',
+                    border: '1px solid #D1D5DB',
+                    fontSize: '0.82rem',
+                    fontFamily: 'monospace',
+                    boxSizing: 'border-box',
+                    outline: 'none'
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
 
@@ -623,8 +637,15 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
         </div>
       </div>
 
+      {/* DETECTED SPREADSHEET COLUMN STRUCTURE & 36-QUESTION MAPPING READINESS */}
+      {parsedResult && (
+        <div style={{ marginBottom: '2rem' }}>
+          <SpreadsheetColumnInspector result={parsedResult} />
+        </div>
+      )}
+
       {/* Table of Parsed Records Preview */}
-      {parsedRows.length > 0 && (
+      {parsedRows.length > 0 && !parsedResult && (
         <div style={{ marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
             <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0B1924' }}>

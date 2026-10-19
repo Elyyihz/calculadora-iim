@@ -19,7 +19,7 @@ import { useInternalAuth } from '../context/InternalAuthContext';
  * and the bulk spreadsheet ingestion module for client employee responses.
  */
 export const CalculadoraInternaPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'wizard' | 'spreadsheet'>('wizard');
+  const [activeTab, setActiveTab] = useState<'spreadsheet' | 'wizard'>('spreadsheet');
   const { logout } = useInternalAuth();
   const navigate = useNavigate();
 
@@ -186,9 +186,46 @@ export const CalculadoraInternaPage: React.FC = () => {
                   background: '#F1F5F9',
                   padding: '4px',
                   borderRadius: '12px',
-                  border: '1px solid #E2E8F0'
+                  border: '1px solid #E2E8F0',
+                  gap: '4px'
                 }}
               >
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('spreadsheet')}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 18px',
+                    borderRadius: '8px',
+                    fontSize: '0.88rem',
+                    fontWeight: activeTab === 'spreadsheet' ? 700 : 500,
+                    color: activeTab === 'spreadsheet' ? '#FFFFFF' : '#475569',
+                    background: activeTab === 'spreadsheet' ? '#2E9E5B' : 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    boxShadow: activeTab === 'spreadsheet' ? '0 2px 8px rgba(46, 158, 91, 0.25)' : 'none'
+                  }}
+                >
+                  <FileSpreadsheet size={16} />
+                  <span>Alimentar via Planilha (CSV / Excel)</span>
+                  <span
+                    style={{
+                      background: activeTab === 'spreadsheet' ? 'rgba(255, 255, 255, 0.25)' : '#DCFCE7',
+                      color: activeTab === 'spreadsheet' ? '#FFFFFF' : '#15803D',
+                      fontSize: '0.68rem',
+                      fontWeight: 800,
+                      padding: '1px 6px',
+                      borderRadius: '4px',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    Principal
+                  </span>
+                </button>
+
                 <button
                   type="button"
                   onClick={() => setActiveTab('wizard')}
@@ -208,46 +245,24 @@ export const CalculadoraInternaPage: React.FC = () => {
                   }}
                 >
                   <FileText size={16} />
-                  <span>Questionário Passo a Passo (36 Perguntas)</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('spreadsheet')}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 18px',
-                    borderRadius: '8px',
-                    fontSize: '0.88rem',
-                    fontWeight: activeTab === 'spreadsheet' ? 700 : 500,
-                    color: activeTab === 'spreadsheet' ? '#FFFFFF' : '#475569',
-                    background: activeTab === 'spreadsheet' ? '#2E9E5B' : 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  <FileSpreadsheet size={16} />
-                  <span>Alimentar via Planilha</span>
+                  <span>Questionário Manual (36 Perguntas)</span>
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* TAB 1: FULL 36-QUESTION WIZARD */}
-        {activeTab === 'wizard' && (
-          <div className="container" style={{ marginTop: '2rem' }}>
-            <CalculatorWizard onNavigateToSpreadsheet={() => setActiveTab('spreadsheet')} />
-          </div>
-        )}
-
-        {/* TAB 2: BULK SPREADSHEET INGESTION MODULE */}
+        {/* TAB 1: BULK SPREADSHEET INGESTION MODULE (PRIMARY) */}
         {activeTab === 'spreadsheet' && (
           <div className="container" style={{ marginTop: '2rem' }}>
             <SpreadsheetImportPanel onProcessed={() => setActiveTab('wizard')} />
+          </div>
+        )}
+
+        {/* TAB 2: FULL 36-QUESTION WIZARD (MANUAL INSPECTION) */}
+        {activeTab === 'wizard' && (
+          <div className="container" style={{ marginTop: '2rem' }}>
+            <CalculatorWizard onNavigateToSpreadsheet={() => setActiveTab('spreadsheet')} />
           </div>
         )}
       </div>
