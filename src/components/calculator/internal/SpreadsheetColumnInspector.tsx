@@ -199,7 +199,7 @@ export const SpreadsheetColumnInspector: React.FC<SpreadsheetColumnInspectorProp
               }}
             >
               <Table size={14} />
-              <span>Prévia dos Dados ({previewRows.length})</span>
+              <span>Amostra das Linhas Brutas</span>
             </button>
           </div>
         </div>

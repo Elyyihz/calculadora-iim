@@ -15,8 +15,10 @@ import { useCalculatorStore } from '../../../context/CalculatorContext';
 import { CalculatorInputDTO } from '../../../types/calculatorDTOs';
 import { SpreadsheetDropzone } from './SpreadsheetDropzone';
 import { SpreadsheetColumnInspector } from './SpreadsheetColumnInspector';
+import { IndividualDiagnosisTable } from './IndividualDiagnosisTable';
 import { ParsedSpreadsheetResult } from '../../../types/spreadsheet';
 import { spreadsheetParserService } from '../../../services/SpreadsheetParserService';
+import { IndividualIimCalculator } from '../../../services/IndividualIimCalculator';
 
 interface EmployeeRow {
   id: string;
@@ -219,6 +221,14 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
   }, [parsedRows]);
 
   /**
+   * Computes individual IIM scores and dimensional breakdowns for 100% of imported employees.
+   */
+  const individualDiagnoses = useMemo(
+    () => IndividualIimCalculator.calculateAll(parsedRows, salarioMedio),
+    [parsedRows, salarioMedio]
+  );
+
+  /**
    * Prepares the full aggregated payload mapped into CalculatorInputDTO.
    */
   const buildAggregatedPayload = (): Partial<CalculatorInputDTO> => {
@@ -243,8 +253,8 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
       empresa_flex: 'parcial',
       empresa_turno: 'diurno',
       empresa_local: 'intermediaria',
-      empresa_total: metrics.total >= 20 ? metrics.total : 50,
-      empresa_presencial_qtd: metrics.total >= 20 ? metrics.total : 50,
+      empresa_total: metrics.total,
+      empresa_presencial_qtd: metrics.total,
       empresa_turnover: Math.min(Math.max(Math.round((numRisco / 5) * 35), 8), 60),
       empresa_burnout: Math.max(Math.round(metrics.total * (numEstresse / 15)), 1),
       empresa_salario_medio: salarioMedio,
@@ -644,76 +654,13 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
         </div>
       )}
 
-      {/* Table of Parsed Records Preview */}
-      {parsedRows.length > 0 && !parsedResult && (
-        <div style={{ marginBottom: '2rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
-            <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0B1924' }}>
-              Prévia dos Colaboradores Importados ({parsedRows.length} registros no lote):
-            </span>
-            <span style={{ fontSize: '0.75rem', color: '#6B7280' }}>
-              Exibindo os primeiros 8 registros
-            </span>
-          </div>
-
-          <div
-            style={{
-              overflowX: 'auto',
-              border: '1px solid #E5E7EB',
-              borderRadius: '10px'
-            }}
-          >
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.80rem', textAlign: 'left' }}>
-              <thead>
-                <tr style={{ background: '#F8FAFC', borderBottom: '1px solid #E5E7EB', color: '#475569' }}>
-                  <th style={{ padding: '8px 12px', fontWeight: 700 }}>ID</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 700 }}>Setor</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 700 }}>Cargo</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 700 }}>Tempo (min)</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 700 }}>Estresse</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 700 }}>Atrasos/mês</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 700 }}>Modal</th>
-                  <th style={{ padding: '8px 12px', fontWeight: 700 }}>Risco Saída</th>
-                </tr>
-              </thead>
-              <tbody>
-                {parsedRows.slice(0, 8).map((row, idx) => (
-                  <tr key={idx} style={{ borderBottom: '1px solid #F1F5F9', background: idx % 2 === 0 ? '#FFFFFF' : '#FAFAFA' }}>
-                    <td style={{ padding: '8px 12px', fontWeight: 600, color: '#0B1924' }}>{row.id}</td>
-                    <td style={{ padding: '8px 12px', color: '#4B5563' }}>{row.setor}</td>
-                    <td style={{ padding: '8px 12px', color: '#4B5563' }}>{row.cargo}</td>
-                    <td style={{ padding: '8px 12px', fontWeight: 600 }}>{row.tempoTrajetoMin} min</td>
-                    <td style={{ padding: '8px 12px' }}>
-                      <span
-                        style={{
-                          color: row.estresse >= 4 ? '#DC2626' : row.estresse >= 3 ? '#D97706' : '#16A34A',
-                          fontWeight: 700
-                        }}
-                      >
-                        {row.estresse}/5
-                      </span>
-                    </td>
-                    <td style={{ padding: '8px 12px' }}>{row.atrasosMes}</td>
-                    <td style={{ padding: '8px 12px', color: '#4B5563' }}>{row.modal}</td>
-                    <td style={{ padding: '8px 12px' }}>
-                      <span
-                        style={{
-                          background: row.riscoDemissao >= 4 ? '#FEE2E2' : '#F3F4F6',
-                          color: row.riscoDemissao >= 4 ? '#DC2626' : '#4B5563',
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          fontWeight: 600,
-                          fontSize: '0.75rem'
-                        }}
-                      >
-                        {row.riscoDemissao}/5
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+      {/* INDIVIDUAL EMPLOYEE IIM DIAGNOSIS (100% OF EMPLOYEES) */}
+      {parsedRows.length > 0 && (
+        <div style={{ marginBottom: '2.5rem' }}>
+          <IndividualDiagnosisTable
+            diagnoses={individualDiagnoses}
+            companyName={empresaNome}
+          />
         </div>
       )}
 

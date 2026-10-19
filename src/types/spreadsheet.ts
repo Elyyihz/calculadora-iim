@@ -66,3 +66,30 @@ export interface QuestionMappingField {
   expectedType: InferredColumnType;
   mappedColumnHeader?: string;
 }
+
+/**
+ * Individual employee diagnosis computed from imported survey responses.
+ * Contains individual IIM score and breakdown across all 4 dimensions for 100% of employees.
+ */
+export interface EmployeeIndividualDiagnosis {
+  id: string;
+  setor: string;
+  cargo: string;
+  tempoTrajetoMin: number;
+  distanciaKm: number;
+  estresse: number;
+  sono: number;
+  atrasosMes: number;
+  riscoDemissao: number;
+  modal: string;
+  gastoPct: number;
+  d1Score: number;
+  d2Score: number;
+  d3Score: number;
+  d4Score: number;
+  iimScore: number;
+  classification: string;
+  classificationColor: string;
+  classificationBg: string;
+  riskLevel: 'baixo' | 'moderado' | 'alto' | 'critico';
+}
