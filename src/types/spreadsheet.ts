@@ -93,3 +93,62 @@ export interface EmployeeIndividualDiagnosis {
   classificationBg: string;
   riskLevel: 'baixo' | 'moderado' | 'alto' | 'critico';
 }
+
+/**
+ * Breakdown of a specific risk group across the employee base.
+ */
+export interface CompanyRiskGroup {
+  key: 'baixo' | 'moderado' | 'alto' | 'critico';
+  label: string;
+  range: string;
+  color: string;
+  bgColor: string;
+  count: number;
+  percentage: number;
+  avgTempo: number;
+  avgEstresse: number;
+  avgAtrasos: number;
+  predominantModal: string;
+  summary: string;
+  recommendation: string;
+}
+
+/**
+ * High-impact global intervention suggested for the client company based on consolidated data.
+ */
+export interface GlobalCompanyIntervention {
+  id: string;
+  title: string;
+  category: 'Jornada & Escala' | 'Benefícios & Auxílios' | 'Logística Corporativa' | 'Saúde & Bem-Estar';
+  priority: 'Alta' | 'Média' | 'Estratégica';
+  effort: 'Baixo' | 'Médio' | 'Alto';
+  timeframe: string;
+  targetEmployeesCount: number;
+  targetGroupLabel: string;
+  iimReductionProjected: number;
+  monthlySavingsProjected: number;
+  description: string;
+  actionSteps: string[];
+}
+
+/**
+ * Complete executive corporate summary synthesized from 100% of the imported spreadsheet rows.
+ */
+export interface CompanyExecutiveSummary {
+  companyName: string;
+  totalEmployees: number;
+  avgIimScore: number;
+  classification: string;
+  classColor: string;
+  classBg: string;
+  dimensionalAverages: {
+    d1: number;
+    d2: number;
+    d3: number;
+    d4: number;
+  };
+  riskGroups: Record<'baixo' | 'moderado' | 'alto' | 'critico', CompanyRiskGroup>;
+  globalInterventions: GlobalCompanyIntervention[];
+  keyInsights: string[];
+  monthlyFinancialLossEstimate: number;
+}

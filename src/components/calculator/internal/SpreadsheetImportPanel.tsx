@@ -16,9 +16,11 @@ import { CalculatorInputDTO } from '../../../types/calculatorDTOs';
 import { SpreadsheetDropzone } from './SpreadsheetDropzone';
 import { SpreadsheetColumnInspector } from './SpreadsheetColumnInspector';
 import { IndividualDiagnosisTable } from './IndividualDiagnosisTable';
+import { CompanySummaryDashboard } from './CompanySummaryDashboard';
 import { ParsedSpreadsheetResult } from '../../../types/spreadsheet';
 import { spreadsheetParserService } from '../../../services/SpreadsheetParserService';
 import { IndividualIimCalculator } from '../../../services/IndividualIimCalculator';
+import { CompanyDiagnosisSynthesizer } from '../../../services/CompanyDiagnosisSynthesizer';
 
 interface EmployeeRow {
   id: string;
@@ -54,6 +56,7 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
   const [empresaNome, setEmpresaNome] = useState<string>('Empresa Cliente Diagnóstico');
   const [salarioMedio, setSalarioMedio] = useState<number>(3800);
   const [faturamentoMensal, setFaturamentoMensal] = useState<number>(450000);
+  const [selectedRiskFilter, setSelectedRiskFilter] = useState<'all' | 'critico' | 'alto' | 'moderado' | 'baixo'>('all');
 
   /**
    * Generates and triggers the download of the official UrbanFlow survey template (.csv).
@@ -227,6 +230,20 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
     () => IndividualIimCalculator.calculateAll(parsedRows, salarioMedio),
     [parsedRows, salarioMedio]
   );
+
+  /**
+   * Synthesizes the full corporate executive summary, company average IIM,
+   * risk distribution tiers, and targeted global interventions.
+   */
+  const companySummary = useMemo(() => {
+    if (individualDiagnoses.length === 0) return null;
+    return CompanyDiagnosisSynthesizer.synthesize(
+      individualDiagnoses,
+      empresaNome.trim() || 'Empresa Cliente Diagnóstico',
+      salarioMedio,
+      faturamentoMensal
+    );
+  }, [individualDiagnoses, empresaNome, salarioMedio, faturamentoMensal]);
 
   /**
    * Prepares the full aggregated payload mapped into CalculatorInputDTO.
@@ -654,12 +671,23 @@ export const SpreadsheetImportPanel: React.FC<{ onProcessed?: () => void }> = ({
         </div>
       )}
 
+      {/* EXECUTIVE COMPANY DASHBOARD (RELATÓRIO DA EMPRESA) */}
+      {companySummary && (
+        <CompanySummaryDashboard
+          summary={companySummary}
+          selectedRiskFilter={selectedRiskFilter}
+          onFilterByRiskGroup={(riskKey) => setSelectedRiskFilter(riskKey as any)}
+        />
+      )}
+
       {/* INDIVIDUAL EMPLOYEE IIM DIAGNOSIS (100% OF EMPLOYEES) */}
       {parsedRows.length > 0 && (
         <div style={{ marginBottom: '2.5rem' }}>
           <IndividualDiagnosisTable
             diagnoses={individualDiagnoses}
             companyName={empresaNome}
+            selectedRiskFilter={selectedRiskFilter}
+            onRiskFilterChange={setSelectedRiskFilter}
           />
         </div>
       )}

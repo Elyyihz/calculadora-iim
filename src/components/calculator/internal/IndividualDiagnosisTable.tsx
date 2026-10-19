@@ -13,6 +13,8 @@ import { IndividualIimCalculator } from '../../../services/IndividualIimCalculat
 interface IndividualDiagnosisTableProps {
   diagnoses: EmployeeIndividualDiagnosis[];
   companyName: string;
+  selectedRiskFilter?: 'all' | 'critico' | 'alto' | 'moderado' | 'baixo';
+  onRiskFilterChange?: (filter: 'all' | 'critico' | 'alto' | 'moderado' | 'baixo') => void;
 }
 
 /**
@@ -23,12 +25,24 @@ interface IndividualDiagnosisTableProps {
  */
 export const IndividualDiagnosisTable: React.FC<IndividualDiagnosisTableProps> = ({
   diagnoses,
-  companyName
+  companyName,
+  selectedRiskFilter,
+  onRiskFilterChange
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [riskFilter, setRiskFilter] = useState<'all' | 'critico' | 'alto' | 'moderado' | 'baixo'>('all');
+  const [localRiskFilter, setLocalRiskFilter] = useState<'all' | 'critico' | 'alto' | 'moderado' | 'baixo'>('all');
+  const activeRiskFilter = selectedRiskFilter ?? localRiskFilter;
   const [pageSize, setPageSize] = useState<number>(15);
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const handleFilterChange = (newFilter: 'all' | 'critico' | 'alto' | 'moderado' | 'baixo') => {
+    if (onRiskFilterChange) {
+      onRiskFilterChange(newFilter);
+    } else {
+      setLocalRiskFilter(newFilter);
+    }
+    setCurrentPage(1);
+  };
 
   // Distribution metrics across 100% of respondents
   const summary = useMemo(() => {
@@ -59,7 +73,7 @@ export const IndividualDiagnosisTable: React.FC<IndividualDiagnosisTableProps> =
   const filteredList = useMemo(() => {
     return diagnoses.filter((item) => {
       // Risk filter
-      if (riskFilter !== 'all' && item.riskLevel !== riskFilter) {
+      if (activeRiskFilter !== 'all' && item.riskLevel !== activeRiskFilter) {
         return false;
       }
       // Text search
@@ -73,7 +87,7 @@ export const IndividualDiagnosisTable: React.FC<IndividualDiagnosisTableProps> =
       }
       return true;
     });
-  }, [diagnoses, riskFilter, searchTerm]);
+  }, [diagnoses, activeRiskFilter, searchTerm]);
 
   // Pagination
   const totalPages = pageSize === -1 ? 1 : Math.max(1, Math.ceil(filteredList.length / pageSize));
@@ -352,15 +366,12 @@ export const IndividualDiagnosisTable: React.FC<IndividualDiagnosisTableProps> =
             { key: 'moderado', label: 'Moderados (41-60)' },
             { key: 'baixo', label: 'Baixo (≤40)' }
           ].map((f) => {
-            const isActive = riskFilter === f.key;
+            const isActive = activeRiskFilter === f.key;
             return (
               <button
                 key={f.key}
                 type="button"
-                onClick={() => {
-                  setRiskFilter(f.key as any);
-                  setCurrentPage(1);
-                }}
+                onClick={() => handleFilterChange(f.key as any)}
                 style={{
                   padding: '5px 10px',
                   borderRadius: '6px',
