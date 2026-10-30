@@ -1,14 +1,32 @@
 # UrbanFlow Consultoria & Calculadora IIM
 
-Plataforma web institucional e analítica da **UrbanFlow Consultoria**, especializada em eficiência de mobilidade corporativa, sustentabilidade ESG e quantificação do **Índice de Impacto de Mobilidade (IIM)**.
+<div align="center">
 
-Desenvolvido com arquitetura moderna baseada em componentes (**React + TypeScript + Vite + React Router**), totalmente responsivo e utilizando o mesmo sistema de design tokens (variáveis CSS) da ferramenta proprietária `calculadora-iim-v3.1-1.html`.
+![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+
+<p>Plataforma web analítica e institucional de alta performance para eficiência em mobilidade corporativa, sustentabilidade ESG e quantificação do <b>Índice de Impacto de Mobilidade (IIM)</b>.</p>
+
+</div>
 
 ---
 
-## 🎨 Identidade Visual & Design Tokens (Variáveis CSS)
+## 📖 Visão Geral
 
-O projeto herda rigorosamente as variáveis CSS definidas em `calculadora-iim-v3.1-1.html` através do ficheiro [`src/styles/variables.css`](file:///Users/elyyihz/repositories/personal/calculadora-iim/src/styles/variables.css):
+A **UrbanFlow Consultoria & Calculadora IIM** é uma solução corporativa full-stack projetada para mensurar os impactos de deslocamento urbano de colaboradores, calcular pegadas de carbono equivalentes e gerar relatórios executivos para estratégias ESG.
+
+A aplicação combina um frontend reativo moderno construído em **React + TypeScript + Vite** com um backend analítico em **FastAPI + SQLite/SQLAlchemy**, permitindo simulações interativas, ingestão em lote e visualização estatística de dados de transporte.
+
+---
+
+## 🎨 Identidade Visual & Design Tokens
+
+O projeto adota uma biblioteca coesa de tokens de design via CSS variables ([`src/styles/variables.css`](file:///Users/elyyihz/repositories/personal/calculadora-iim/src/styles/variables.css)):
 
 | Variável | Valor | Aplicação |
 | :--- | :--- | :--- |
@@ -31,107 +49,99 @@ O projeto herda rigorosamente as variáveis CSS definidas em `calculadora-iim-v3
 
 ---
 
-## 🏛️ Estrutura de Componentes
+## 🏛️ Estrutura Arquitetural
 
 ```text
-src/
-├── styles/
-│   ├── variables.css           # Tokens de design idênticos ao HTML original
-│   └── global.css              # Reset, tipografia, botões e utilitários
-├── types/
-│   └── index.ts                # Modelos de dados TypeScript (membros, métricas, etc.)
-├── data/
-│   └── institutionalData.ts    # Dados das 4 secções institucionais e métricas
-├── components/
-│   ├── layout/
-│   │   ├── Header.tsx          # Cabeçalho fixo com navegação responsiva e menu mobile
-│   │   ├── Footer.tsx          # Rodapé institucional com links e contactos
-│   │   └── Layout.tsx          # Shell estrutural com Outlet do React Router
-│   ├── common/
-│   │   └── SectionTitle.tsx    # Cabeçalhos padronizados de secção
-│   └── home/
-│       ├── HeroSection.tsx     # Secção 'Início' com propostas de valor e métricas
-│       ├── QuemSomosSection.tsx# Secção 'Quem Somos' com missão, visão e pilares
-│       ├── EquipaSection.tsx   # Secção 'A Equipa' com cards dos especialistas
-│       ├── ResponsabilidadesSection.tsx # Secção 'Responsabilidades' (ESG, Social, Governança)
-│       └── CtaBanner.tsx       # Transição e convite à Calculadora IIM
-├── pages/
-│   ├── HomePage.tsx            # Página institucional unificada (Início, Quem Somos, Equipa, Responsabilidades)
-│   ├── QuemSomosPage.tsx       # Rota dedicada /quem-somos
-│   ├── EquipaPage.tsx          # Rota dedicada /a-equipa
-│   ├── ResponsabilidadesPage.tsx # Rota dedicada /responsabilidades
-│   ├── CalculadoraPage.tsx     # Rota da Calculadora /calculadora (com visão arquitetural e protótipo)
-│   └── NotFoundPage.tsx        # Página de erro 404
-├── routes/
-│   └── index.tsx               # Configuração centralizada de rotas React Router
-├── App.tsx                     # Provedor BrowserRouter e raiz da aplicação
-└── main.tsx                    # Ponto de entrada React 18
+calculadora-iim/
+├── backend/
+│   ├── app/
+│   │   ├── main.py              # Ponto de entrada FastAPI e injeção de rotas
+│   │   ├── models.py            # Modelos relacionais ORM (SQLAlchemy)
+│   │   ├── schemas.py           # Contratos e validações Pydantic
+│   │   └── database.py          # Gerenciamento de sessões de banco de dados
+│   ├── tests/                   # Bateria de testes automatizados unitários
+│   ├── Dockerfile               # Containerização de microsserviço Python
+│   └── requirements.txt         # Dependências do backend
+├── src/
+│   ├── styles/                  # Design tokens e folhas de estilo globais
+│   ├── types/                   # Contratos de tipos TypeScript
+│   ├── data/                    # Dados estáticos institucionais e métricas
+│   ├── components/              # Componentes React modulares e acessíveis
+│   │   ├── layout/              # Header, Footer, Layout Shell
+│   │   ├── common/              # SectionTitle, Badges, Modais
+│   │   └── home/                # Seções da landing page e diagnóstico
+│   ├── pages/                   # Telas de roteamento (Home, Calculadora, etc.)
+│   └── routes/                  # Configuração declarativa de rotas
+├── docker-compose.yml           # Orquestração local completa (Frontend + Backend)
+├── Dockerfile                   # Build multi-stage Node/Nginx
+├── nginx.conf                   # Proxy reverso e roteamento SPA Nginx
+└── package.json                 # Metadados do ecossistema Node.js
 ```
 
 ---
 
-## 🧭 Roteamento (Routing)
+## 🧭 Roteamento & Navegação
 
-O sistema de rotas foi configurado para permitir navegação contínua entre o conteúdo institucional e a ferramenta de cálculo:
-
-- `/` → **Site Institucional** completo contendo as secções **'Início'**, **'Quem Somos'**, **'A Equipa'** e **'Responsabilidades'**.
-- `/#quem-somos`, `/#a-equipa`, `/#responsabilidades` → Suporte a âncoras suaves com rolagem automática.
-- `/quem-somos` → Página dedicada de apresentação institucional.
-- `/a-equipa` → Página dedicada da equipa de consultores e especialistas.
-- `/responsabilidades` → Página dedicada aos compromissos ESG, sociais e de governança.
-- `/calculadora` → **Rota dedicada à Calculadora IIM**, com blueprint das 4 etapas de diagnóstico e executor do protótipo interativo.
+- `/` → **Landing Page Institucional** (Visão Executiva, Metodologia, Equipe, Pilares ESG).
+- `/#quem-somos`, `/#a-equipa`, `/#responsabilidades` → Suporte a âncoras suaves com scroll adaptativo.
+- `/calculadora` → **Calculadora IIM Interativa**, com formulário em 4 etapas, importação de planilhas CSV/XLSX e exibição imediata do score de impacto.
 
 ---
 
-## 🚀 Como Executar
+## 🐳 Execução via Docker (Recomendado)
 
-### Pré-requisitos
-- Node.js 18+ (testado e compatível até Node 25)
-- npm ou yarn
+O projeto possui suporte nativo a Docker Compose para inicializar tanto a interface quanto o backend analítico com um único comando:
 
-### Instalação
 ```bash
+# Inicialização e build de todos os containers
+docker compose up --build -d
+
+# Visualização de logs
+docker compose logs -f
+```
+
+- **Frontend:** [http://localhost:3000](http://localhost:3000)
+- **Backend API:** [http://localhost:8000](http://localhost:8000)
+- **Documentação OpenAPI / Swagger:** [http://localhost:8000/docs](http://localhost:8000/docs)
+
+Para encerrar os serviços:
+```bash
+docker compose down
+```
+
+---
+
+## 💻 Execução Local sem Docker
+
+### Frontend (React + Vite)
+```bash
+# Instalação das dependências
 npm install
-```
 
-### Modo de Desenvolvimento
-```bash
+# Inicialização em modo desenvolvimento (HMR ativo)
 npm run dev
 ```
-O servidor de desenvolvimento iniciará em `http://localhost:3000`.
 
-### Build de Produção
-```bash
-npm run build
-```
-Os ficheiros otimizados serão gerados na pasta `dist/`.
-
-### Pré-visualização da Build
-```bash
-npm run preview
-```
-
----
-
-## 🐍 Backend API RESTful (FastAPI + SQLAlchemy)
-
-O projeto conta com um backend Python para suportar a consultoria corporativa e viabilizar extrações estatísticas de mobilidade:
-
-### Instalação e Execução da API
+### Backend (FastAPI)
 ```bash
 cd backend
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
 
-- **Swagger Interativo**: `http://localhost:8000/docs`
-- **Endpoints Principais**:
-  - `POST /api/diagnosticos`: Persistência de respostas e resultados calculados
-  - `GET /api/diagnosticos`: Listagem de diagnósticos com filtros por setor/faixa
-  - `GET /api/diagnosticos/{id}`: Obtenção de diagnóstico por ID
-  - `GET /api/estatisticas`: Inteligência estatística agregada (médias, benchmark setorial, dispersão de modais)
+---
 
-### Testes do Backend
+## 🧪 Testes Automatizados
+
 ```bash
+# Execução da suíte de testes de integração e endpoints
 python3 -m unittest backend/tests/test_api.py
 ```
+
+---
+
+## 📄 Licença
+
+Distribuído sob a licença MIT. Consulte `LICENSE` para mais informações.
